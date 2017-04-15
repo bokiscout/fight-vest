@@ -1,16 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-@section Styles{
-   <!-- <link rel="stylesheet" href="~/css/public_layout.css" />-->
-}
-
-@section Sidebar{
-    <div class="col-md-3 left_col">
+ <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Fight Vest!</span></a>
+              <a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Админски Панел</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -35,20 +26,19 @@
                 <h3>&nbsp;</h3>
                 <ul class="nav side-menu">
                     <li>
-                      <a>
+                      <a asp-controller="Admin" asp-action="Fighters">
                           <i class="fa fa-male"></i> 
                           Борци 
                       </a>
                     </li>
                      <li>
-                      <a>
+                      <a asp-controller="Admin" asp-action="Fights">
                           <i class="fa fa-sign-language"></i> 
                           Борби 
                       </a>
                     </li>
                  </ul>
               </div>
-
             </div>
             <!-- /sidebar menu -->
 
@@ -70,5 +60,3 @@
             <!-- /menu footer buttons -->
           </div>
         </div>
-}
-<div>Home</div>

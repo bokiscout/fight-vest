@@ -2,11 +2,11 @@
 
 namespace web.Controllers
 {
-    public class HomeController : Controller
+    public class AdminController : Controller
     {
         public IActionResult Index()
         {
-            ViewData["Title"] = "Home";
+            ViewData["Title"] = "Admin";
             return View();
         }
 
