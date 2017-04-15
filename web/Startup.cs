@@ -39,6 +39,14 @@ namespace web
                 .AddDefaultTokenProviders();
 
             services.AddTransient<IMessageService, FileMessageService>();
+
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;                
+            });
             
             // Add framework services.
             services.AddMvc();
