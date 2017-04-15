@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using web.Models;
+using web.Services;
 
 namespace web
 {
@@ -37,7 +38,8 @@ namespace web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-         
+            services.AddTransient<IMessageService, FileMessageService>();
+            
             // Add framework services.
             services.AddMvc();
         }
