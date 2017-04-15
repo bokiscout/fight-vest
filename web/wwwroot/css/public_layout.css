@@ -1,0 +1,6 @@
+﻿.nav-md .container.body .right_col, .main_container .top_nav{
+    margin-left:0;
+}
+.nav.toggle{
+    display: none;
+}

@@ -11,21 +11,13 @@ namespace web.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Title"] = "Home";
             return View();
         }
 
-        [Authorize]
-        public IActionResult About()
+        public IActionResult Admin()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewData["Title"] = "Admin";
             return View();
         }
 

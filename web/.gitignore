@@ -82,3 +82,4 @@ Obos.Web.obj
 .git
 .vs
 *.ldf
+wwwroot/lib/*
