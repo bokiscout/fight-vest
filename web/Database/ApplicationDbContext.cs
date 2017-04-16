@@ -12,6 +12,7 @@ namespace web
         public DbSet<FighterCategory> FighterCategories { get; set; }
         public DbSet<Round> Round { get; set; }
         public DbSet<Hit> Hits { get; set; }
+        public DbSet<FightFighters> FightFighters { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

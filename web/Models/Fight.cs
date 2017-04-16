@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +20,7 @@ namespace web.Models
         [ForeignKey("FightType")]
         public int FightTypeID { get; set; }
         public virtual FightType FightType { get; set;}
+
+        public virtual ICollection<FightFighters> FightFighters { get; set; }
     }
 }
