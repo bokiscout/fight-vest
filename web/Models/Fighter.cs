@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web.Models
 {
@@ -17,6 +19,11 @@ namespace web.Models
                 return string.Format("{0} {1}", FirstName, LastName);
             }
         }
+
+        [Required]
+        [ForeignKey("FighterCategory")]
+        public int FighterCategoryID { get; set; }
+        public FighterCategory FighterCategory { get; set; }
 
         public virtual ICollection<FightFighters> FightFighters { get; set; }
     }
