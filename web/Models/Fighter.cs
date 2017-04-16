@@ -26,5 +26,7 @@ namespace web.Models
         public FighterCategory FighterCategory { get; set; }
 
         public virtual ICollection<FightFighters> FightFighters { get; set; }
+
+        public virtual ICollection<Hit> Hits { get; set; }
     }
 }

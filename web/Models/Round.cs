@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,5 +16,7 @@ namespace web.Models
         public int FightID { get; set; }
 
         public Fight Fight { get; set; }
+
+        public virtual ICollection<Hit> Hits { get; set; }
     }
 }
