@@ -22,5 +22,7 @@ namespace web.Models
         public virtual FightType FightType { get; set;}
 
         public virtual ICollection<FightFighters> FightFighters { get; set; }
+
+        public virtual ICollection<Round> Rounds { get; set; }
     }
 }
