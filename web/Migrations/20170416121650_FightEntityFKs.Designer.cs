@@ -8,9 +8,10 @@ using web;
 namespace web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170416121650_FightEntityFKs")]
+    partial class FightEntityFKs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1");
@@ -185,16 +186,12 @@ namespace web.Migrations
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<int>("FightTypeID");
-
                     b.Property<DateTime>("StartTime");
 
                     b.Property<string>("UserID")
                         .IsRequired();
 
                     b.HasKey("ID");
-
-                    b.HasIndex("FightTypeID");
 
                     b.HasIndex("UserID");
 
@@ -307,11 +304,6 @@ namespace web.Migrations
 
             modelBuilder.Entity("web.Models.Fight", b =>
                 {
-                    b.HasOne("web.Models.FightType", "FightType")
-                        .WithMany("Fights")
-                        .HasForeignKey("FightTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("web.Models.ApplicationUser", "User")
                         .WithMany("Fights")
                         .HasForeignKey("UserID")

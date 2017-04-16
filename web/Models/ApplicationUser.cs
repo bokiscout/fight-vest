@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 
 namespace web.Models
 {
@@ -18,5 +19,7 @@ namespace web.Models
                 return string.Format("{0} {1}", FirstName, LastName);
             }
         }
+
+        public virtual ICollection<Fight> Fights { get; set; }
     }
 }

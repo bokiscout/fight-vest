@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace web.Models
@@ -9,5 +10,7 @@ namespace web.Models
 
         [Required]
         public string Name { get; set; }
+
+        public virtual ICollection<Fight> Fights { get; set; }
     }
 }

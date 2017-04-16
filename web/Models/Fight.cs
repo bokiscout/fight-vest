@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace web.Models
 {
@@ -7,5 +9,15 @@ namespace web.Models
         public int ID { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+        [Required]
+        [ForeignKey("User")]
+        public string UserID { get; set; }
+        public ApplicationUser User { get; set; }
+
+        [Required]
+        [ForeignKey("FightType")]
+        public int FightTypeID { get; set; }
+        public virtual FightType FightType { get; set;}
     }
 }
