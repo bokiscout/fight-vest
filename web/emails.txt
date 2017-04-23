@@ -6,3 +6,7 @@ To: bogatinovski.dejan@gmail.com
 Subject: Verify your email
 Message: Click <a href="http://localhost:5000/Account/VerifyEmail/1d363711-1671-48ad-aef4-53037b9ce012?token=CfDJ8PEN6v2%2BKfhCslrUdkRYge%2BfbD7Hv5OYIQYDElNz0LPla3g30W6JcisIgDJlhALhHbkri5yF60%2BRdzdTaxP6bxzxRP69nMU9OaXknti10s5HcRoP0EE6MTr7ARPHKqPeT%2BQ8e2CUvjM%2FxQ%2B3C4goIgkdxtFkB9MUxFn3UFgSsFtmySRPYQQ7t6y%2FcSfesFf6Yhl8K1ACV5tT%2BJgnjGpxIaJ2kLaFO8JatHr3g1zOa6rwzR9dXXMhZI%2BoIBQMbJi9xw%3D%3D">here</a> to verify your email
 
+To: bogatinovski.dejan@gmail.com
+Subject: Verify your email
+Message: Click <a href="http://localhost:5000/Account/VerifyEmail/78460d48-e7b8-4cfa-98bc-7e686a534eb7?token=CfDJ8PEN6v2%2BKfhCslrUdkRYge%2Br5Ra%2Bhtp4j6NXS5%2B7jkKNZKcse%2BQyeWhhqIqXVhLooQwAqmpFGwGY1tN%2F658BA8ioo6DySo6S9yvaWX6B4ynoFCNcCr5n9D1gs3sjPr9Q%2Fs%2FNN5xuydXSk0TLM6VcmvXN6jgTYLGy0n31xee0PN9ObscI00VO3JxNcHeefY7fys9R25Em6a7RMzxFM1DKOIUeQxFaeiU4eXmLtqdDOCevFqZtMbmqFXgmWAlOysZTDg%3D%3D">here</a> to verify your email
+
