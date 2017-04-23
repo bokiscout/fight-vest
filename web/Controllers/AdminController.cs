@@ -169,6 +169,15 @@ namespace web.Controllers
             return RedirectToAction("Fighters");
         }
 
+        public IActionResult Remove(int id)
+        {
+            Fighter fighter = db.Fighters.Find(id);
+            db.Fighters.Remove(fighter);
+            db.SaveChanges();
+            
+            return RedirectToAction("Fighters");
+        }
+
         public IActionResult AddFight()
         {
             ViewData["Title"] = "Додади Борба";
