@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // unimportant at tis moment, can be skipped
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if(resultCode == 1){
             Toast.makeText(getBaseContext(), "User accepted to TURN ON Bluetooth", Toast.LENGTH_SHORT).show();
