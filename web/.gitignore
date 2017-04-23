@@ -83,3 +83,4 @@ Obos.Web.obj
 .vs
 *.ldf
 wwwroot/lib/*
+wwwroot/uploads/*
