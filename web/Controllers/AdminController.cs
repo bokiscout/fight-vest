@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +14,12 @@ namespace web.Controllers
     public class AdminController : Controller
     {
         private ApplicationDbContext db;
-        public AdminController(ApplicationDbContext dbContext)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        
+        public AdminController(ApplicationDbContext dbContext, IHostingEnvironment _hostingEnvironment)
         {
             db = dbContext;
+            this._hostingEnvironment = _hostingEnvironment;
         }
 
         public IActionResult Index()
@@ -69,19 +74,44 @@ namespace web.Controllers
 
            if(vm.File != null && vm.File.Length > 0)
            {
-               string filePath = Path.GetTempFileName();
+               string directory = _hostingEnvironment.WebRootPath + "\\uploads";               
+               string extension = GetImageExtension(vm.File.ContentType);
+               string fileName  = string.Format("{0}.{1}", Guid.NewGuid().ToString(), extension);
+               string filePath = string.Format("{0}\\{1}", directory, fileName);
+               
+               if(!Directory.Exists(directory))
+               {
+                    Directory.CreateDirectory(directory);
+               }
+
                using(var stream = new FileStream(filePath, FileMode.Create))
                {
                    await vm.File.CopyToAsync(stream);
                }
                
-               fighter.Avatar = filePath;
+
+               fighter.Avatar = fileName;
            }
 
            db.Fighters.Add(fighter);
            db.SaveChanges();
            
             return RedirectToAction("Fighters");
+        }
+
+        private string GetImageExtension(string contentType)
+        {
+            if(contentType == "image/jpeg"){
+                return "jpg";
+            }
+            if(contentType == "image/png"){
+                return "png";
+            }
+            if(contentType == "image/gif"){
+                return "gif";
+            }
+
+            return null;
         }
 
         public IActionResult EditFighter(int id)
@@ -99,7 +129,7 @@ namespace web.Controllers
         }
 
          [HttpPost]
-        public IActionResult PostEditFighter(AddFighterViewModel vm)
+        public async Task<IActionResult> PostEditFighter(AddFighterViewModel vm)
         {
             ViewData["Title"] = "Додади Борец";
 
@@ -111,6 +141,27 @@ namespace web.Controllers
             fighter.FighterCategoryID = vm.Fighter.FighterCategoryID;
             fighter.Country = vm.Fighter.Country;
             fighter.City = vm.Fighter.City;
+
+            if(vm.File != null && vm.File.Length > 0)
+            {
+               string directory = _hostingEnvironment.WebRootPath + "\\uploads";               
+               string extension = GetImageExtension(vm.File.ContentType);
+               string fileName  = string.Format("{0}.{1}", Guid.NewGuid().ToString(), extension);
+               string filePath = string.Format("{0}\\{1}", directory, fileName);
+               
+               if(!Directory.Exists(directory))
+               {
+                    Directory.CreateDirectory(directory);
+               }
+
+               using(var stream = new FileStream(filePath, FileMode.Create))
+               {
+                   await vm.File.CopyToAsync(stream);
+               }
+               
+
+               fighter.Avatar = fileName;
+            }
            
             db.Fighters.Update(fighter);
             db.SaveChanges();

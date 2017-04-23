@@ -1,8 +1,14 @@
 @model AdminFightersViewModel
 
+<style>
+    #crop-avatar{
+        height: 200px;
+        overflow: hidden;
+    }
+</style>
 <div class="page-title">
     <div class="title_left">
-    <h3>User Profile</h3>
+    <h3>Борци</h3>
     </div>
 
     <div class="title_right">
@@ -33,17 +39,18 @@
     <div class="x_panel">
         <div class="x_content">
             @foreach(var fighter in Model.Fighters){
-            <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+            <div class="col-md-3 col-sm-3 col-xs-12 profile_left mb-20">
                 <div class="profile_img">
                     <div id="crop-avatar">
                         <!-- Current avatar -->
-                        <img class="img-responsive avatar-view" src="/lib/gentelella/production/images/picture.jpg" alt="Avatar" title="Change the avatar">
+                        <img class="img-responsive avatar-view" src="@fighter.AvatarUrl" alt="Avatar" title="Change the avatar">
                     </div>
                     </div>
                     <h3>@fighter.FirstName @fighter.LastName</h3>
 
                     <ul class="list-unstyled user_data">
-                    <li><i class="fa fa-map-marker user-profile-icon"></i> San Francisco, California, USA
+                    <li><i class="fa fa-map-marker user-profile-icon"></i>
+                        @fighter.City, @fighter.Country
                     </li>
 
                     <li>
