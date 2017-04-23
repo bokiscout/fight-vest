@@ -6,6 +6,8 @@ boolean ledState;
 boolean waitPunch;
 int punchStrength;
 
+char inbyte;
+
 void setup() {
   // put your setup code here, to run once:
 
@@ -23,10 +25,12 @@ void setup() {
   analogWrite(INPUT_PIN, 0);      // force 0v,
   // otherwise readings can fluctuate due to noise,
   // but this way readings have smaller values than usual!
+
+  inbyte = 0;
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // read data from the sensor
   int value = analogRead(INPUT_PIN);
 
   if (value >= 700) {
@@ -37,10 +41,11 @@ void loop() {
     // blink led at 5V
     ledState = true;
     digitalWrite(LED_PIN, HIGH);
-
     delay(70);
+    
     ledState = false;
     digitalWrite(LED_PIN, LOW);
+    delay(70);
   }
   else if (value >= 450) {
     // medium punch // 3.5V
@@ -65,15 +70,15 @@ void loop() {
     if (! waitPunch) {
       if (punchStrength == 2) {
         // strong punch was detected
-        Serial.println("punch = STRONG");
+        Serial.println("# punch = STRONG $");
       }
       else if (punchStrength == 1) {
         // medium punch
-        Serial.println("punch = MEDIUM");
+        Serial.println("# punch = MEDIUM $");
       }
       else {
         // unknown punch value
-        Serial.println("Unknown punch strength");
+        Serial.println("# Unknown punch strength $");
       }
 
       // reset punch
@@ -88,5 +93,21 @@ void loop() {
     waitPunch = true;
   }
 
-  delay(100);
+  // read data send from the Android device
+  while(Serial.available() > 0)
+  {
+    inbyte = Serial.read();
+    if(inbyte == 'x'){
+      // android device is sending 'x' to check for active conection
+      // at multiple points of the activities life cycle
+      // just ignore them
+      Serial.println("x from android to be ignorred");  
+    }
+    else{
+      Serial.println(inbyte);  
+    }
+    
+  }
+  
+  delay(10);
 }
