@@ -15,7 +15,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <form class="form-horizontal form-label-left input_mask"
-                        asp-controller="Admin" asp-action="PostAddFighter" method="post">
+                        asp-controller="Admin" asp-action="PostEditFighter" method="post">
                             <div class="col-md-6">
                                     <button class="btn btn-primary" type="file">Избери слика</button>         
                             </div>
@@ -24,6 +24,7 @@
                                 <label>Име</label>
                                 <input asp-for="Fighter.FirstName" type="text" class="form-control has-feedback-left" placeholder="First Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                <input type="hidden" asp-for="Fighter.ID"/>
                             </div>
 
                             <div class="col-xs-12 form-group has-feedback">
@@ -48,12 +49,15 @@
                             <div class="ln_solid"></div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                <button type="submit" class="btn btn-success pull-right">Зачувај</button>
-                                <a class="btn btn-primary pull-right" asp-controller="Admin" asp-action="Fighters">Откажи</a>
+                                    <button type="submit" class="btn btn-success pull-right">Зачувај</button>
+                                    <a class="btn btn-primary pull-right" asp-controller="Admin" asp-action="Fighters">Откажи</a>
                                 </div>
                             </div>
                             </div>
                         </form>
+                        <!--<form>
+                                <button type="submit" class="btn btn-danger pull-left">Избриши</button>                            
+                        </form>-->
                     </div>
                 </div>
             </div>

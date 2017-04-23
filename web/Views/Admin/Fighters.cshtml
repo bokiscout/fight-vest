@@ -10,7 +10,7 @@
             <div>
                 
                     <a asp-area="" asp-controller="Admin" asp-action="AddFighter">
-                        <button class="btn btn-success">Додади борец</button>
+                        <button class="btn btn-primary">Додади борец</button>
                     </a>
                 
             </div>
@@ -47,16 +47,19 @@
                     </li>
 
                     <li>
-                        <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
+                        <i class="fa fa-graduation-cap user-profile-icon"></i>
+                        @fighter.FighterCategory.Name
                     </li>
 
                     <li class="m-top-xs">
-                        <i class="fa fa-external-link user-profile-icon"></i>
-                        <a href="http://www.kimlabs.com/profile/" target="_blank">www.kimlabs.com</a>
+                        <i class="fa fa-calendar user-profile-icon"></i>
+                        @fighter.BirthDate
                     </li>
                     </ul>
 
-                    <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                    <a class="btn btn-success" asp-controller="Admin" asp-action="EditFighter" asp-route-id="@fighter.ID">
+                        <i class="fa fa-edit m-right-xs"></i> Измени
+                    </a>
                     <br />
 
                     <!-- start skills -->

@@ -7,10 +7,7 @@ namespace web
 {
     public class AddFighterViewModel
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string CategoryID { get; set; }
+        public Fighter Fighter { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
     }
 }
