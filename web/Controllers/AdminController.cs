@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +53,7 @@ namespace web.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostAddFighter(AddFighterViewModel vm)
+        public async Task<IActionResult> PostAddFighter(AddFighterViewModel vm)
         {
             ViewData["Title"] = "Додади Борец";
 
@@ -60,13 +62,25 @@ namespace web.Controllers
                 FirstName = vm.Fighter.FirstName,
                 LastName = vm.Fighter.LastName,
                 BirthDate = vm.Fighter.BirthDate,
-                FighterCategoryID = vm.Fighter.FighterCategoryID
+                FighterCategoryID = vm.Fighter.FighterCategoryID,
+                Country = vm.Fighter.Country,
+                City = vm.Fighter.City
             };
-           
+
+           if(vm.File != null && vm.File.Length > 0)
+           {
+               string filePath = Path.GetTempFileName();
+               using(var stream = new FileStream(filePath, FileMode.Create))
+               {
+                   await vm.File.CopyToAsync(stream);
+               }
+               
+               fighter.Avatar = filePath;
+           }
+
            db.Fighters.Add(fighter);
            db.SaveChanges();
-
-
+           
             return RedirectToAction("Fighters");
         }
 
@@ -95,6 +109,8 @@ namespace web.Controllers
             fighter.LastName = vm.Fighter.LastName;
             fighter.BirthDate = vm.Fighter.BirthDate;
             fighter.FighterCategoryID = vm.Fighter.FighterCategoryID;
+            fighter.Country = vm.Fighter.Country;
+            fighter.City = vm.Fighter.City;
            
             db.Fighters.Update(fighter);
             db.SaveChanges();

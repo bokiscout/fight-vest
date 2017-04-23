@@ -14,10 +14,11 @@
             <div class="x_content">
                 <div class="row">
                     <div class="col-xs-12">
-                        <form class="form-horizontal form-label-left input_mask"
+                        <form class="form-horizontal form-label-left input_mask" enctype="multipart/form-data"
                         asp-controller="Admin" asp-action="PostAddFighter" method="post">
                             <div class="col-md-6">
-                                    <button class="btn btn-primary" type="file">Избери слика</button>         
+                                <input type="file" name="File" />
+                                <button class="btn btn-primary" type="file">Избери слика</button>         
                             </div>
                             <div class="col-md-6">
                                 <div class="col-xs-12 form-group has-feedback">
@@ -30,6 +31,18 @@
                                 <label>Презиме</label>
                                 <input asp-for="Fighter.LastName" type="text" class="form-control has-feedback-left" placeholder="Last Name">
                                 <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label>Држава</label>
+                                <input asp-for="Fighter.Country" type="text" class="form-control has-feedback-left" placeholder="Country">
+                                <span class="fa fa-flag form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+
+                            <div class="col-xs-12 form-group has-feedback">
+                                <label>Град</label>
+                                <input asp-for="Fighter.City" type="text" class="form-control has-feedback-left" placeholder="City">
+                                <span class="fa fa-location-arrow form-control-feedback left" aria-hidden="true"></span>
                             </div>
                             
                             <div class="col-xs-12 form-group has-feedback">
