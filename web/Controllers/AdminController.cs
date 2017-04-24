@@ -232,5 +232,27 @@ namespace web.Controllers
             
             return RedirectToAction("Fights");
         }
+
+        public IActionResult EditFight(int id)
+        {
+            ViewData["Title"] = "Измени податоци за борец";
+            
+            AddFightViewModel vm = new AddFightViewModel();
+            vm.Fight = db.Fights.Include(f => f.Rounds).FirstOrDefault(f => f.ID == id);
+
+            vm.Fighters = db.Fighters.Select(f => new SelectListItem { Value = f.ID.ToString(), Text = f.FullName});
+            vm.FightTypes = db.FightTypes.Select(f => new SelectListItem { Value = f.ID.ToString(), Text = f.Name});
+            vm.FirstFighter = db.FightFighters.Where(f => f.FightID == id).OrderBy(f => f.FighterID).Select(f => f.FighterID).FirstOrDefault();
+            vm.SecondFighter = db.FightFighters.Where(f => f.FightID == id).OrderByDescending(f => f.FighterID).Select(f => f.FighterID).FirstOrDefault();
+            vm.NumberOfRounds = vm.Fight.Rounds.Count;
+            
+            return View(vm);
+        }
+
+        //[HttpPost]
+       // public IActionResult PostEditFight(AddFightViewModel vm)
+       // {
+            Fight fight = db.figh
+        //}
     }
 }
