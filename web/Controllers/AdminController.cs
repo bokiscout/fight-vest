@@ -252,7 +252,7 @@ namespace web.Controllers
         //[HttpPost]
        // public IActionResult PostEditFight(AddFightViewModel vm)
        // {
-            Fight fight = db.figh
+        //    Fight fight = db.figh
         //}
     }
 }
