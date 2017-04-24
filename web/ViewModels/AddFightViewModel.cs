@@ -7,8 +7,8 @@ namespace web
     public class AddFightViewModel
     {
         public Fight Fight { get; set; }
-        public string FirstFighter { get; set; }
-        public string SecondFighter { get; set; }
+        public int FirstFighter { get; set; }
+        public int SecondFighter { get; set; }
         public IEnumerable<SelectListItem> Fighters { get; set; }
         public IEnumerable<SelectListItem> FightTypes { get; set; }
     }

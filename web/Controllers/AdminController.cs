@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,14 @@ namespace web.Controllers
     {
         private ApplicationDbContext db;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
         
-        public AdminController(ApplicationDbContext dbContext, IHostingEnvironment _hostingEnvironment)
+        public AdminController(ApplicationDbContext dbContext, IHostingEnvironment _hostingEnvironment, 
+        UserManager<ApplicationUser> userManager)
         {
             db = dbContext;
             this._hostingEnvironment = _hostingEnvironment;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -194,6 +198,31 @@ namespace web.Controllers
 
         public IActionResult PostAddFight(AddFightViewModel vm)
         {
+            Fight fight = new Fight();
+
+            fight.Address = vm.Fight.Address;
+            fight.City = vm.Fight.City;
+            fight.Country = vm.Fight.Country;
+            fight.EndTime = vm.Fight.EndTime;
+            fight.StartTime = vm.Fight.StartTime;
+            fight.FightTypeID = vm.Fight.FightTypeID;
+            fight.UserID = userManager.GetUserId(User);
+            
+            fight.FightFighters = new List<FightFighters>
+            {
+                new FightFighters
+                {
+                    Fighter = db.Fighters.Find(vm.FirstFighter)
+                },
+                new FightFighters
+                {
+                    Fighter = db.Fighters.Find(vm.SecondFighter)
+                }
+            };
+
+            db.Fights.Add(fight);
+            db.SaveChanges();
+            
             return RedirectToAction("Fights");
         }
     }
