@@ -54,14 +54,6 @@
                                         </select>
                                         <span class="fa fa-briefcase form-control-feedback left" aria-hidden="true"></span>
                                     </div>
-
-                                    <div class="ln_solid"></div>
-                                    <div class="form-group">
-                                        <div class="col-xs-12">
-                                            <button type="submit" class="btn btn-success pull-right">Зачувај</button>
-                                            <a class="btn btn-primary pull-right" asp-controller="Admin" asp-action="Fights">Откажи</a>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                       <div class="col-xs-12 form-group has-feedback">
@@ -82,6 +74,15 @@
                                         <label>Број на Рунди</label>
                                         <input value="1" min="1" asp-for="NumberOfRounds" type="number" class="form-control has-feedback-left" placeholder="Number of Rounds">
                                         <span class="fa fa-location-arrow form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                     <div class="ln_solid"></div>
+                                    <div class="form-group">
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="btn btn-success pull-right">Зачувај</button>
+                                            <a class="btn btn-primary pull-right" asp-controller="Admin" asp-action="Fights">Откажи</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
