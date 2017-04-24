@@ -250,10 +250,23 @@ namespace web.Controllers
             return View(vm);
         }
 
-        //[HttpPost]
-       // public IActionResult PostEditFight(AddFightViewModel vm)
-       // {
-        //    Fight fight = db.figh
-        //}
+        [HttpPost]
+        public IActionResult PostEditFight(AddFightViewModel vm)
+        {
+            Fight fight = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter)
+            .FirstOrDefault(f => f.ID == vm.Fight.ID);
+
+            fight.Address = vm.Fight.Address;
+            fight.City = vm.Fight.City;
+            fight.Country = vm.Fight.Country;
+            fight.FightTypeID = vm.Fight.FightTypeID;
+            fight.StartTime = vm.Fight.StartTime;
+            fight.EndTime = vm.Fight.EndTime;
+
+            db.Fights.Update(fight);
+            db.SaveChanges();
+            
+            return RedirectToAction("Fights");
+        }
     }
 }
