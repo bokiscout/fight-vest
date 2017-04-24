@@ -18,10 +18,10 @@
                         asp-controller="Admin" asp-action="PostAddFight" method="post">
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
-                                    <div class="form-group has-feedback">
+                                    <div class="col-xs-12 form-group has-feedback">
                                         <label>Држава</label>
                                         <input asp-for="Fight.Country" type="text" class="form-control has-feedback-left" placeholder="Country">
-                                        <span class="fa fa-flag form-control-feedback left" aria-hidden="true"></span>
+                                        <span class="fa fa-location-arrow form-control-feedback left" aria-hidden="true"></span>
                                     </div>
 
                                     <div class="col-xs-12 form-group has-feedback">
@@ -76,6 +76,12 @@
                                         <select asp-for="SecondFighter" asp-items="Model.Fighters" class="form-control has-feedback-left" placeholder="Second Fighter">
                                         </select>
                                         <span class="fa fa-briefcase form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                    
+                                    <div class="col-xs-12 form-group has-feedback">
+                                        <label>Број на Рунди</label>
+                                        <input value="1" min="1" asp-for="NumberOfRounds" type="number" class="form-control has-feedback-left" placeholder="Number of Rounds">
+                                        <span class="fa fa-location-arrow form-control-feedback left" aria-hidden="true"></span>
                                     </div>
                                 </div>
                             </div>

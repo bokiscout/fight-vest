@@ -199,7 +199,7 @@ namespace web.Controllers
         public IActionResult PostAddFight(AddFightViewModel vm)
         {
             Fight fight = new Fight();
-
+            var forms = Request;
             fight.Address = vm.Fight.Address;
             fight.City = vm.Fight.City;
             fight.Country = vm.Fight.Country;
@@ -207,7 +207,8 @@ namespace web.Controllers
             fight.StartTime = vm.Fight.StartTime;
             fight.FightTypeID = vm.Fight.FightTypeID;
             fight.UserID = userManager.GetUserId(User);
-            
+            fight.Rounds = new List<Round>();
+
             fight.FightFighters = new List<FightFighters>
             {
                 new FightFighters
@@ -219,6 +220,12 @@ namespace web.Controllers
                     Fighter = db.Fighters.Find(vm.SecondFighter)
                 }
             };
+
+            for(int i=0; i<vm.NumberOfRounds; i++)
+            {
+                Round round = new Round();
+                fight.Rounds.Add(round);
+            }
 
             db.Fights.Add(fight);
             db.SaveChanges();

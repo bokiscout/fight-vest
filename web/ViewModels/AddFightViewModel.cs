@@ -9,6 +9,7 @@ namespace web
         public Fight Fight { get; set; }
         public int FirstFighter { get; set; }
         public int SecondFighter { get; set; }
+        public int NumberOfRounds { get; set; }
         public IEnumerable<SelectListItem> Fighters { get; set; }
         public IEnumerable<SelectListItem> FightTypes { get; set; }
     }
