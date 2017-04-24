@@ -10,6 +10,9 @@ namespace web.Models
         public int ID { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string Counry { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
 
         [Required]
         [ForeignKey("User")]
