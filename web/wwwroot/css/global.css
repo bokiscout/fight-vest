@@ -1,3 +1,15 @@
 .mb-20{
     margin-bottom: 20px;
 }
+.text-gray{
+    color: #aaa;
+}
+.f-18{
+    font-size:18px;
+}
+.f-24{
+    font-size: 24px;
+}
+.text-bold{
+    font-weight: bold;
+}

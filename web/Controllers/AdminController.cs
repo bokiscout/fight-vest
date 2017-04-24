@@ -42,15 +42,6 @@ namespace web.Controllers
             return View(vm);
         }
 
-        public IActionResult Fights()
-        {
-            ViewData["Title"] = "Борби";
-            AdminFightsViewModel vm = new AdminFightsViewModel();
-            vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fight).Include(f => f.FightType).Include(f => f.Rounds).ToList();
-            
-            return View(vm);
-        }
-
         public IActionResult AddFighter()
         {
             ViewData["Title"] = "Додади Борец";
@@ -183,6 +174,16 @@ namespace web.Controllers
 
             return RedirectToAction("Fighters");
         }
+
+          public IActionResult Fights()
+          {
+            ViewData["Title"] = "Борби";
+            AdminFightsViewModel vm = new AdminFightsViewModel();
+            vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter).Include(f => f.FightType).Include(f => f.Rounds).ToList();
+            
+            return View(vm);
+          }
+
 
         public IActionResult AddFight()
         {

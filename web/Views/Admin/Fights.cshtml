@@ -14,11 +14,9 @@
     <div class="title_right row">
         <div class="col-md-2 col-sm-2 col-xs-12 form-group pull-right top_searc">
             <div>
-                
-                    <a asp-area="" asp-controller="Admin" asp-action="AddFight">
-                        <button class="btn btn-primary">Додади борба</button>
-                    </a>
-                
+                <a asp-area="" asp-controller="Admin" asp-action="AddFight">
+                    <button class="btn btn-primary">Додади борба</button>
+                </a>
             </div>
         </div>
         <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
@@ -36,69 +34,53 @@
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-        <div class="x_content">
-            @foreach(var fight in Model.Fights){
-            <div class="col-md-3 col-sm-3 col-xs-12 profile_left mb-20">
-                <div class="profile_img">
-                    <div id="crop-avatar">
-                        <!-- Current avatar -->
-                        <img class="img-responsive avatar-view" src="" alt="Avatar" title="Change the avatar">
-                    </div>
-                    </div>
-                    <h3></h3>
-
-                    <ul class="list-unstyled user_data">
-                    <li><i class="fa fa-map-marker user-profile-icon"></i>
-                        
-                    </li>
-
-                    <li>
-                        <i class="fa fa-graduation-cap user-profile-icon"></i>
-                       
-                    </li>
-
-                    <li class="m-top-xs">
-                        <i class="fa fa-calendar user-profile-icon"></i>
-                       
-                    </li>
-                    </ul>
-
-                    <a class="btn btn-success" asp-controller="Admin" asp-action="EditFighter" asp-route-id="2">
-                        <i class="fa fa-edit m-right-xs"></i> Измени
-                    </a>
-                    <br />
-
-                    <!-- start skills -->
-                    <!--<h4>Skills</h4>
-                    <ul class="list-unstyled user_data">
-                    <li>
-                        <p>Web Applications</p>
-                        <div class="progress progress_sm">
-                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
+        <div class="x_panel">
+            <div class="x_content">
+                @foreach(var fight in Model.Fights){
+                    <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <div class="right col-xs-5 text-center">
+                              <img src="@fight.FightFighters.ToArray()[0].Fighter.AvatarUrl" alt="" class="img-circle img-responsive">
+                            </div>
+                          <div class="right col-xs-5 text-center pull-right">
+                              <img src="@fight.FightFighters.ToArray()[1].Fighter.AvatarUrl" alt="" class="img-circle img-responsive">
+                            </div></div>
+                          <div class="left col-xs-12">
+                              <h2 class="text-center">
+                                  <strong>@fight.FightType.Name</strong>
+                              </h2>
+                              <ul class="list-unstyled">
+                                <li><i class="fa fa-clock-o"></i> <strong>Почеток:</strong> 
+                                    @fight.StartTime
+                                </li>
+                                <li><i class="fa fa-clock-o"></i> <strong>Крај:</strong> 
+                                    @fight.EndTime
+                                </li>
+                                <li>
+                                    <i class="fa fa-bell-o">
+                                        <strong>Број на рунди: </strong>
+                                        @fight.Rounds.Count
+                                    </i>
+                                </li>
+                                <li><i class="fa fa-location-arrow"></i> <strong>Локација:</strong> 
+                                    @fight.Address, @fight.City, @fight.Country
+                                </li>
+                              </ul>
+                              <a class="btn btn-success" asp-controller="Admin" asp-action="EditFight" asp-route-id="@fight.ID">
+                                <i class="fa fa-edit m-right-xs"></i> Измени
+                              </a>
+                            </div><div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 emphasis">
+                                <div class="text-center text-bold">
+                                    <span class="f-18">@fight.FightFighters.ToArray()[0].Fighter.FirstName</span>
+                                    <span class="f-24 text-gray">VS</span>
+                                    <span class="f-18">@fight.FightFighters.ToArray()[1].Fighter.FirstName</span>
+                                </div>
+                            </div>
+                          </div>
                         </div>
-                    </li>
-                    <li>
-                        <p>Website Design</p>
-                        <div class="progress progress_sm">
-                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p>Automation & Testing</p>
-                        <div class="progress progress_sm">
-                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <p>UI / UX</p>
-                        <div class="progress progress_sm">
-                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                        </div>
-                    </li>
-                    </ul> -->
-                    <!-- end of skills -->
-                </div>
+                      </div>
                 }
             </div>
         </div>
