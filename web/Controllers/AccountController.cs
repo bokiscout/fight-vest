@@ -79,11 +79,11 @@ namespace web.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login");
                 return View();
             }
-            if (!user.EmailConfirmed)
+            /*if (!user.EmailConfirmed)
             {
                 ModelState.AddModelError(string.Empty, "Confirm your email first");
                 return View();
-            }
+            }*/
 
             var passwordSignInResult = await _signInManager.PasswordSignInAsync(user, password, isPersistent: rememberMe, lockoutOnFailure: false);
             if (!passwordSignInResult.Succeeded)

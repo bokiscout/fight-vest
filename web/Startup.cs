@@ -38,7 +38,7 @@ namespace web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<IMessageService, FileMessageService>();
+            services.AddTransient<IMessageService, DummyMessageService>();
 
             services.Configure<IdentityOptions>(options => {
                 options.Password.RequireDigit = false;
