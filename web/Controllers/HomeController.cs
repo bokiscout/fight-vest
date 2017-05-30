@@ -65,8 +65,10 @@ namespace web.Controllers
         public IActionResult Fights()
         {
             ViewData["Title"] = "Борби";
-            
-            return View();
+            FightsSearchResultViewModel vm = new FightsSearchResultViewModel();
+            vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter).Include(f => f.FightType).Include(f => f.Rounds).ToList();
+
+            return View(vm);
         }
     }
 }

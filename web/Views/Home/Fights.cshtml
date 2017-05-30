@@ -1,1 +1,83 @@
-Fights
+﻿@model FightsSearchResultViewModel
+
+<style>
+    #crop-avatar {
+        height: 200px;
+        overflow: hidden;
+    }
+</style>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Борби</h3>
+    </div>
+
+    <div class="title_right row">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Пребарај...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                @foreach(var fight in Model.Fights){
+                <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                    <div class="well profile_view">
+                        <div class="col-sm-12">
+                            <div class="right col-xs-5 text-center">
+                                <img src="@fight.FightFighters.ToArray()[0].Fighter.AvatarUrl" alt="" class="img-circle img-responsive">
+                            </div>
+                            <div class="right col-xs-5 text-center pull-right">
+                                <img src="@fight.FightFighters.ToArray()[1].Fighter.AvatarUrl" alt="" class="img-circle img-responsive">
+                            </div>
+                        </div>
+                        <div class="left col-xs-12">
+                            <h2 class="text-center">
+                                <strong>@fight.FightType.Name</strong>
+                            </h2>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-clock-o"></i> <strong>Почеток:</strong>
+                                    @string.Format("{0:dd MMM yyyy}", fight.StartTime)
+                                </li>
+                                <li>
+                                    <i class="fa fa-clock-o"></i> <strong>Крај:</strong>
+                                    @string.Format("{0:dd MMM yyyy}", fight.EndTime)
+                                </li>
+                                <li>
+                                    <i class="fa fa-bell-o">
+                                        <strong>Број на рунди: </strong>
+                                        @fight.Rounds.Count
+                                    </i>
+                                </li>
+                                <li>
+                                    <i class="fa fa-location-arrow"></i> <strong>Локација:</strong>
+                                    @fight.Address, @fight.City, @fight.Country
+                                </li>
+                            </ul>
+                          
+                        </div><div class="col-xs-12 bottom text-center">
+                            <div class="col-xs-12 emphasis">
+                                <div class="text-center text-bold">
+                                    <span class="f-18">@fight.FightFighters.ToArray()[0].Fighter.FirstName</span>
+                                    <span class="f-24 text-gray">VS</span>
+                                    <span class="f-18">@fight.FightFighters.ToArray()[1].Fighter.FirstName</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

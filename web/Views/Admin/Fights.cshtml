@@ -51,12 +51,14 @@
                                   <strong>@fight.FightType.Name</strong>
                               </h2>
                               <ul class="list-unstyled">
-                                <li><i class="fa fa-clock-o"></i> <strong>Почеток:</strong> 
-                                    @fight.StartTime
-                                </li>
-                                <li><i class="fa fa-clock-o"></i> <strong>Крај:</strong> 
-                                    @fight.EndTime
-                                </li>
+                                  <li>
+                                      <i class="fa fa-clock-o"></i> <strong>Почеток:</strong>
+                                      @string.Format("{0:dd MMM yyyy}", fight.StartTime)
+                                  </li>
+                                  <li>
+                                      <i class="fa fa-clock-o"></i> <strong>Крај:</strong>
+                                      @string.Format("{0:dd MMM yyyy}", fight.EndTime)
+                                  </li>
                                 <li>
                                     <i class="fa fa-bell-o">
                                         <strong>Број на рунди: </strong>
