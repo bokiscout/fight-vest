@@ -1,9 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using web.Models;
 
 namespace web.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db;
+
+        public HomeController(ApplicationDbContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
             ViewData["Title"] = "Home";
@@ -13,7 +24,42 @@ namespace web.Controllers
         public IActionResult Fighters()
         {
             ViewData["Title"] = "Борци";
-            return View();
+
+            FightersSearchResultViewModel result = new FightersSearchResultViewModel();
+            result.Fighters = db.Fighters.Include(f => f.FighterCategory).Select(f => new PublicFighterViewModel
+            {
+                Fighter = f,
+                ID = f.ID,
+                LostFights = 2,
+                TotalFights = 10,
+                WonFights = 8
+            }).ToList();
+
+            return View(result);
+        }
+
+        public IActionResult Fighter(int id)
+        {
+            PublicFighterViewModel fighter = db.Fighters.Include(f => f.FighterCategory).Where(f => f.ID == id)
+                .Select(f => new PublicFighterViewModel
+            {
+                ID = f.ID,
+                Fighter = f,
+                LostFights = 2,
+                TotalFights = 10,
+                WonFights = 8
+            }).FirstOrDefault();
+
+            FighterProfileViewModel result = new FighterProfileViewModel();
+
+            result.Fighter = fighter;
+            result.NextFights = db.Fights.Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter).Include(f => f.FightType)
+                .Where(f =>  f.StartTime >= DateTime.Now);
+
+            result.PreviousFights = db.Fights.Include(f => f.FightFighters).Include(f => f.FightType).Include(f => f.Rounds)
+                .Where(f => f.StartTime < DateTime.Now);
+
+            return View(result);
         }
 
         public IActionResult Fights()
