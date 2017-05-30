@@ -208,6 +208,7 @@ namespace web.Controllers
             fight.StartTime = vm.Fight.StartTime;
             fight.FightTypeID = vm.Fight.FightTypeID;
             fight.UserID = userManager.GetUserId(User);
+            fight.Description = vm.Fight.Description;
             fight.Rounds = new List<Round>();
 
             fight.FightFighters = new List<FightFighters>
@@ -262,6 +263,7 @@ namespace web.Controllers
             fight.FightTypeID = vm.Fight.FightTypeID;
             fight.StartTime = vm.Fight.StartTime;
             fight.EndTime = vm.Fight.EndTime;
+            fight.Description = vm.Fight.Description;
 
             db.Fights.Update(fight);
             db.SaveChanges();

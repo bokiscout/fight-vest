@@ -104,11 +104,14 @@
                                                     <i class="fa fa-map-marker"></i>
                                                       @string.Format("{0}, {1}, {2}", fight.Address, fight.City, fight.Country)
                                                 </div>
-                                                <div>
+                                                <p>
                                                     <i class="fa fa-graduation-cap"></i>
                                                     @fight.FightType.Name
-                                                </div>
-                                                <div style="margin-top:20px;">
+                                                </p>
+                                                <p>
+                                                    @fight.Description
+                                                </p>
+                                                <div>
                                                     Шанси за победа <b>(43%)</b>
                                                     <div class="progress progress_sm">
                                                         <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" data-transitiongoal="43" aria-valuenow="43" style="width: 43%;"></div>
