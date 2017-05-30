@@ -1,1 +1,90 @@
-Fighters
+﻿@model FightersSearchResultViewModel
+
+<style>
+    #crop-avatar {
+        height: 200px;
+        overflow: hidden;
+    }
+</style>
+<div class="page-title">
+    <div class="title_left">
+        <h3>Борци</h3>
+    </div>
+
+    <div class="title_right row">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                @foreach (var fighter in Model.Fighters)
+                {
+                    <a asp-controller="Home" asp-action="Fighter" asp-route-id="@fighter.ID" class="col-md-3 col-sm-3 col-xs-12 profile_left mb-20">
+                        <div class="profile_img">
+                            <div id="crop-avatar">
+                                <!-- Current avatar -->
+                                <img class="img-responsive avatar-view" src="@fighter.Fighter.AvatarUrl" alt="Avatar" title="Change the avatar">
+                            </div>
+                        </div>
+                        <h3>@fighter.Fighter.FirstName @fighter.Fighter.LastName</h3>
+
+                        <ul class="list-unstyled user_data">
+                            <li>
+                                <i class="fa fa-map-marker user-profile-icon"></i>
+                                @fighter.Fighter.City, @fighter.Fighter.Country
+                            </li>
+
+                            <li>
+                                <i class="fa fa-graduation-cap user-profile-icon"></i>
+                                @fighter.Fighter.FighterCategory.Name
+                            </li>
+
+                            <li class="m-top-xs">
+                                <i class="fa fa-calendar user-profile-icon"></i>
+                                @fighter.Fighter.BirthDate
+                            </li>
+                        </ul>
+
+                        <br />
+
+                        <!-- start skills -->
+                        <h4>Статистики</h4>
+                        <ul class="list-unstyled user_data">
+                        <li>
+                            <p>Вкупно борби (@fighter.TotalFights)</p>
+                            <div class="progress progress_sm">
+                            <div class="progress-bar bg-blue-sky" role="progressbar" data-transitiongoal="100"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Број на победи (@fighter.WonFights)</p>
+                            <div class="progress progress_sm">
+                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="@(fighter.WonFights* 10) / @fighter.TotalFights"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <p>Број на порази (@fighter.LostFights)</p>
+                            <div class="progress progress_sm">
+                            <div class="progress-bar bg-red" role="progressbar" data-transitiongoal="@(fighter.LostFights * 10) / @fighter.TotalFights"></div>
+                            </div>
+                        </li>
+                        </ul> 
+                        <!-- end of skills -->
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
