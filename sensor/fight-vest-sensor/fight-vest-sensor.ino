@@ -1,5 +1,6 @@
 // declare global variables
-int INPUT_PIN;
+int INPUT_PIN_MEDIUM;
+int INPUT_PIN_STRONG;
 int LED_PIN;
 boolean ledState;
 
@@ -12,7 +13,9 @@ void setup() {
   // put your setup code here, to run once:
 
   // initialize global variables
-  INPUT_PIN = A0;
+  INPUT_PIN_MEDIUM = A0;
+  INPUT_PIN_STRONG = A1;
+  
   LED_PIN = 13;
   ledState = false;
   waitPunch = true;
@@ -22,7 +25,8 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);       // led pin to behave as output
   digitalWrite(LED_PIN, LOW);     // turn off led
   Serial.begin(9600);             // serial communication is done at 96000 bouds
-  analogWrite(INPUT_PIN, 0);      // force 0v,
+  analogWrite(INPUT_PIN_MEDIUM, 0);      // force 0v,
+  analogWrite(INPUT_PIN_STRONG, 0);      // force 0v,
   // otherwise readings can fluctuate due to noise,
   // but this way readings have smaller values than usual!
 
@@ -31,10 +35,11 @@ void setup() {
 
 void loop() {
   // read data from the sensor
-  int value = analogRead(INPUT_PIN);
+  int value_medium = analogRead(INPUT_PIN_MEDIUM);
+  int value_strong = analogRead(INPUT_PIN_STRONG);
 
-  if (value >= 700) {
-    // strong punch // 5v
+  if (value_strong >= 450) {
+    // strong punch
     waitPunch = false;      // notify that punch is detected and not waiting for
     punchStrength = 2;
 
@@ -47,8 +52,8 @@ void loop() {
     digitalWrite(LED_PIN, LOW);
     delay(70);
   }
-  else if (value >= 450) {
-    // medium punch // 3.5V
+  else if (value_medium >= 450 && waitPunch) {
+    // medium punch
     waitPunch = false;      // notify that punch is detected and not waiting for
 
     // if coming back from strong punch let it be strong
@@ -61,7 +66,7 @@ void loop() {
     ledState = true;
     digitalWrite(LED_PIN, HIGH);
   }
-  else {
+  else if(value_medium <= 450 && value_strong <= 450) {
     // no punch // 0v
 
     // if first time 0v notify for punch strength
