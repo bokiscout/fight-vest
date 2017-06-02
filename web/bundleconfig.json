@@ -14,6 +14,7 @@
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
       "wwwroot/js/site.js",
+      "wwwroot/lib/signalr/jquery.signalR.js",
       "wwwroot/lib/gentelella/vendors/fastclick/lib/fastclick.js",
       "wwwroot/lib/gentelella/vendors/nprogress/nprogress.js",
       "wwwroot/lib/gentelella/vendors/raphael/raphael.min.js",

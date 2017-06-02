@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using web.Hubs;
 using web.Models;
 
 namespace web.Controllers
@@ -12,10 +14,12 @@ namespace web.Controllers
     public class ApiController : Controller
     {
         private ApplicationDbContext db;
+        private IConnectionManager connectionManager;
 
-        public ApiController(ApplicationDbContext db)
+        public ApiController(ApplicationDbContext db, IConnectionManager connectionManager)
         {
             this.db = db;
+            this.connectionManager = connectionManager;
         }
 
         [HttpGet]
@@ -25,6 +29,16 @@ namespace web.Controllers
             IEnumerable<Fight> fights = db.Fights.Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter).ToList();
 
             return Ok(fights);
+        }
+
+        [HttpGet]
+        [Route("Fights/{id:int}")]
+        public IActionResult GetFights(int id)
+        {
+            Fight fight = db.Fights.Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter)
+                .Include(f => f.Rounds).ThenInclude(r => r.Hits).FirstOrDefault();
+
+            return Ok(fight);
         }
 
         [HttpPost]
@@ -41,6 +55,8 @@ namespace web.Controllers
             fight.StartedAt = DateTime.UtcNow;
             db.Fights.Update(fight);
             db.SaveChanges();
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightStarted(fight.ID);
 
             return Ok(fight);
         }
@@ -63,6 +79,8 @@ namespace web.Controllers
             fight.EndedAt = DateTime.UtcNow;
             db.Fights.Update(fight);
             db.SaveChanges();
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightEnded(fight.ID);
 
             return Ok(fight);
         }
@@ -96,6 +114,8 @@ namespace web.Controllers
             db.Fights.Update(fight);
             db.SaveChanges();
 
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundStarted(fight.Rounds.Count);
+
             return Ok(round);
         }
 
@@ -120,6 +140,8 @@ namespace web.Controllers
             lastRound.EndTime = DateTime.UtcNow;
             db.Round.Update(lastRound);
             db.SaveChanges();
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundEnded(fight.Rounds.Count);
 
             return Ok(lastRound);
         }
@@ -149,13 +171,19 @@ namespace web.Controllers
             };
 
             lastRound.Hits.Add(hit);
-
-
             db.Fights.Update(fight);
             db.SaveChanges();
+
+            Fighter fighter = db.Fighters.Find(fighterId);
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(fightId)).OnHit(fight.ID, fighter);
 
             return Ok(hit);
         }
 
+        private string GetGroupKey(int id)
+        {
+            return FightHub.GetFightKey(id);
+        }
     }
 }

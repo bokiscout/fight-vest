@@ -1,1 +1,33 @@
-﻿Fight
+﻿@using web.Models;
+@model Fight
+Fight
+
+<div style="display:none" id="fight_id" data-fight-id="@Model.ID"></div>
+
+@section Scripts{
+<script src="/signalr/hubs"></script>
+<!--Add script to update the page and send messages.-->
+<script type="text/javascript">
+    var fightId = $("#fight_id").attr("data-fight-id");
+    var fight;
+
+    $.getJSON("/api/Fights/" + fightId, function (data) {
+        fight = data;
+    });
+        $(function () {
+            // Declare a proxy to reference the hub.
+            var chat = $.connection.fightHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.onFightStarted = function (fightId) {
+                alert("Fight Started: " + fightId);
+            };
+
+            console.log(fightId);
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                chat.server.joinFight(fightId);
+                console.log(fight);
+            });
+        });
+</script>
+}

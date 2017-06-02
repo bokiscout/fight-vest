@@ -74,10 +74,9 @@ namespace web.Controllers
         public IActionResult Fight(int id)
         {
             ViewData["Title"] = "Борбa";
-            //FightsSearchResultViewModel vm = new FightsSearchResultViewModel();
-            //vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter).Include(f => f.FightType).Include(f => f.Rounds).ToList();
+            Fight fight = db.Fights.Include(f => f.Rounds).ThenInclude(r => r.Hits).Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter).FirstOrDefault();
 
-            return View();
+            return View(fight);
         }
     }
 }

@@ -63,6 +63,12 @@ namespace web
                        castedResolver.NamingStrategy = null;
                    }
                });
+
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+                options.EnableJSONP = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +97,19 @@ namespace web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.Map("/signalr", options => {
+
+                 // Setup the CORS middleware to run before SignalR.
+                 // By default this will allow all origins. You can 
+                 // configure the set of origins and/or http verbs by
+                 // providing a cors options with a different policy.
+
+                 //options.UseCors(CorsOptions.AllowAll);
+
+                 options.UseWebSockets();
+                 options.RunSignalR();
+             });
         }
     }
 }
