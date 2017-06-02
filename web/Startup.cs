@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using web.Models;
 using web.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace web
 {
@@ -47,9 +49,20 @@ namespace web
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;                
             });
-            
+
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+               .AddJsonOptions(options => {
+                   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                   options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
+
+                   if (options.SerializerSettings.ContractResolver != null)
+                   {
+                       var castedResolver = options.SerializerSettings.ContractResolver
+                           as DefaultContractResolver;
+                       castedResolver.NamingStrategy = null;
+                   }
+               });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

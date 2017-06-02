@@ -209,7 +209,6 @@ namespace web.Controllers
             fight.FightTypeID = vm.Fight.FightTypeID;
             fight.UserID = userManager.GetUserId(User);
             fight.Description = vm.Fight.Description;
-            fight.Rounds = new List<Round>();
 
             fight.FightFighters = new List<FightFighters>
             {
@@ -222,12 +221,6 @@ namespace web.Controllers
                     Fighter = db.Fighters.Find(vm.SecondFighter)
                 }
             };
-
-            for(int i=0; i<vm.NumberOfRounds; i++)
-            {
-                Round round = new Round();
-                fight.Rounds.Add(round);
-            }
 
             db.Fights.Add(fight);
             db.SaveChanges();
