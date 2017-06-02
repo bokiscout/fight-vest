@@ -95,6 +95,10 @@ namespace web.Controllers
             {
                 return BadRequest("The fight has not been started yet");
             }
+            if(fight.EndedAt != null)
+            {
+                return BadRequest("The fight has already ended");
+            }
 
             Round activeRound = fight.Rounds.FirstOrDefault(r => r.StartTime != null && r.EndTime == null);
 
@@ -176,7 +180,7 @@ namespace web.Controllers
 
             Fighter fighter = db.Fighters.Find(fighterId);
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(fightId)).OnHit(fight.ID, fighter);
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(fightId)).OnHit(fight.ID, fighter.ID);
 
             return Ok(hit);
         }

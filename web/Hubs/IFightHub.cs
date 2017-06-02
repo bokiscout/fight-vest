@@ -14,6 +14,6 @@ namespace web.Hubs
         void OnRoundStarted(int roundNumber);
         void OnRoundEnded(int roundNumber);
 
-        void OnHit(int fightId, Fighter fighter);
+        void OnHit(int fightId, int fighterId);
     }
 }

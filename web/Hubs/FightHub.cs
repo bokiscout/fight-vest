@@ -29,6 +29,7 @@ namespace web.Hubs
             joinedFights.Add(fightId);
 
             fights.Add(Context.ConnectionId, joinedFights);
+            Groups.Add(Context.ConnectionId, GetFightKey(fightId));
         }
 
         public override Task OnDisconnected(bool stopCalled)

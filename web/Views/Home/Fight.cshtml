@@ -21,6 +21,19 @@ Fight
             chat.client.onFightStarted = function (fightId) {
                 alert("Fight Started: " + fightId);
             };
+            chat.client.onFightEnded = function (fightId) {
+                alert("Fight Ended: " + fightId);
+            };
+            chat.client.onRoundStarted = function (roundNumber) {
+                alert("Round Started: " + roundNumber);
+            };
+            chat.client.onRoundEnded = function (roundNumber) {
+                alert("Round Endend: " + roundNumber);
+            };
+            chat.client.onHit = function (fightId, fighter) {
+                alert("Hit: " + fightId);
+                console.log("Hit", fighter);
+            };
 
             console.log(fightId);
             // Start the connection.
