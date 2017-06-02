@@ -15,6 +15,9 @@ namespace web.Models
         public string Address { get; set; }
         public string Description { get; set; }
 
+        public DateTime? StartedAt { get; set; }
+        public DateTime? EndedAt { get; set; }
+
         [Required]
         [ForeignKey("User")]
         public string UserID { get; set; }
