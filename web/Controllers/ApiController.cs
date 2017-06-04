@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using web.DTO;
 using web.Hubs;
 using web.Models;
 
@@ -15,11 +17,13 @@ namespace web.Controllers
     {
         private ApplicationDbContext db;
         private IConnectionManager connectionManager;
+        private IMapper mapper;
 
-        public ApiController(ApplicationDbContext db, IConnectionManager connectionManager)
+        public ApiController(ApplicationDbContext db, IConnectionManager connectionManager, IMapper mapper)
         {
             this.db = db;
             this.connectionManager = connectionManager;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -27,18 +31,26 @@ namespace web.Controllers
         public IActionResult GetFights()
         {
             IEnumerable<Fight> fights = db.Fights.Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter).ToList();
-
-            return Ok(fights);
+            IEnumerable<FightDTO> fightsDto = mapper.Map<IEnumerable<FightDTO>>(fights);
+            
+            return Ok(fightsDto);
         }
 
         [HttpGet]
         [Route("Fights/{id:int}")]
-        public IActionResult GetFights(int id)
+        public IActionResult GetFight(int id)
+        {
+            Fight fight = GetActiveFight(id);
+            FightDTO fightDto = mapper.Map<FightDTO>(fight);
+            return Ok(fightDto);
+        }
+
+        private Fight GetActiveFight(int id)
         {
             Fight fight = db.Fights.Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter)
-                .Include(f => f.Rounds).ThenInclude(r => r.Hits).FirstOrDefault();
+                .Include(f => f.Rounds).ThenInclude(r => r.Hits).Where(f => f.ID == id).FirstOrDefault();
 
-            return Ok(fight);
+            return fight;
         }
 
         [HttpPost]
@@ -56,9 +68,12 @@ namespace web.Controllers
             db.Fights.Update(fight);
             db.SaveChanges();
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightStarted(fight.ID);
+            fight = GetActiveFight(id);
+            FightDTO fightDto = mapper.Map<FightDTO>(fight);
 
-            return Ok(fight);
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightStarted(fightDto);
+
+            return Ok(fightDto);
         }
 
         [HttpPost]
@@ -80,9 +95,12 @@ namespace web.Controllers
             db.Fights.Update(fight);
             db.SaveChanges();
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightEnded(fight.ID);
+            fight = GetActiveFight(id);
+            FightDTO fightDto = mapper.Map<FightDTO>(fight);
 
-            return Ok(fight);
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnFightEnded(fightDto);
+
+            return Ok(fightDto);
         }
 
         [HttpPost]
@@ -118,7 +136,10 @@ namespace web.Controllers
             db.Fights.Update(fight);
             db.SaveChanges();
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundStarted(fight.Rounds.Count);
+            fight = GetActiveFight(id);
+            FightDTO fightDto = mapper.Map<FightDTO>(fight);
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundStarted(fightDto);
 
             return Ok(round);
         }
@@ -133,6 +154,10 @@ namespace web.Controllers
             {
                 return BadRequest("The fight has not been started yet");
             }
+            if(fight.EndedAt != null)
+            {
+                return BadRequest("The fight has already ended");
+            }
 
             Round lastRound = fight.Rounds.FirstOrDefault(r => r.StartTime != null && r.EndTime == null);
 
@@ -145,7 +170,10 @@ namespace web.Controllers
             db.Round.Update(lastRound);
             db.SaveChanges();
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundEnded(fight.Rounds.Count);
+            fight = GetActiveFight(id);
+            FightDTO fightDto = mapper.Map<FightDTO>(fight);
+
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(id)).OnRoundEnded(fightDto);
 
             return Ok(lastRound);
         }
@@ -178,9 +206,9 @@ namespace web.Controllers
             db.Fights.Update(fight);
             db.SaveChanges();
 
-            Fighter fighter = db.Fighters.Find(fighterId);
+            HitDTO hitDto = mapper.Map<HitDTO>(hit);
 
-            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(fightId)).OnHit(fight.ID, fighter.ID);
+            connectionManager.GetHubContext<FightHub>().Clients.Group(GetGroupKey(fightId)).OnHit(fight.ID, fighterId, hitDto);
 
             return Ok(hit);
         }

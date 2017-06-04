@@ -9,6 +9,8 @@ using web.Models;
 using web.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace web
 {
@@ -69,6 +71,9 @@ namespace web
                 options.Hubs.EnableDetailedErrors = true;
                 options.EnableJSONP = true;
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -74,7 +74,8 @@ namespace web.Controllers
         public IActionResult Fight(int id)
         {
             ViewData["Title"] = "Борбa";
-            Fight fight = db.Fights.Include(f => f.Rounds).ThenInclude(r => r.Hits).Include(f => f.FightFighters).ThenInclude(ff => ff.Fighter).FirstOrDefault();
+            Fight fight = db.Fights.Include(f => f.FightType).Include(f => f.Rounds).ThenInclude(r => r.Hits).Include(f => f.FightFighters)
+                .ThenInclude(ff => ff.Fighter).ThenInclude(fff => fff.FighterCategory).FirstOrDefault();
 
             return View(fight);
         }

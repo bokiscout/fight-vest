@@ -1,38 +1,329 @@
 ﻿@using web.Models;
 @model Fight
-Fight
 
+<style>
+    #crop-avatar {
+        height: 200px;
+        overflow: hidden;
+    }
+</style>
+
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_content">
+                <a asp-controller="Home" asp-action="Fighter" asp-route-id="@Model.FightFighters.ToList()[0].Fighter.ID" class="col-md-3 col-sm-3 col-xs-12 profile_left mb-20">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" src="@Model.FightFighters.ToList()[0].Fighter.AvatarUrl" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>@Model.FightFighters.ToList()[0].Fighter.FirstName @Model.FightFighters.ToList()[0].Fighter.LastName</h3>
+
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[0].Fighter.City, @Model.FightFighters.ToList()[0].Fighter.Country
+                        </li>
+
+                        <li>
+                            <i class="fa fa-graduation-cap user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[0].Fighter.FighterCategory.Name
+                        </li>
+
+                        <li class="m-top-xs">
+                            <i class="fa fa-calendar user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[0].Fighter.BirthDate
+                        </li>
+                    </ul>
+                </a>
+                <div class="col-md-6 col-sm-6 col-xs-12 ">
+                    <div class="f-24 text-gray text-center text-bold mt-90">VS</div>
+                    <div class="left col-xs-12 mt-75">
+                        <h2 class="text-center">
+                            <strong>@Model.FightType.Name</strong>
+                        </h2>
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-clock-o"></i> <strong>Почеток:</strong>
+                                @string.Format("{0:dd MMM yyyy}", Model.StartTime)
+                            </li>
+                            <li>
+                                <i class="fa fa-clock-o"></i> <strong>Крај:</strong>
+                                @string.Format("{0:dd MMM yyyy}", Model.EndTime)
+                            </li>
+                            <li>
+                                <i class="fa fa-bell-o">
+                                    <strong>Број на рунди: </strong>
+                                    @Model.Rounds.Count
+                                </i>
+                            </li>
+                            <li>
+                                <i class="fa fa-location-arrow"></i> <strong>Локација:</strong>
+                                @Model.Address, @Model.City, @Model.Country
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <a asp-controller="Home" asp-action="Fighter" asp-route-id="@Model.FightFighters.ToList()[1].Fighter.ID"
+                   class="col-md-3 col-sm-3 col-xs-12 profile_left pull-right mb-20">
+                    <div class="profile_img">
+                        <div id="crop-avatar">
+                            <!-- Current avatar -->
+                            <img class="img-responsive avatar-view" src="@Model.FightFighters.ToList()[1].Fighter.AvatarUrl" alt="Avatar" title="Change the avatar">
+                        </div>
+                    </div>
+                    <h3>@Model.FightFighters.ToList()[1].Fighter.FirstName @Model.FightFighters.ToList()[1].Fighter.LastName</h3>
+
+                    <ul class="list-unstyled user_data">
+                        <li>
+                            <i class="fa fa-map-marker user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[1].Fighter.City, @Model.FightFighters.ToList()[1].Fighter.Country
+                        </li>
+
+                        <li>
+                            <i class="fa fa-graduation-cap user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[1].Fighter.FighterCategory.Name
+                        </li>
+
+                        <li class="m-top-xs">
+                            <i class="fa fa-calendar user-profile-icon"></i>
+                            @Model.FightFighters.ToList()[1].Fighter.BirthDate
+                        </li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    @if (Model.StartedAt != null)
+    {
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_content">
+                    <div class="col-xs-12 mb-30">
+                        <h3 id="status" class="text-center"></h3>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <ul class="stats-overview">
+                            <li>
+                                <span class="name"> Hits (@Model.FightFighters.ToList()[0].Fighter.FullName) </span>
+                                <span class="value text-success f-26 bubble" id="hits-@Model.FightFighters.ToList()[0].FighterID"> @Model.Rounds.SelectMany(r => r.Hits).Where(h => h.FighterID == Model.FightFighters.ToList()[0].FighterID).Count() </span>
+                            </li>
+                            @if (Model.EndedAt != null)
+                            {
+                                <li>
+                                    <span class="name"> Rounds Played </span>
+                                    <span class="value text-success f-26" id="currentRound"> @Model.Rounds.Count </span>
+                                </li>
+                            }
+                            else if (Model.EndedAt == null)
+                            {
+                                <li>
+                                    <span class="name"> Current round </span>
+                                    <span class="value text-success f-26" id="currentRound"> @Model.Rounds.Count</span>
+                                </li>
+                            }
+                            <li class="hidden-phone">
+                                <span class="name"> Hits (@Model.FightFighters.ToList()[1].Fighter.FullName) </span>
+                                <span class="value text-success f-26 bubble" id="hits-@Model.FightFighters.ToList()[1].FighterID"> @Model.Rounds.SelectMany(r => r.Hits).Where(h => h.FighterID == Model.FightFighters.ToList()[1].FighterID).Count() </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="rounds" class="rounds">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="timer" class="timer"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+</div>
+
+<audio id="kick1" src="~/sound/kick1.mp3"></audio>
+<audio id="kick2" src="~/sound/kick2.mp3"></audio>
+<audio id="bell" src="~/sound/bell.mp3"></audio>
 <div style="display:none" id="fight_id" data-fight-id="@Model.ID"></div>
 
 @section Scripts{
-<script src="/signalr/hubs"></script>
-<!--Add script to update the page and send messages.-->
-<script type="text/javascript">
-    var fightId = $("#fight_id").attr("data-fight-id");
-    var fight;
+    <script src="/signalr/hubs"></script>
+    
+   
 
-    $.getJSON("/api/Fights/" + fightId, function (data) {
-        fight = data;
-    });
+    <script type="text/javascript">
+        var fightId = $("#fight_id").attr("data-fight-id");
+        var fight;
+        var currentRound;
+        var timer = $("#timer");
+        var fighterSounds = {};
+        timer.runner();
+
+        $.getJSON("/api/Fights/" + fightId, function (data) {
+            fight = data;
+            initializeStatus();
+            initializeSounds();
+        });
+
+        function initializeSounds() {
+            console.log(fight);
+            fighterSounds[fight.FightFighters[0].FighterID] = $("#kick1");
+            fighterSounds[fight.FightFighters[1].FighterID] = $("#kick2");
+            console.log(fighterSounds);
+        }
+
+
+        function initializeStatus() {
+            // Fight is ended
+            if (fight.EndedAt != null) {
+                setStatus("Match has already ended");
+            }
+            // Fight is started
+            else if (fight.StartedAt != null) {
+                // No round has been started yet
+                if (fight.Rounds.length == 0) {
+                    setStatus("Waiting for first round to start...plase wait");
+                }
+                else {
+                    var lastRound = fight.Rounds[fight.Rounds.length - 1];
+                    // The previous round has ended
+                    if (lastRound.EndTime != null) {
+                        setStatus("Round " + fight.Rounds.length + " has ended. Waiting for the next round to start");
+                    }
+                    else {
+                        setCurrentRound(fight.Rounds.length);
+                        setStatus("An active round is being faught");
+                    }
+                }
+            }
+            else {
+                setStatus("Waiting for the match to start");
+            }
+        }
+
+        function setCurrentRound(round) {
+            currentRound = round;
+            $("#currentRound").text(round);
+        }
+        
+        function startTimer() {
+            timer.runner("start");
+        }
+
+        function stopTimer() {
+            timer.runner("stop");
+        }
+
+        function resetTimer() {
+            timer.runner("reset");
+        }
+
+        function setStatus(text) {
+            console.log(text);
+            $("#status").text(text);
+        }
+
+        function updateHitsForFighter(fighterId) {
+            var counter = 0;
+            for (var i = 0; i<fight.Rounds.length; i++){
+                var round = fight.Rounds[i];
+
+                for (var j = 0; j < round.Hits.length; j++) {
+                    var hit = round.Hits[j];
+
+                    if (hit.FighterID == fighterId) {
+                        counter++;
+                    }
+                }
+            }
+       
+            var id = "#hits-" + fighterId;
+
+            $(id).addClass("animate");
+            setTimeout(function () {
+                $(id).removeClass("animate");
+            }, 500);
+
+            $(id).text(counter);
+        }
+
+        function alert(text) {
+            $.confirm({
+                content: '<h1 class="text-center">'+ text +'</h1>',
+                autoClose:'ok|2000',
+                title: '',
+                buttons: {
+                    ok: function () {
+                    }
+                }
+            });
+
+        }
+
+        function pushHitToLastRound(hit) {
+            fight.Rounds[fight.Rounds.length - 1].Hits.push(hit);
+        }
+
+        function playHitSound(fighterId) {
+            var player = fighterSounds[fighterId][0];
+            player.play();
+            setTimeout(function () {
+                player.load();
+            }, 500);
+        }
+
+        function playBell() {
+            $("#bell")[0].play();
+        }
+   
         $(function () {
             // Declare a proxy to reference the hub.
             var chat = $.connection.fightHub;
             // Create a function that the hub can call to broadcast messages.
-            chat.client.onFightStarted = function (fightId) {
-                alert("Fight Started: " + fightId);
+            chat.client.onFightStarted = function (fightUpdated) {
+                fight = fightUpdated;
+                alert('Match Started!')
+                initializeStatus();
             };
-            chat.client.onFightEnded = function (fightId) {
-                alert("Fight Ended: " + fightId);
+
+            chat.client.onFightEnded = function (fightUpdated) {
+                fight = fightUpdated;
+                alert("Match Ended!");
+                stopTimer();
+                resetTimer();
+                initializeStatus();
             };
-            chat.client.onRoundStarted = function (roundNumber) {
-                alert("Round Started: " + roundNumber);
+            chat.client.onRoundStarted = function (fightUpdated) {
+                fight = fightUpdated;
+                alert("Round Started: " + fight.Rounds.length);
+                resetTimer();
+                startTimer();
+                initializeStatus();
+                playBell();
             };
-            chat.client.onRoundEnded = function (roundNumber) {
-                alert("Round Endend: " + roundNumber);
+            chat.client.onRoundEnded = function (fightUpdated) {
+                fight = fightUpdated;
+                alert("Round Ended: " + fight.Rounds.length);
+                stopTimer();
+                initializeStatus();
+                playBell();
             };
-            chat.client.onHit = function (fightId, fighter) {
-                alert("Hit: " + fightId);
-                console.log("Hit", fighter);
+            chat.client.onHit = function (fightId, fighterId, hit) {
+                pushHitToLastRound(hit);
+                initializeStatus();
+                updateHitsForFighter(fighterId);
+                playHitSound(fighterId);
             };
 
             console.log(fightId);
@@ -42,5 +333,5 @@ Fight
                 console.log(fight);
             });
         });
-</script>
+    </script>
 }

@@ -22,6 +22,7 @@
       "wwwroot/lib/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js",
       "wwwroot/lib/gentelella/production/js/moment/moment.min.js",
       "wwwroot/lib/gentelella/production/js/datepicker/daterangepicker.js",
+      "wwwroot/lib/jquery.runner-min.js",
       "wwwroot/lib/gentelella/build/js/custom.min.js"
     ],
     // Optionally specify minification options
