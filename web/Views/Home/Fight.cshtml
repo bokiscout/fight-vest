@@ -110,6 +110,11 @@
                 <div class="x_content">
                     <div class="col-xs-12 mb-30">
                         <h3 id="status" class="text-center"></h3>
+                        <div class="col-xs-12">
+                            <h4>
+                                <span id="timer" class="timer hidden"></span>
+                            </h4>
+                        </div>
                     </div>
 
                     <div class="col-xs-12">
@@ -138,10 +143,10 @@
                             </li>
                         </ul>
                     </div>
-                    <div id="rounds" class="rounds">
+                    <div class="rounds">
                         <div class="row">
-                            <div class="col-xs-12">
-                                <span id="timer" class="timer"></span>
+                            <div class="col-xs-12" id="rounds">
+                                
                             </div>
                         </div>
                     </div>
@@ -172,15 +177,27 @@
 
         $.getJSON("/api/Fights/" + fightId, function (data) {
             fight = data;
+            initializeRounds();
             initializeStatus();
             initializeSounds();
         });
 
+        function initializeRounds() {
+            setInterval(function () {
+                renderRounds();
+            }, 500);
+        }
+
         function initializeSounds() {
-            console.log(fight);
             fighterSounds[fight.FightFighters[0].FighterID] = $("#kick1");
             fighterSounds[fight.FightFighters[1].FighterID] = $("#kick2");
-            console.log(fighterSounds);
+        }
+
+        function renderRounds() {
+            ReactDOM.render(
+                React.createElement(Rounds, { rounds: fight.Rounds, firstFighterId: fight.FightFighters[0].FighterID }),
+                $("#rounds")[0]
+            );
         }
 
 
@@ -203,7 +220,8 @@
                     }
                     else {
                         setCurrentRound(fight.Rounds.length);
-                        setStatus("An active round is being faught");
+                        setStatus("An active round is being fought");
+                        showTimer();
                     }
                 }
             }
@@ -225,12 +243,19 @@
             timer.runner("stop");
         }
 
+        function showTimer() {
+            timer.removeClass("hidden");
+        }
+
+        function hideTimer() {
+            timer.addClass("hidden");
+        }
+
         function resetTimer() {
             timer.runner("reset");
         }
 
         function setStatus(text) {
-            console.log(text);
             $("#status").text(text);
         }
 
@@ -272,7 +297,7 @@
         }
 
         function pushHitToLastRound(hit) {
-            fight.Rounds[fight.Rounds.length - 1].Hits.push(hit);
+            fight.Rounds[fight.Rounds.length-1].Hits.push(hit);
         }
 
         function playHitSound(fighterId) {
@@ -293,12 +318,14 @@
             // Create a function that the hub can call to broadcast messages.
             chat.client.onFightStarted = function (fightUpdated) {
                 fight = fightUpdated;
+                initializeRounds();
                 alert('Match Started!')
                 initializeStatus();
             };
 
             chat.client.onFightEnded = function (fightUpdated) {
                 fight = fightUpdated;
+                initializeRounds();
                 alert("Match Ended!");
                 stopTimer();
                 resetTimer();
@@ -306,31 +333,34 @@
             };
             chat.client.onRoundStarted = function (fightUpdated) {
                 fight = fightUpdated;
+                initializeRounds();
                 alert("Round Started: " + fight.Rounds.length);
                 resetTimer();
                 startTimer();
                 initializeStatus();
                 playBell();
+                showTimer();
             };
             chat.client.onRoundEnded = function (fightUpdated) {
                 fight = fightUpdated;
+                initializeRounds();
                 alert("Round Ended: " + fight.Rounds.length);
                 stopTimer();
                 initializeStatus();
                 playBell();
+                hideTimer();
             };
             chat.client.onHit = function (fightId, fighterId, hit) {
                 pushHitToLastRound(hit);
                 initializeStatus();
                 updateHitsForFighter(fighterId);
                 playHitSound(fighterId);
+                renderRounds();
             };
 
-            console.log(fightId);
             // Start the connection.
             $.connection.hub.start().done(function () {
                 chat.server.joinFight(fightId);
-                console.log(fight);
             });
         });
     </script>

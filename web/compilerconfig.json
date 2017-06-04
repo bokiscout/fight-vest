@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/js/rounds.js",
+    "inputFile": "wwwroot/js/rounds.jsx"
+  },
+  {
+    "outputFile": "wwwroot/js/rounds.es5.js",
+    "inputFile": "wwwroot/js/rounds.js"
+  }
+]

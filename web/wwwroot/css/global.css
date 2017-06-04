@@ -37,3 +37,28 @@
 audio{
     display:none;
 }
+
+.round-container{
+    position:relative;
+}
+.round-point {
+    position: absolute;
+    top: 3px;
+    font-size: 22px;
+    padding: 5px 1px;
+    border: 1px solid white;
+}
+.w-full{
+    width:100%;
+}
+#rounds .progress {
+    height: 40px;
+}
+.hidden{
+    display: none;
+}
+.timer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
