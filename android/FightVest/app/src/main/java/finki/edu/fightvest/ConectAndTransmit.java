@@ -79,7 +79,8 @@ public class ConectAndTransmit extends AppCompatActivity {
                     String readMessage = (String) msg.obj;                                  // msg.arg1 = bytes from connect thread
                     recDataString.append(readMessage);                                      //keep appending to string until $
 
-                    int endOfLineIndex = recDataString.indexOf("$");                        // determine the end-of-line
+                    int endOfLineIndex = recDataString.indexOf("]");                        // determine the end-of-line
+                  
                     if (endOfLineIndex > 0) {                                               // <=0 if '$' (EOL) is not readed, >0 if '$' EOL is already readed
                         String dataInput = recDataString.substring(0, endOfLineIndex);      // extract string without the EOL sign
                         tvInputString.setText("Data Received = " + dataInput);
@@ -87,14 +88,49 @@ public class ConectAndTransmit extends AppCompatActivity {
                         int dataLength = dataInput.length();                                //get length of data received
                         tvInputStringLength.setText("String Length = " + String.valueOf(dataLength));
 
-                        tvSensor.setText("Sensor value = " + recDataString.toString());     //update the textviews with sensor values
+//                        tvSensor.setText("Sensor value = " + recDataString.toString());     //update the textviews with sensor values
+                        tvSensor.setText("Sensor value = " + parseRedData(recDataString.toString()));     //update the textviews with sensor values
                         recDataString.delete(0, recDataString.length());                    //clear all string data;
                     }
                 }
             }
+          
+            private String parseRedData(String msg) {
+                // method for parceing input data
+                // determine which player send data
+                // determine strength of the punch
+
+                String result = "";
+                String[] parts = msg.split("_");
+
+                if (parts.length != 2) {
+                    result += "error while parceing";
+                    result += " lentht: " + parts.length;
+                    result += " string: " + parts.toString();
+                } else {
+                    char player = parts[0].charAt(1);
+                    char strength = parts[1].charAt(0);
+
+                    if(player == '0'){
+                        result += "blue fighter";
+                    }
+                    else{
+                        result += "red fighter";
+                    }
+
+                    if(strength == '1'){
+                        result += ", medium punch";
+                    }
+                    else{
+                        result += ", strong punch";
+                    }
+                }
+
+                return result;
+            }
         };
     }
-
+  
     // creates secure outgoing connection with BT device using UUID
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
