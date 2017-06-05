@@ -109,7 +109,7 @@ void loop() {
       // android device is sending 'x' to check for active conection
       // at multiple points of the activities life cycle
       // just ignore them
-      // Serial.println("x from android to be ignorred");  
+ // Serial.println("x from android to be ignorred");  
     }
     else{
       // Serial.println(inbyte);  

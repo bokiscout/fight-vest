@@ -80,6 +80,7 @@ public class ConectAndTransmit extends AppCompatActivity {
                     recDataString.append(readMessage);                                      //keep appending to string until $
 
                     int endOfLineIndex = recDataString.indexOf("]");                        // determine the end-of-line
+                  
                     if (endOfLineIndex > 0) {                                               // <=0 if '$' (EOL) is not readed, >0 if '$' EOL is already readed
                         String dataInput = recDataString.substring(0, endOfLineIndex);      // extract string without the EOL sign
                         tvInputString.setText("Data Received = " + dataInput);
@@ -93,7 +94,7 @@ public class ConectAndTransmit extends AppCompatActivity {
                     }
                 }
             }
-
+          
             private String parseRedData(String msg) {
                 // method for parceing input data
                 // determine which player send data
@@ -129,9 +130,7 @@ public class ConectAndTransmit extends AppCompatActivity {
             }
         };
     }
-
-
-
+  
     // creates secure outgoing connection with BT device using UUID
     private BluetoothSocket createBluetoothSocket(BluetoothDevice device) throws IOException {
         return  device.createRfcommSocketToServiceRecord(BTMODULEUUID);
