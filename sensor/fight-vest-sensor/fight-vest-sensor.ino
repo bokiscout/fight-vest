@@ -75,15 +75,18 @@ void loop() {
     if (! waitPunch) {
       if (punchStrength == 2) {
         // strong punch was detected
-        Serial.println("# punch = STRONG $");
+        //Serial.println("# punch = STRONG $");
+        Serial.println("[1_2]");
       }
       else if (punchStrength == 1) {
         // medium punch
-        Serial.println("# punch = MEDIUM $");
+        //Serial.println("# punch = MEDIUM $");
+        Serial.println("[1_1]");
       }
       else {
         // unknown punch value
-        Serial.println("# Unknown punch strength $");
+        //Serial.println("# Unknown punch strength $");
+        Serial.println("[x_y]");
       }
 
       // reset punch
@@ -106,10 +109,10 @@ void loop() {
       // android device is sending 'x' to check for active conection
       // at multiple points of the activities life cycle
       // just ignore them
-      Serial.println("x from android to be ignorred");  
+      // Serial.println("x from android to be ignorred");  
     }
     else{
-      Serial.println(inbyte);  
+      // Serial.println(inbyte);  
     }
     
   }
