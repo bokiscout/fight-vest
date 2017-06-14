@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+
+    <TextView
+        android:id="@+id/tvFightID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Fight ID : "
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMatchInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="MatchInfo"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toLeftOf="@+id/tvFightID"
+        app:layout_constraintTop_toBottomOf="@+id/tvFightID" />
+
+    <TextView
+        android:id="@+id/tvFighter2Avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        android:text="Fighter2Avatar"
+        android:textSize="10sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvFighter1Avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Fighter1Avatar"
+        android:textSize="10sp"
+        app:layout_constraintRight_toLeftOf="@+id/tvFighter2Avatar"
+        app:layout_constraintTop_toTopOf="@+id/tvFighter2Avatar" />
+
+    <TextView
+        android:id="@+id/tvFighter1Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Fighter1Info"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toLeftOf="@+id/tvFighter1Avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tvFighter1Avatar" />
+
+    <TextView
+        android:id="@+id/tvFighter2Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Fighter2Info"
+        android:textSize="8sp"
+        app:layout_constraintRight_toRightOf="@+id/tvFighter2Avatar"
+        app:layout_constraintTop_toBottomOf="@+id/tvFighter2Avatar" />
+
+</android.support.constraint.ConstraintLayout>

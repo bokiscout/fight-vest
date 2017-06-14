@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <service android:name=".BluetoothWebService" />
 
         <activity android:name=".MainActivity">

@@ -176,7 +176,7 @@ public class BluetoothActivity extends Activity {
                 newIntent.putParcelableArrayListExtra("device.list", mDeviceList);
                 startActivity(newIntent);
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 mDeviceList.add(device);
                 showToast("Found device " + device.getName());
             }
