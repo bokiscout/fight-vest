@@ -1,6 +1,5 @@
 package dobrink.fight_vest;
 
-import java.util.List;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,17 +8,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.List;
 /**
  * Created by Dobrin on 13-Jun-17.
  */
 
-@SuppressWarnings("ALL")
-public class DeviceListAdapter extends BaseAdapter{
+public class DeviceListAdapter extends BaseAdapter {
+
+    // member fields
     private LayoutInflater mInflater;
     private List<BluetoothDevice> mData;
     private OnPairButtonClickListener mListener;
 
     public DeviceListAdapter(Context context) {
+        // constructor
         mInflater = LayoutInflater.from(context);
     }
 
@@ -64,7 +67,8 @@ public class DeviceListAdapter extends BaseAdapter{
 
         holder.nameTv.setText(device.getName());
         holder.addressTv.setText(device.getAddress());
-        holder.pairBtn.setText((device.getBondState() == BluetoothDevice.BOND_BONDED) ? "Unpair" : "Pair");
+//        holder.pairBtn.setText((device.getBondState() == BluetoothDevice.BOND_BONDED) ? "Unpair" : "Pair");
+        holder.pairBtn.setText("Connect");
         holder.pairBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

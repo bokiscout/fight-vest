@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,13 +24,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static dobrink.fight_vest.R.id.tvFighter1Avatar;
-
 public class MainActivity extends Activity {
 
     private int MatchID;
-    private Button buttonBT;
-    private Button buttonSer;
+    private Button btnBluetooth;
     private Button buttonStartFight;
     private Button buttonNextRound;
     private Button buttonEndMatch;
@@ -36,20 +36,38 @@ public class MainActivity extends Activity {
     private TextView textViewFighterOnePoints;
     private TextView textViewFighterTwoInfo;
     private TextView textViewFighterTwoPoints;
-    private TextView textViewMSG;
+    private TextView mTextMessage;
     private ListView listViewMatch;
-    ArrayList<Fight> arrayOfFights ;
-    listFightsAdapter adapterFights ;
+    private ArrayList<Fight> arrayOfFights ;
+    private listFightsAdapter adapterFights ;
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+                    return true;
+            }
+            return false;
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonBT = (Button) findViewById(R.id.buttonBT);
-        buttonSer = (Button) findViewById(R.id.buttonSer);
+        btnBluetooth = (Button) findViewById(R.id.btnBluetooth);
         buttonStartFight = (Button) findViewById(R.id.buttonStartFight);
         buttonNextRound = (Button) findViewById(R.id.buttonNextRound);
         buttonEndMatch = (Button) findViewById(R.id.buttonEndMatch);
@@ -58,7 +76,11 @@ public class MainActivity extends Activity {
         textViewFighterOnePoints = (TextView) findViewById(R.id.textViewFighterOnePoints);
         textViewFighterTwoInfo = (TextView) findViewById(R.id.textViewFighterTwoInfo);
         textViewFighterTwoPoints = (TextView) findViewById(R.id.textViewFighterTwoPoints);
-        textViewMSG = (TextView) findViewById(R.id.textViewMSG);
+        mTextMessage = (TextView) findViewById(R.id.textViewMSG);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         arrayOfFights = new ArrayList<Fight>();
         //temp until web finished, creating default fights
         arrayOfFights.add(new Fight());
@@ -72,32 +94,23 @@ public class MainActivity extends Activity {
         listViewMatch = (ListView) findViewById(R.id.listViewMatch);
         listViewMatch.setAdapter(adapterFights);
 
-        //hides Fight Elements until a Fight ID is picked, shows the list of fights
-        hideMatchView();
-
+        //Bluetooth button click
+        btnBluetooth.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                Log.d("MainAcrivity", "BUTTON: BLUETOOTH -> clicked");
+                Intent bluetoothIntend = new Intent(MainActivity.this, BluetoothSearchAndConnect.class);
+                MainActivity.this.startActivity(bluetoothIntend);
+                return true;
+            }
+        });
         //Registers receiver for arduino msg to get from BluetoothWebService
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mMessageReceiver, new IntentFilter("fightData"));
-        //Bluetooth button click
-        buttonBT.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.d("BUTTON CLICK", "BLUETOOTH BUTTON");
-                Intent i = new Intent(MainActivity.this,BluetoothActivity.class);
-                startActivity(i);
-                return true;
-            }
-        });
-        //Button for starting the service BluetoothWebService
-        buttonSer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Log.d("BUTTON CLICK", "SERVICE BUTTON");
-                Intent intent = new Intent(MainActivity.this, BluetoothWebService.class);
-                startService(intent);
-                return true;
-            }
-        });
+
+        //hides Fight Elements until a Fight ID is picked, shows the list of fights
+        hideMatchView();
+
         //Handels click in listview, used blockedDescendants in listview xml to fix not able to click the items
         listViewMatch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,7 +121,6 @@ public class MainActivity extends Activity {
                 displayFightInfo(arrayOfFights.get(position)); //displays fight info to main screen
             }
         });
-
     }
 
     //hides Fight Elements until a Fight ID is picked, shows the list of fights
@@ -121,7 +133,7 @@ public class MainActivity extends Activity {
         textViewFighterTwoInfo.setVisibility(View.GONE);
         textViewFighterTwoPoints.setVisibility(View.GONE);
         textViewFightInfo.setVisibility(View.GONE);
-        textViewMSG.setVisibility(View.GONE);
+        mTextMessage.setVisibility(View.GONE);
         listViewMatch.setVisibility(View.VISIBLE);
     }
 
@@ -135,7 +147,7 @@ public class MainActivity extends Activity {
         textViewFighterTwoInfo.setVisibility(View.VISIBLE);
         textViewFighterTwoPoints.setVisibility(View.VISIBLE);
         textViewFightInfo.setVisibility(View.VISIBLE);
-        textViewMSG.setVisibility(View.VISIBLE);
+        mTextMessage.setVisibility(View.VISIBLE);
         listViewMatch.setVisibility(View.GONE);
     }
 
@@ -178,7 +190,7 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("parsedMsg");
-            textViewMSG.setText(message);
+            mTextMessage.setText(message);
             Log.d("Received", "Got message from arduino: " + message);
         }
     };

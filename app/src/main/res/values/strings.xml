@@ -1,6 +1,9 @@
 <resources>
 
     <string name="app_name">Fight Vest</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
     <string name="text_maccaddress">Mac Address :</string>
     <string name="text_bluetooth_off">Bluetooth is Off</string>
     <string name="text_bluetooth_on">Bluetooth is On</string>
