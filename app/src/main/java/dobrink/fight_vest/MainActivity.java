@@ -26,6 +26,10 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
 
+    private static String parsedMsg;
+    private static int player = -1;
+    private static int strength = -1;
+
     private int MatchID;
     private Button btnBluetooth;
     private Button buttonStartFight;
@@ -189,9 +193,11 @@ public class MainActivity extends Activity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("parsedMsg");
-            mTextMessage.setText(message);
-            Log.d("Received", "Got message from arduino: " + message);
+            parsedMsg = intent.getStringExtra("parsedMsg");
+            player = intent.getIntExtra("player",-1); //if nothing is stored , returns -1
+            strength = intent.getIntExtra("strength",-1); //if nothing is stored , returns -1
+            mTextMessage.setText(parsedMsg+" player:"+player+" strenght"+strength);
+            Log.d("Received", "Got message from arduino: " + parsedMsg+" player:"+player+" strenght"+strength);
         }
     };
     private void showToast(String message) {

@@ -39,6 +39,8 @@ public class BluetoothService extends Service {
 
     private StringBuilder recDataString = new StringBuilder();
     private static String parsedMsg = "EMPTY";
+    private static int player = -1;
+    private static int strength = -1;
 
     private ConnectingThread mConnectingThread;
     private ConnectedThread mConnectedThread;
@@ -125,16 +127,15 @@ public class BluetoothService extends Service {
                         result += " lentht: " + parts.length;
                         result += " string: " + Arrays.toString(parts);
                     } else {
-                        char player = parts[0].charAt(1);
-                        char strength = parts[1].charAt(0);
-
-                        if (player == '0') {
+                        player = Character.getNumericValue(parts[0].charAt(1));
+                        strength = Character.getNumericValue(parts[1].charAt(0));
+                        if (player == 0) {
                             result += "blue fighter";
                         } else {
                             result += "red fighter";
                         }
 
-                        if (strength == '1') {
+                        if (strength == 1) {
                             result += ", medium punch";
                         } else {
                             result += ", strong punch";
@@ -166,6 +167,8 @@ public class BluetoothService extends Service {
 
     private void sendFightBroadcast(Intent intent){
         intent.putExtra("parsedMsg", parsedMsg);
+        intent.putExtra("player", player);
+        intent.putExtra("strength", strength);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
