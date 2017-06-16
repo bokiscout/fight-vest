@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -53,24 +54,43 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                String TAG;
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.action_bluetooth:
-                        fragment = new BTDevicesFragment();
+                        TAG = "fragBTDevices";
+                        fragment = fragmentManager.findFragmentByTag(TAG);
+                        if (fragment == null) {
+                            fragment = new BTDevicesFragment();
+                        }
+                        beginTrans(fragment,TAG);
                         break;
                     case R.id.action_fight_list:
-                        fragment = new FightListFragment();
+                        TAG = "fragFightList";
+                        fragment = fragmentManager.findFragmentByTag(TAG);
+                        if (fragment == null) {
+                            fragment = new FightListFragment();
+                        }
+                        beginTrans(fragment,TAG);
                         break;
                     case R.id.action_fight_info:
-                        fragment = new FightInfoFragment();
+                        TAG = "fragFightInfo";
+                        fragment = fragmentManager.findFragmentByTag(TAG);
+                        if (fragment == null) {
+                            Log.d("MainActivity", "CREATING NEW FightInfoFragment" );
+                            fragment = new FightInfoFragment();
+                        }
+                        beginTrans(fragment,TAG);
                         break;
                 }
+
+                return true;
+            }
+            private void beginTrans(Fragment fragment, String tag) {
                 final FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 transaction.addToBackStack(null);
-                transaction.replace(R.id.fragmentContainer, fragment).commit();
-
-                return true;
+                transaction.replace(R.id.fragmentContainer, fragment,tag).commit();
             }
         });
     }
