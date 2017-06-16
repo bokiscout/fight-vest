@@ -2,11 +2,13 @@
 
     <string name="app_name">Fight Vest</string>
     <string name="title_home">Home</string>
+    <string name="title_bluetooth">Bluetooth</string>
+    <string name="title_fight_list">Fights List</string>
+    <string name="title_fight_view">Fightt</string>
+
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="text_maccaddress">Mac Address :</string>
-    <string name="text_bluetooth_off">Bluetooth is Off</string>
-    <string name="text_bluetooth_on">Bluetooth is On</string>
 
     <string name="text_enable">Enable</string>
     <string name="text_disable">Disable</string>

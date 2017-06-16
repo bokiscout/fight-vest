@@ -1,23 +1,27 @@
 package dobrink.fight_vest;
 
-/**
- * Created by Dobrin on 15-Jun-17.
- */
-
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class BluetoothSearchAndConnect  extends AppCompatActivity {
+/**
+ * Created by Dobrin on 15-Jun-17.
+ */
+
+public class BTDevicesFragment extends android.support.v4.app.ListFragment{
     // Member fields
     private BluetoothAdapter mBluetoothAdapter;
     private DeviceListAdapter mAdapter;
@@ -28,16 +32,9 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
     private String redFighterDevice;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         Log.d("BT S&C", "onCreate()");
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar() != null)
-        {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);//Up action, to get to MainActivity
-        }
-
-        setContentView(R.layout.activity_bluetooth_search_and_connect);
-        mListView = (ListView) findViewById(R.id.lv_paired);
 
         ensureBTisLive();
 
@@ -50,7 +47,7 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
         mDeviceList.addAll(mBluetoothAdapter.getBondedDevices());
         Log.d("BT S&C", "paired devices: " + mDeviceList.size());
 
-        mAdapter = new DeviceListAdapter(this);
+        mAdapter = new DeviceListAdapter(getContext());
         mAdapter.setData(mDeviceList);
         mAdapter.setListener(new DeviceListAdapter.OnPairButtonClickListener() {
             @Override
@@ -59,12 +56,10 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
 
                 if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
                     // connect to this device
-
                     Log.d("BT S&C", "connecting to bounded device: " + device.toString() );
                     redFighterMacAddress = device.getAddress();
                     redFighterDevice = device.getName();
                     startService();
-
                 } else {
                     // try to pair
                     // but will no pair without previous discovering
@@ -72,14 +67,22 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
                 }
             }
         });
-
-        mListView.setAdapter(mAdapter);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        //mListView = (ListView) getActivity().findViewById(R.id.lv_paired);
+        //mListView.setAdapter(mAdapter);
+        setListAdapter(mAdapter);
+        return inflater.inflate(R.layout.activity_bluetooth_search_and_connect,container,false);
+    }
+
 
     private void startService() {
         Log.d("BT SERVICE", "startService()");
 
-        Intent intent = new Intent(this, BluetoothService.class);
+        Intent intent = new Intent(getActivity(), BluetoothService.class);
         intent.putExtra("fighter", "red");
         intent.putExtra("deviceName", redFighterDevice);
         if(redFighterMacAddress == null){
@@ -87,18 +90,8 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
         }
         else {
             intent.putExtra("deviceAddress", redFighterMacAddress);
-            startService(intent);
+            getActivity().startService(intent);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("BT S&C", "onResume()");
-        // check state of BT for the device and eventually turn it on
-        // it is mandatory to check the state when first starting the activity and
-        // it BT might be turned off while activity was paused
-        ensureBTisLive();
     }
 
     private void ensureBTisLive() {
@@ -107,8 +100,8 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
 
         if(mBluetoothAdapter == null) {
             Log.d("BT S&C", " ensureBTisLive() -> Bluetooth adapter is not available");
-            Toast.makeText(getBaseContext(), "This device does not support Bluetooth", Toast.LENGTH_SHORT).show();
-            finish();
+            Toast.makeText(getActivity().getBaseContext(), "This device does not support Bluetooth", Toast.LENGTH_SHORT).show();
+            //finish();
         } else {
             if (!mBluetoothAdapter.isEnabled()) {
                 Log.d("BT S&C", " ensureBTisLive() -> Bluetooth adapter is not enabled -> ask to enable");
@@ -116,9 +109,8 @@ public class BluetoothSearchAndConnect  extends AppCompatActivity {
                 //Prompt user to turn on BT
                 Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 btIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                this.startActivity(btIntent);
+                getActivity().startActivity(btIntent);
             }
         }
     }
 }
-
