@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fight-vest.iml" filepath="$PROJECT_DIR$/fight-vest.iml" />
+      <module fileurl="file:///media/borche/Data_WD/Documents_WD/github-linux/fight-vest/app/app.iml" filepath="/media/borche/Data_WD/Documents_WD/github-linux/fight-vest/app/app.iml" />
+      <module fileurl="file:///media/borche/Data_WD/Documents_WD/github-linux/fight-vest/fight-vest.iml" filepath="/media/borche/Data_WD/Documents_WD/github-linux/fight-vest/fight-vest.iml" />
     </modules>
   </component>
 </project>
