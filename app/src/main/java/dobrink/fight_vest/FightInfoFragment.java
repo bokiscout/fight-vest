@@ -55,6 +55,35 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Log.d("FRAGMENT", "INSIDE onCreateView");
+
+        View viewToBeReturned = inflater.inflate(R.layout.fragment_info_fight,container,false);
+
+        buttonStartFight = (Button) viewToBeReturned.findViewById(R.id.buttonStartFight);
+        buttonNextRound = (Button) viewToBeReturned.findViewById(R.id.buttonNextRound);
+        buttonEndMatch = (Button) viewToBeReturned.findViewById(R.id.buttonEndMatch);
+        textViewFightInfo = (TextView) viewToBeReturned.findViewById(R.id.textViewFightInfo);
+        textViewFighterOneInfo = (TextView) viewToBeReturned.findViewById(R.id.textViewFighterOneInfo);
+        textViewFighterOnePoints = (TextView) viewToBeReturned.findViewById(R.id.textViewFighterOnePoints);
+        textViewFighterTwoInfo = (TextView) viewToBeReturned.findViewById(R.id.textViewFighterTwoInfo);
+        textViewFighterTwoPoints = (TextView) viewToBeReturned.findViewById(R.id.textViewFighterTwoPoints);
+        mTextMessage = (TextView) viewToBeReturned.findViewById(R.id.textViewMSG);
+        if(mTextMessage == null){
+            Log.d("FRAGMENT", "mTextMessage -> NULL");
+        }
+        else {
+            Log.d("FRAGMENT", "mTextMessage -> valid (not NULL)");
+        }
+
+        Log.d("FRAGMENT", "AFTER FINDBYVIEW");
+
+        return viewToBeReturned;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // dirty hack avoiding null elements
 //        buttonStartFight = (Button) getActivity().findViewById(R.id.buttonStartFight);
 //        buttonNextRound = (Button) getActivity().findViewById(R.id.buttonNextRound);
 //        buttonEndMatch = (Button) getActivity().findViewById(R.id.buttonEndMatch);
@@ -63,38 +92,13 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 //        textViewFighterOnePoints = (TextView) getActivity().findViewById(R.id.textViewFighterOnePoints);
 //        textViewFighterTwoInfo = (TextView) getActivity().findViewById(R.id.textViewFighterTwoInfo);
 //        textViewFighterTwoPoints = (TextView) getActivity().findViewById(R.id.textViewFighterTwoPoints);
-//        mTextMessage = (TextView) getActivity().findViewById(R.id.textViewMSG);
+//        //mTextMessage = (TextView) getActivity().findViewById(R.id.textViewMSG);
 //        if(mTextMessage == null){
 //            Log.d("FRAGMENT", "mTextMessage -> NULL");
 //        }
 //        else {
 //            Log.d("FRAGMENT", "mTextMessage -> valid (not NULL)");
 //        }
-        Log.d("FRAGMENT", "AFTER FINDBYVIEW");
-
-        return inflater.inflate(R.layout.fragment_info_fight,container,false);
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-        // dirty hack avoiding null elements
-        buttonStartFight = (Button) getActivity().findViewById(R.id.buttonStartFight);
-        buttonNextRound = (Button) getActivity().findViewById(R.id.buttonNextRound);
-        buttonEndMatch = (Button) getActivity().findViewById(R.id.buttonEndMatch);
-        textViewFightInfo = (TextView) getActivity().findViewById(R.id.textViewFightInfo);
-        textViewFighterOneInfo = (TextView) getActivity().findViewById(R.id.textViewFighterOneInfo);
-        textViewFighterOnePoints = (TextView) getActivity().findViewById(R.id.textViewFighterOnePoints);
-        textViewFighterTwoInfo = (TextView) getActivity().findViewById(R.id.textViewFighterTwoInfo);
-        textViewFighterTwoPoints = (TextView) getActivity().findViewById(R.id.textViewFighterTwoPoints);
-        mTextMessage = (TextView) getActivity().findViewById(R.id.textViewMSG);
-        if(mTextMessage == null){
-            Log.d("FRAGMENT", "mTextMessage -> NULL");
-        }
-        else {
-            Log.d("FRAGMENT", "mTextMessage -> valid (not NULL)");
-        }
 
         if (listOfFights.checkIfFightPicked()){
             updateFightSelected(listOfFights.getSelectedFight());
