@@ -1,8 +1,12 @@
 package dobrink.fight_vest;
 
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -13,7 +17,7 @@ import android.widget.Toast;
 
 public class FightListFragment extends android.support.v4.app.ListFragment {
 
-    private ArrayListFightSingleton listOfFights;
+    private FightLogicHelper fightLogic;
     public interface OnFightSelected {
         public void onFightSelected(int id);
     }
@@ -28,33 +32,41 @@ public class FightListFragment extends android.support.v4.app.ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        listOfFights = (ArrayListFightSingleton)getActivity().getApplicationContext();
-        listOfFights.makeFakeFights(10);
-        adapterFights = new listFightsAdapter(getActivity(), listOfFights.getFights());
+        fightLogic = FightLogicHelper.getInstance();
+        if (fightLogic.getFights().isEmpty()){
+            fightLogic.makeFakeFights(10);
+        }
+        adapterFights = new listFightsAdapter(getActivity(), fightLogic.getFights());
         setListAdapter(adapterFights);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Fight fight = listOfFights.getFights().get(position);
+        Fight fight = fightLogic.getFights().get(position);
         MatchID =fight.getID();
-        listOfFights.setSelectedFight(fight);
-        listOfFights.setMatchID(MatchID);
-        showToast("Fight ID: "+MatchID);
+        fightLogic.setSelectedFight(fight);
+        fightLogic.setMatchID(MatchID);
 
         openFightInfoFragment();
     }
 
     private void openFightInfoFragment() {
-        FightInfoFragment nextFrag = new FightInfoFragment();
-
-        //this.getFragmentManager().beginTransaction().replace(R.id.fragmentContainer,nextFrag,null).commit();
         FragmentManager fm = getFragmentManager();
+        Fragment nextFrag;
+        nextFrag = fm.findFragmentByTag("fragFightInfo");
+        if (nextFrag == null) {
+            Log.d("MainActivity", "CREATING NEW FightInfoFragment" );
+            nextFrag = new FightInfoFragment();
+        }
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction.addToBackStack(null);
-        transaction.replace(R.id.fragmentContainer, nextFrag,null).commit();
+        transaction.addToBackStack("fragFightInfo");
+        transaction.replace(R.id.fragmentContainer, nextFrag,"fragFightInfo").commit();
+
+        //Sets highlighted button on naviagtion menu
+        Menu menu = ((BottomNavigationView) getActivity().findViewById(R.id.navigation)).getMenu();
+        menu.findItem(R.id.action_fight_info).setChecked(true);
     }
 
     private void showToast(String message) {

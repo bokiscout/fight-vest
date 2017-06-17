@@ -41,12 +41,8 @@ public class listFightsAdapter extends ArrayAdapter<Fight>{
         //get Figters info displayed
         for (int i = 0; i < fight.getFightFighters().size(); i++) {
             StringBuilder sb = new StringBuilder();
-            Fighter fighter = null;
-            try {
-                fighter = (Fighter) fight.getFightFighters().get(i).getFighter().clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            Fighter fighter = fight.getFightFighters().get(i).getFighter();
+
             sb.append(fighter.getAvatar()).append(System.getProperty("line.separator"));// name + newline
             sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator"));
             sb.append(fighter.getCounty()).append(", ").append(fighter.getCity()).append(System.getProperty("line.separator"));
