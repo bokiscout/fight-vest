@@ -33,9 +33,7 @@ public class FightListFragment extends android.support.v4.app.ListFragment {
         super.onCreate(savedInstanceState);
 
         fightLogic = FightLogicHelper.getInstance();
-        if (fightLogic.getFights().isEmpty()){
-            fightLogic.makeFakeFights(10);
-        }
+
         adapterFights = new listFightsAdapter(getActivity(), fightLogic.getFights());
         setListAdapter(adapterFights);
     }

@@ -35,6 +35,8 @@ public class FightLogicHelper extends Application
     private Date startRoundTime; //used in starFight,used to get StartTime of first round
     private Date endRoundTime; //used in nextRound, used to get starttime of last round;
 
+    Random generator = new Random();
+
     public FightLogicHelper(){
         Log.d("FIGHT LOGIC HELPER", "constructor()" );
 
@@ -99,7 +101,6 @@ public class FightLogicHelper extends Application
     public synchronized void registerHitFake() {
         Log.d("FIGHT LOGIC HELPER", "registerHitFake()" );
 
-        Random generator = new Random();
         player = generator.nextInt(2);
         strength = generator.nextInt(2)+1;
         parsedMsg = "Fake HIT, Player:"+player+" strength:"+strength;
@@ -169,16 +170,10 @@ public class FightLogicHelper extends Application
     //Getters and Setters
     //
     public void setSelectedFight(Fight selectedFight) {
-        Log.d("FIGHT LOGIC HELPER", "setSelectedFight()" );
+        FighterOnePoints = 0 ;
+        FighterTwoPoints = 0 ;
 
-//        fights = new ArrayList<Fight>();
-//        fights.add(selectedFight);
-//        this.selectedFight = selectedFight;
-
-            FighterOnePoints = 0 ;
-            FighterTwoPoints = 0 ;
-
-            this.selectedFight = selectedFight;
+        this.selectedFight = selectedFight;
     }
 
     public ArrayList<Fight> getFights() {

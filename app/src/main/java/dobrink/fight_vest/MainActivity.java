@@ -38,8 +38,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fightLogic = FightLogicHelper.getInstance();
+        if (fightLogic.getFights().isEmpty()){
+            fightLogic.makeFakeFights(10);
+        }
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
 
         //Sets highlighted button on naviagtion menu
         Menu menu = ((BottomNavigationView) findViewById(R.id.navigation)).getMenu();
@@ -50,44 +54,42 @@ public class MainActivity extends AppCompatActivity {
         //Default fragment on start
         Fragment tempFrag = new FightInfoFragment();
         beginTrans(tempFrag,TAG);
-
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.action_bluetooth:
-                        TAG = "fragBTDevices";
-                        fragment = fragmentManager.findFragmentByTag(TAG);
-                        if (fragment == null) {
-                            fragment = new BTDevicesFragment();
-                        }
-                        beginTrans(fragment,TAG);
-                        break;
-                    case R.id.action_fight_list:
-                        TAG = "fragFightList";
-                        fragment = fragmentManager.findFragmentByTag(TAG);
-                        if (fragment == null) {
-                            fragment = new FightListFragment();
-                        }
-                        beginTrans(fragment,TAG);
-                        break;
-                    case R.id.action_fight_info:
-                        TAG = "fragFightInfo";
-                        fragment = fragmentManager.findFragmentByTag(TAG);
-                        if (fragment == null) {
-                            Log.d("MainActivity", "CREATING NEW FightInfoFragment" );
-                            fragment = new FightInfoFragment();
-                        }
-                        beginTrans(fragment,TAG);
-                        break;
-                }
-                return true;
-            }
-        });
-
     }
-
+    private BottomNavigationView.OnNavigationItemSelectedListener mItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    int id = item.getItemId();
+                    switch (id) {
+                        case R.id.action_bluetooth:
+                            TAG = "fragBTDevices";
+                            fragment = fragmentManager.findFragmentByTag(TAG);
+                            if (fragment == null) {
+                                fragment = new BTDevicesFragment();
+                            }
+                            beginTrans(fragment,TAG);
+                            break;
+                        case R.id.action_fight_list:
+                            TAG = "fragFightList";
+                            fragment = fragmentManager.findFragmentByTag(TAG);
+                            if (fragment == null) {
+                                fragment = new FightListFragment();
+                            }
+                            beginTrans(fragment,TAG);
+                            break;
+                        case R.id.action_fight_info:
+                            TAG = "fragFightInfo";
+                            fragment = fragmentManager.findFragmentByTag(TAG);
+                            if (fragment == null) {
+                                Log.d("MainActivity", "CREATING NEW FightInfoFragment" );
+                                fragment = new FightInfoFragment();
+                            }
+                            beginTrans(fragment,TAG);
+                            break;
+                    }
+                    return true;
+                }
+            };
 
     private void beginTrans(Fragment fragment, String tag) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();

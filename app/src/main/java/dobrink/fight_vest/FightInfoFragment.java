@@ -95,8 +95,10 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         buttonEndMatch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                showToast("Fight Ended");
+                showToast("Fight Ended, pick a new Fight");
+                setItemsEnabled(false);
                 fightLogic.endFight();
+
                 return false;
             }
         });
@@ -130,7 +132,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         @Override
         public void run() {
             try {
-                fightLogic.registerHitFake();; //this function can change value of mInterval.
+                fightLogic.registerHitFake();//this function can change value of mInterval.
                 updateHitInfo();
             } finally {
                 // 100% guarantee that this always happens, even if

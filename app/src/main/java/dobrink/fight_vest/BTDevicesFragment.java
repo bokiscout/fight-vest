@@ -49,6 +49,9 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
 
         mAdapter = new DeviceListAdapter(getContext());
         mAdapter.setData(mDeviceList);
+        if (mDeviceList.isEmpty()){
+            showToast("No Paired BT Devices, Pair via Settings");
+        }
         mAdapter.setListener(new DeviceListAdapter.OnPairButtonClickListener() {
             @Override
             public void onPairButtonClick(int position) {
@@ -112,5 +115,9 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
                 getActivity().startActivity(btIntent);
             }
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
