@@ -105,6 +105,7 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
     @Override
     public void onResume() {
         Log.d("BT DEVICE FRAGMENT", "onResume()");
+        ensureBTisLive();
 
         super.onResume();
         mDeviceList.clear();
