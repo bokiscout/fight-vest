@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Dobrin on 15-Jun-17.
@@ -33,25 +35,31 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d("BT S&C", "onCreate()");
+        Log.d("BT DEVICE FRAGMENT", "onCreate()");
         super.onCreate(savedInstanceState);
 
         ensureBTisLive();
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if(mBluetoothAdapter == null){
-            Log.d("BT S&C", "default Bluetooth adapter = NULL");
+//            Log.d("BT S&C", "default Bluetooth adapter = NULL");
+            Log.d("BT DEVICE", "default Bluetooth adapter = NULL");
         }
 
         mDeviceList = new ArrayList<BluetoothDevice>();
+        Set<BluetoothDevice> boundedDevices = mBluetoothAdapter.getBondedDevices();
+        Log.d("BT DEVICE FRAGMENT", "bounded devices: " + boundedDevices.size());
+
         mDeviceList.addAll(mBluetoothAdapter.getBondedDevices());
-        Log.d("BT S&C", "paired devices: " + mDeviceList.size());
+        Log.d("BT DEVICE FRAGMENT", "paired devices: " + mDeviceList.size());
 
         mAdapter = new DeviceListAdapter(getContext());
         mAdapter.setData(mDeviceList);
+        mAdapter.notifyDataSetChanged();
         if (mDeviceList.isEmpty()){
             showToast("No Paired BT Devices, Pair via Settings");
         }
+
         mAdapter.setListener(new DeviceListAdapter.OnPairButtonClickListener() {
             @Override
             public void onPairButtonClick(int position) {
@@ -59,14 +67,14 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
 
                 if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
                     // connect to this device
-                    Log.d("BT S&C", "connecting to bounded device: " + device.toString() );
+                    Log.d("BT DEVICE FRAGMENT", "connecting to bounded device: " + device.toString() );
                     redFighterMacAddress = device.getAddress();
                     redFighterDevice = device.getName();
                     startService();
                 } else {
                     // try to pair
                     // but will no pair without previous discovering
-                    Log.d("BT S&C", "connecting to unbounded device: " + device.toString() );
+                    Log.d("BT DEVICE FRAGMENT", "connecting to unbounded device: " + device.toString() );
                 }
             }
         });
@@ -74,13 +82,48 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d("BT DEVICE FRAGMENT", "onCreateView()");
 
         //mListView = (ListView) getActivity().findViewById(R.id.lv_paired);
         //mListView.setAdapter(mAdapter);
         setListAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
         return inflater.inflate(R.layout.activity_bluetooth_search_and_connect,container,false);
     }
 
+    @Override
+    public void onStart() {
+        Log.d("BT DEVICE FRAGMENT", "onStart()");
+
+        super.onStart();
+        mDeviceList.clear();
+        mDeviceList.addAll(mBluetoothAdapter.getBondedDevices());
+        Log.d("BT DEVICE FRAGMENT", "paired devices: " + mDeviceList.size());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        Log.d("BT DEVICE FRAGMENT", "onResume()");
+
+        super.onResume();
+        mDeviceList.clear();
+        mDeviceList.addAll(mBluetoothAdapter.getBondedDevices());
+        Log.d("BT DEVICE FRAGMENT", "paired devices: " + mDeviceList.size());
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        Log.d("BT DEVICE FRAGMENT", "onPause()");
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 
     private void startService() {
         Log.d("BT SERVICE", "startService()");
@@ -102,12 +145,12 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null) {
-            Log.d("BT S&C", " ensureBTisLive() -> Bluetooth adapter is not available");
+            Log.d("BT DEVICE FRAGMENT", " ensureBTisLive() -> Bluetooth adapter is not available");
             Toast.makeText(getActivity().getBaseContext(), "This device does not support Bluetooth", Toast.LENGTH_SHORT).show();
             //finish();
         } else {
             if (!mBluetoothAdapter.isEnabled()) {
-                Log.d("BT S&C", " ensureBTisLive() -> Bluetooth adapter is not enabled -> ask to enable");
+                Log.d("BT DEVICE FRAGMENT", " ensureBTisLive() -> Bluetooth adapter is not enabled -> ask to enable");
 
                 //Prompt user to turn on BT
                 Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
