@@ -40,11 +40,15 @@ public class FightListFragment extends android.support.v4.app.ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        Log.d("FIGHT LIST FRAGMENT", "onListItemClick()" );
+
         super.onListItemClick(l, v, position, id);
         Fight fight = fightLogic.getFights().get(position);
         MatchID =fight.getID();
         fightLogic.setSelectedFight(fight);
         fightLogic.setMatchID(MatchID);
+
+        Log.d("FIGHT LIST FRAGMENT", "onListItemClick() -> fight:" + fight );
 
         openFightInfoFragment();
     }

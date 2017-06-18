@@ -56,6 +56,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         //used for fake hits
         mHandler = new Handler();
 
+
         //
     }
 
@@ -64,7 +65,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
         View view = inflater.inflate(R.layout.fragment_info_fight, container, false);
 
-        Log.d("FRAGMENT", "INSIDE onCreateView");
+        Log.d("FIGHT INFO FRAGMENT", "INSIDE onCreateView");
         buttonStartFight = (Button) view.findViewById(R.id.buttonStartFight);
         buttonNextRound = (Button) view.findViewById(R.id.buttonNextRound);
         buttonEndMatch = (Button) view.findViewById(R.id.buttonEndMatch);
@@ -74,7 +75,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         textViewFighterTwoInfo = (TextView) view.findViewById(R.id.textViewFighterTwoInfo);
         textViewFighterTwoPoints = (TextView) view.findViewById(R.id.textViewFighterTwoPoints);
         mTextMessage = (TextView) view.findViewById(R.id.textViewMSG);
-        Log.d("FRAGMENT", "AFTER FINDBYVIEW");
+        Log.d("FIGHT INFO FRAGMENT", "AFTER FINDBYVIEW");
 
         buttonStartFight.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -106,11 +107,15 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d("FIGHT INFO FRAGMENT", "onActivityCreated()");
+
         super.onActivityCreated(savedInstanceState);
-        //startRepeatingTask(); //for fake hits
+//        startRepeatingTask(); //for fake hits
     }
+
     @Override
     public void onResume() {
+        Log.d("FIGHT INFO FRAGMENT", "onResume()");
         super.onResume();
 
         if (fightLogic.checkIfFightPicked()) { //May start Fight
@@ -125,9 +130,11 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     //used for fake hits
     @Override
     public void onDestroy() {
+        Log.d("FIGHT INFO FRAGMENT", "onDestroy()");
         super.onDestroy();
         stopRepeatingTask();
     }
+
     Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
@@ -143,6 +150,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     };
 
     private void updateHitInfo() {
+        Log.d("FIGHT INFO FRAGMENT", "updateInfo()");
         mTextMessage.setText(fightLogic.getParsedMsg());
         textViewFighterOnePoints.setText(String.valueOf(fightLogic.getFighterOnePoints()));
         textViewFighterTwoPoints.setText(String.valueOf(fightLogic.getFighterTwoPoints()));
@@ -208,12 +216,23 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve()");
+
+            // debigging
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> recived" + intent.getStringExtra("parsedMsg"));
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> player" + intent.getIntExtra("player", -1));
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> strength" + intent.getIntExtra("strength", -1));
+
             fightLogic.setParsedMsg(intent.getStringExtra("parsedMsg"));
             fightLogic.setPlayer(intent.getIntExtra("player", -1)); //if nothing is stored , returns -1
             fightLogic.setStrength(intent.getIntExtra("strength", -1)); //if nothing is stored , returns -1
+
             if (fightLogic.getFights().isEmpty()){
                 showToast("Pick a Fight from the Fights List");
+                Log.d("FIGHT INFO FRAGMENT", "onRecive() -> empty fight");
             }else{
+                Log.d("FIGHT INFO FRAGMENT", "onRecive() -> fight is OK (not Empty)");
                 fightLogic.registerHit();
                 updateHitInfo();
             }

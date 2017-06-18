@@ -21,4 +21,9 @@ class Hit {
         FighterID = fighterID;
         Fighter = fighter;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + ID + " FighterID: " + Fighter + " Fighter: " + Fighter.FirstName + " timestamp: " + Timestamp.toString();
+    }
 }
