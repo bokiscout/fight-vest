@@ -1,10 +1,9 @@
-package dobrink.fight_vest;
+package dobrink.fight_vest.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 

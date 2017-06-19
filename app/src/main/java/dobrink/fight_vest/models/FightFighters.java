@@ -1,4 +1,4 @@
-package dobrink.fight_vest;
+package dobrink.fight_vest.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -61,7 +61,7 @@ public class FightFighters {
         return Fighter;
     }
 
-    public void setFighter(dobrink.fight_vest.Fighter fighter) {
+    public void setFighter(dobrink.fight_vest.models.Fighter fighter) {
         Fighter = fighter;
     }
 

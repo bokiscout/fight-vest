@@ -1,4 +1,4 @@
-package dobrink.fight_vest;
+package dobrink.fight_vest.models;
 
 import java.util.Random;
 

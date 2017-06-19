@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import dobrink.fight_vest.models.Fight;
+import dobrink.fight_vest.models.Fighter;
+import dobrink.fight_vest.models.Hit;
+import dobrink.fight_vest.models.Round;
+
 /**
  * Created by Dobrin on 16-Jun-17.
  */

@@ -1,4 +1,4 @@
-package dobrink.fight_vest;
+package dobrink.fight_vest.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -57,7 +57,7 @@ public class Fighter {
         FighterCategory = new FighterCategory();
     }
 
-    public Fighter(int ID, String firstName, String lastName, String avatar, String county, String city, Date birthDate, String fullName, String avatarUrl, dobrink.fight_vest.FighterCategory fighterCategory) {
+    public Fighter(int ID, String firstName, String lastName, String avatar, String county, String city, Date birthDate, String fullName, String avatarUrl, dobrink.fight_vest.models.FighterCategory fighterCategory) {
         this.ID = ID;
         FirstName = firstName;
         LastName = lastName;
@@ -142,11 +142,11 @@ public class Fighter {
         AvatarUrl = avatarUrl;
     }
 
-    public dobrink.fight_vest.FighterCategory getFighterCategory() {
+    public dobrink.fight_vest.models.FighterCategory getFighterCategory() {
         return FighterCategory;
     }
 
-    public void setFighterCategory(dobrink.fight_vest.FighterCategory fighterCategory) {
+    public void setFighterCategory(dobrink.fight_vest.models.FighterCategory fighterCategory) {
         FighterCategory = fighterCategory;
     }
 

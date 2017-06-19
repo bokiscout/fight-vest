@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.internal.BottomNavigationMenu;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,11 +16,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import dobrink.fight_vest.models.Fight;
+import dobrink.fight_vest.models.Fighter;
 
 /**
  * Created by Dobrin on 15-Jun-17.

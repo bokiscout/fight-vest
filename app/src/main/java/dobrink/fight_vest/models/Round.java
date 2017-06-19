@@ -1,4 +1,4 @@
-package dobrink.fight_vest;
+package dobrink.fight_vest.models;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
-class Round {
+public class Round {
     Random random = new Random();
 
     public int ID ;

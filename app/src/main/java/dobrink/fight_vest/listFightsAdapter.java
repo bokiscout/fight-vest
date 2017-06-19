@@ -12,6 +12,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import dobrink.fight_vest.models.Fight;
+import dobrink.fight_vest.models.Fighter;
+
 /**
  * Created by Dobrin on 14-Jun-17.
  */

@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.LruCache;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,13 +18,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.google.gson.JsonArray;
-
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+
+import dobrink.fight_vest.models.Fight;
 
 /**
  * Created by Dobrin on 13-Jun-17.
