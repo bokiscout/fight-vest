@@ -6,18 +6,18 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
-public class FightTypeDTO {
+public class FightType {
     Random random = new Random();
 
     int ID;
     String Name;
 
-    public FightTypeDTO() {
+    public FightType() {
         this.ID = random.nextInt();
         this.Name = "FightTypeName";
     }
 
-    public FightTypeDTO(int ID, String name) {
+    public FightType(int ID, String name) {
         this.ID = ID;
         Name = name;
     }

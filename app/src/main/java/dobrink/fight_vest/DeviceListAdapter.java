@@ -54,8 +54,8 @@ public class DeviceListAdapter extends BaseAdapter {
 
             holder 				= new ViewHolder();
 
-            holder.nameTv		= (TextView) convertView.findViewById(R.id.tv_name);
-            holder.addressTv 	= (TextView) convertView.findViewById(R.id.tv_address);
+            holder.nameTv		= convertView.findViewById(R.id.tv_name);
+            holder.addressTv 	= convertView.findViewById(R.id.tv_address);
             holder.pairBtn		= (Button) convertView.findViewById(R.id.btn_pair);
 
             convertView.setTag(holder);

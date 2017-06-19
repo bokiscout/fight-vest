@@ -24,6 +24,6 @@ class Hit {
 
     @Override
     public String toString() {
-        return "ID: " + ID + " FighterID: " + Fighter + " Fighter: " + Fighter.FirstName + " timestamp: " + Timestamp.toString();
+        return "ID: " + ID + " FighterID: " + Fighter + " Fighter: " + Fighter.getFirstName() + " timestamp: " + Timestamp.toString();
     }
 }

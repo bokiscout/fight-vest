@@ -1,19 +1,31 @@
 package dobrink.fight_vest;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Random;
 
 /**
  * Created by Dobrin on 14-Jun-17.
  */
 
-public class FightFightersDTO {
+public class FightFighters {
     Random random = new Random();
-    int ID ;
+
+    @SerializedName("ID")
+    @Expose
+    private int ID ;
+    @SerializedName("FightID")
+    @Expose
     int FightID ;
+    @SerializedName("FighterID")
+    @Expose
     int FighterID ;
+    @SerializedName("Fighter")
+    @Expose
     Fighter Fighter ;
 
-    public FightFightersDTO(int FightID) {
+    public FightFighters(int FightID) {
         Fighter tmpFigter = new Fighter();
         this.ID = random.nextInt();
         this.FightID = FightID ;

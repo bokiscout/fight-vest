@@ -9,7 +9,7 @@ import java.util.Random;
 public class FighterCategory{
     Random random = new Random();
     int ID;
-    String Name;
+    String Name=null;
 
     public String getName() {
         return Name;

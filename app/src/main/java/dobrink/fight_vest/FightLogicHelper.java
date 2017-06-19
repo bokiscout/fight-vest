@@ -19,7 +19,7 @@ public class FightLogicHelper extends Application
 
     private static FightLogicHelper ALFSInstance;
     private static ArrayList<Fight> fights;
-    private static ArrayList<RoundDTO> rounds;
+    private static ArrayList<Round> rounds;
     private static ArrayList<Hit> hits;
     private static Fight selectedFight;
 
@@ -41,7 +41,7 @@ public class FightLogicHelper extends Application
         Log.d("FIGHT LOGIC HELPER", "constructor()" );
 
         fights = new ArrayList<Fight>();
-        rounds = new ArrayList<RoundDTO>();
+        rounds = new ArrayList<Round>();
         hits = new ArrayList<Hit>();
         selectedFight = null;
         MatchID = -1;
@@ -67,18 +67,17 @@ public class FightLogicHelper extends Application
         if (ALFSInstance == null) {
             ALFSInstance = new FightLogicHelper();
         }
-        for (int i = 0; i < n ; i++) {
-            fights.add(new Fight());
+        if (fights.isEmpty()){
+            for (int i = 0; i < n ; i++) {
+                fights.add(new Fight());
+            }
         }
     }
 
     //Checks if a fight was selected in the FightList
     public synchronized boolean checkIfFightPicked(){
         Log.d("FIGHT LOGIC HELPER", "checkIfFightPicked()" );
-        if (selectedFight == null){
-            return false;
-        }
-        return true;
+        return selectedFight != null;
     }
 
     public synchronized void  registerHit() {
@@ -142,7 +141,7 @@ public class FightLogicHelper extends Application
         Log.d("FIGHT LOGIC HELPER", "startFight()" );
 
         startRoundTime = new Date(); //used to get StartTime of first round
-        rounds = new ArrayList<RoundDTO>();
+        rounds = new ArrayList<Round>();
         hits = new ArrayList<Hit>();
         registerPoints = true;
     }
@@ -151,7 +150,7 @@ public class FightLogicHelper extends Application
 
         int roundID = rounds.size(); // roundID to be position of Rounds list, will be unique, incremented
         endRoundTime = new Date(); // endTime of last round;
-        RoundDTO currentRound = new RoundDTO(roundID, startRoundTime, endRoundTime,MatchID,hits);
+        Round currentRound = new Round(roundID, startRoundTime, endRoundTime,MatchID,hits);
         startRoundTime = endRoundTime; // make last round end time the new start time for next round
 
         rounds.add(currentRound); // add round to the list of rounds
@@ -162,7 +161,7 @@ public class FightLogicHelper extends Application
         registerPoints = false;
         int roundID = rounds.size(); // roundID to be position of Rounds list, will be unique, incremented
         endRoundTime = new Date(); //end time for last round
-        RoundDTO currentRound = new RoundDTO(roundID, startRoundTime, endRoundTime,MatchID,hits);
+        Round currentRound = new Round(roundID, startRoundTime, endRoundTime,MatchID,hits);
 
         rounds.add(currentRound); // add last round for fight
     }
@@ -173,12 +172,16 @@ public class FightLogicHelper extends Application
         FighterOnePoints = 0 ;
         FighterTwoPoints = 0 ;
 
-        this.selectedFight = selectedFight;
+        FightLogicHelper.selectedFight = selectedFight;
     }
 
     public ArrayList<Fight> getFights() {
-        Log.d("FIGHT LOGIC HELPER", "getFight()" );
+        Log.d("FIGHT LOGIC HELPER", "getFights()" );
         return fights;
+    }
+
+    public static void setFights(ArrayList<Fight> mfights) {
+        fights = mfights;
     }
 
     public Fight getSelectedFight() {

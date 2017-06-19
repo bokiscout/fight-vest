@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
-class RoundDTO {
+class Round {
     Random random = new Random();
 
     public int ID ;
@@ -17,7 +17,7 @@ class RoundDTO {
     public int FightID ;
     public List<Hit> Hits ;
 
-    public RoundDTO(int ID, Date startTime, Date endTime, int fightID, List<Hit> hits) {
+    public Round(int ID, Date startTime, Date endTime, int fightID, List<Hit> hits) {
         this.ID = ID;
         StartTime = startTime;
         EndTime = endTime;
