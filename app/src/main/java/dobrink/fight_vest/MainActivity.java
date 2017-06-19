@@ -11,13 +11,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+@SuppressWarnings("CanBeFinal")
 public class MainActivity extends AppCompatActivity {
 
     private FightLogicHelper fightLogic;
 
-    private String TAG ;
     private BottomNavigationView bottomNavigation;
-    private Fragment fragment;
     private FragmentManager fragmentManager;
 
     @Override
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             //Default fragment on start
             Fragment tempFrag = new FightListFragment();
             beginTrans(tempFrag, "fragFightList");
-            //Sets highlighted button on naviagtion menu
+            //Sets highlighted button on navigation menu
             Menu menu = ((BottomNavigationView) findViewById(R.id.navigation)).getMenu();
             menu.findItem(R.id.action_fight_list).setChecked(true);
         }
@@ -49,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     int id = item.getItemId();
+                    String TAG;
+                    Fragment fragment;
                     switch (id) {
                         case R.id.action_bluetooth:
                             TAG = "fragBTDevices";
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                             if (fragment == null) {
                                 fragment = new BTDevicesFragment();
                             }
-                            beginTrans(fragment,TAG);
+                            beginTrans(fragment, TAG);
                             break;
                         case R.id.action_fight_list:
                             TAG = "fragFightList";
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                             if (fragment == null) {
                                 fragment = new FightListFragment();
                             }
-                            beginTrans(fragment,TAG);
+                            beginTrans(fragment, TAG);
                             break;
                         case R.id.action_fight_info:
                             TAG = "fragFightInfo";
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("MainActivity", "CREATING NEW FightInfoFragment" );
                                 fragment = new FightInfoFragment();
                             }
-                            beginTrans(fragment,TAG);
+                            beginTrans(fragment, TAG);
                             break;
                     }
                     return true;

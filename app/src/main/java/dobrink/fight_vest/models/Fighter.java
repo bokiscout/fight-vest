@@ -10,8 +10,8 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class Fighter {
-    Random random = new Random();
 
     @SerializedName("ID")
     @Expose
@@ -33,7 +33,7 @@ public class Fighter {
     private String City;
     @SerializedName("BirthDate")
     @Expose
-    private Date BirthDate;
+    private String BirthDate;
     @SerializedName("FullName")
     @Expose
     private String FullName;
@@ -45,19 +45,20 @@ public class Fighter {
     private FighterCategory FighterCategory;
 
     public Fighter() {
+        Random random = new Random();
         this.ID = random.nextInt();
         FirstName = "FirstName";
         LastName = "LastName";
         Avatar = "Avatar";
         County = "County";
         City = "City";
-        BirthDate = new Date();
+        BirthDate = null;
         FullName = "FirstName LastName";
         AvatarUrl = "AvatarUrl";
         FighterCategory = new FighterCategory();
     }
 
-    public Fighter(int ID, String firstName, String lastName, String avatar, String county, String city, Date birthDate, String fullName, String avatarUrl, dobrink.fight_vest.models.FighterCategory fighterCategory) {
+    public Fighter(int ID, String firstName, String lastName, String avatar, String county, String city, String birthDate, String fullName, String avatarUrl, dobrink.fight_vest.models.FighterCategory fighterCategory) {
         this.ID = ID;
         FirstName = firstName;
         LastName = lastName;
@@ -118,11 +119,11 @@ public class Fighter {
         City = city;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return BirthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         BirthDate = birthDate;
     }
 

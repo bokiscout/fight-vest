@@ -1,5 +1,6 @@
 package dobrink.fight_vest;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import java.util.List;
  * Created by Dobrin on 13-Jun-17.
  */
 
-public class DeviceListAdapter extends BaseAdapter {
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
+class DeviceListAdapter extends BaseAdapter {
 
     // member fields
     private LayoutInflater mInflater;
@@ -46,6 +48,7 @@ public class DeviceListAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("InflateParams")
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 

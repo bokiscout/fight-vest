@@ -3,31 +3,25 @@ package dobrink.fight_vest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by Dobrin on 15-Jun-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class BTDevicesFragment extends android.support.v4.app.ListFragment{
     // Member fields
     private BluetoothAdapter mBluetoothAdapter;
     private DeviceListAdapter mAdapter;
-    private ListView mListView;
     private ArrayList<BluetoothDevice> mDeviceList;
 
     private String redFighterMacAddress;
@@ -46,7 +40,7 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
             Log.d("BT DEVICE", "default Bluetooth adapter = NULL");
         }
 
-        mDeviceList = new ArrayList<BluetoothDevice>();
+        mDeviceList = new ArrayList<>();
         Set<BluetoothDevice> boundedDevices = mBluetoothAdapter.getBondedDevices();
         Log.d("BT DEVICE FRAGMENT", "bounded devices: " + boundedDevices.size());
 
@@ -84,8 +78,6 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("BT DEVICE FRAGMENT", "onCreateView()");
 
-        //mListView = (ListView) getActivity().findViewById(R.id.lv_paired);
-        //mListView.setAdapter(mAdapter);
         setListAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
         return inflater.inflate(R.layout.activity_bluetooth_search_and_connect,container,false);
@@ -121,11 +113,6 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
         super.onPause();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
     private void startService() {
         Log.d("BT SERVICE", "startService()");
 
@@ -142,7 +129,7 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
     }
 
     private void ensureBTisLive() {
-        // check if BT is turened on and eventually turn it on
+        // check if BT is turned on and eventually turn it on
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         if(mBluetoothAdapter == null) {
@@ -161,6 +148,7 @@ public class BTDevicesFragment extends android.support.v4.app.ListFragment{
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private void showToast(String message) {
         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }

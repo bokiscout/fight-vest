@@ -13,6 +13,7 @@ import android.widget.ListView;
  * Created by Dobrin on 18-Jun-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class SwipeRefreshListFragment extends ListFragment {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -43,7 +44,7 @@ public class SwipeRefreshListFragment extends ListFragment {
     }
 
 
-    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+    void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
         mSwipeRefreshLayout.setOnRefreshListener(listener);
     }
 
@@ -51,7 +52,7 @@ public class SwipeRefreshListFragment extends ListFragment {
         return mSwipeRefreshLayout.isRefreshing();
     }
 
-    public void setRefreshing(boolean refreshing) {
+    void setRefreshing(boolean refreshing) {
         mSwipeRefreshLayout.setRefreshing(refreshing);
     }
 
@@ -68,11 +69,7 @@ public class SwipeRefreshListFragment extends ListFragment {
         @Override
         public boolean canChildScrollUp() {
             final ListView listView = getListView();
-            if (listView.getVisibility() == View.VISIBLE) {
-                return canListViewScrollUp(listView);
-            } else {
-                return false;
-            }
+            return listView.getVisibility() == View.VISIBLE && canListViewScrollUp(listView);
         }
 
     }
@@ -80,6 +77,7 @@ public class SwipeRefreshListFragment extends ListFragment {
     private static boolean canListViewScrollUp(ListView listView) {
         if (android.os.Build.VERSION.SDK_INT >= 14) {
             // For ICS and above we can call canScrollVertically() to determine this
+            //noinspection deprecation
             return ViewCompat.canScrollVertically(listView, -1);
         } else {
             // Pre-ICS we need to manually check the first visible item and the child view's top

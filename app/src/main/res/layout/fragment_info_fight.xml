@@ -2,56 +2,80 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/textViewFightInfo"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="0.5"
-        android:text="FightInfo"
-        android:textAlignment="center"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMSG" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textViewMSG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hit event"
-        android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        <TextView
+            android:id="@+id/textViewMSG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/text_hit_event"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Holo.Medium"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFightID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fight_id"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvFightStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fight_begin_time"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/tvFightLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_fight_location"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="-16dp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonNextRound"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:text="Next Round"
+        android:text="@string/btn_next_round"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/buttonStartFight"
-        app:layout_constraintRight_toLeftOf="@+id/buttonEndMatch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="0dp" />
+        app:layout_constraintRight_toLeftOf="@+id/buttonEndMatch" />
 
     <Button
         android:id="@+id/buttonEndMatch"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="End"
+        android:text="@string/btn_end"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonNextRound" />
 
@@ -59,71 +83,149 @@
         android:id="@+id/buttonStartFight"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:text="Start"
+        android:text="@string/btn_start"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonNextRound" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:weightSum="1"
-        app:layout_constraintTop_toBottomOf="@+id/textViewFightInfo"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonNextRound"
-        android:baselineAligned="false">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:gravity="start"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewFighterOneInfo"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imageViewFighter1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fighter 1 Info"
-                android:textAlignment="center" />
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:contentDescription="@string/fighter_1_image" />
+
+            <TextView
+                android:id="@+id/tvFighter1FullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_fight_fighter1fullname"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/tvFighter1Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter1location"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFightet1Class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter1class"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFighter1Birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter1birth"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textViewFighterOnePoints"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fighter 1 Points"
-                android:textAlignment="center"
-                android:textSize="42sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:text="@string/text_fight_fighter1points"
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:orientation="vertical">
+            android:gravity="end"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="8dp">
+
+            <ImageView
+                android:id="@+id/imageViewFighter2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:contentDescription="@string/fighter_2_image" />
 
             <TextView
-                android:id="@+id/textViewFighterTwoInfo"
-                android:layout_width="match_parent"
+                android:id="@+id/tvFighter2FullName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fighter 2 Info"
-                android:textAlignment="center" />
+                android:layout_weight="1"
+                android:text="@string/text_fight_fighter2fullname"
+                android:textSize="20sp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/tvFighter2Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter2location"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFighter2Class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter2class"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFighter2Birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/text_fight_fighter2birth"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textViewFighterTwoPoints"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fighter 2 Points"
-                android:textAlignment="center"
-                android:textSize="42sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:text="@string/text_fight_fighter1points"
+                android:textSize="24sp" />
         </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

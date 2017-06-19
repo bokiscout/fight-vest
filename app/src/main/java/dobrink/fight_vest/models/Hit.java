@@ -1,19 +1,18 @@
 package dobrink.fight_vest.models;
 
 import java.util.Date;
-import java.util.Random;
 
 /**
  * Created by Dobrin on 14-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal", "FieldCanBeLocal"})
 public class Hit {
 
-    Random random = new Random();
-    int ID;
-    Date Timestamp;
-    int FighterID;
-    Fighter Fighter;
+    private int ID;
+    private Date Timestamp;
+    private int FighterID;
+    private Fighter Fighter;
 
     public Hit(int ID, Date timestamp, int fighterID, Fighter fighter) {
         this.ID = ID;

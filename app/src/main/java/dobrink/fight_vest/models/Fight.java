@@ -11,8 +11,8 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 // Might need @SerializedName("id") and @SerializedName("date") in all classes
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class Fight {
-    Random random= new Random();
 
     @SerializedName("ID")
     @Expose
@@ -55,6 +55,7 @@ public class Fight {
     private List<Round> rounds = null;
 
     public Fight() {
+        Random random = new Random();
         int id = random.nextInt();
         this.ID = id;
         startTime = null;
@@ -67,10 +68,10 @@ public class Fight {
         endedAt = null;
         fightTypeID = random.nextInt();
         fightType = new FightType();
-        fightFighters = new ArrayList<FightFighters>();
+        fightFighters = new ArrayList<>();
         fightFighters.add(new FightFighters(id));
         fightFighters.add(new FightFighters(id));
-        rounds = new ArrayList<Round>();
+        rounds = new ArrayList<>();
     }
 
     public int getID() {

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,12 +14,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import dobrink.fight_vest.models.Fight;
 import dobrink.fight_vest.models.Fighter;
@@ -27,18 +32,31 @@ import dobrink.fight_vest.models.Fighter;
  * Created by Dobrin on 15-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class FightInfoFragment extends android.support.v4.app.Fragment {
+
+    private final static String URL = "http://www.fv.pdtransverzalec.org.mk";
 
     private FightLogicHelper fightLogic;
     private Button buttonStartFight;
     private Button buttonNextRound;
     private Button buttonEndMatch;
-    private TextView textViewFightInfo;
-    private TextView textViewFighterOneInfo;
+    private TextView tvFightID;
+    private TextView tvFightStartTime;
+    private TextView tvFightLocation;
+    private TextView tvFighter1FullName;
+    private TextView tvFighter1Location;
+    private TextView tvFightet1Class;
+    private TextView tvFighter1Birth;
+    private TextView tvFighter2FullName;
+    private TextView tvFighter2Location;
+    private TextView tvFighter2Class;
+    private TextView tvFighter2Birth;
     private TextView textViewFighterOnePoints;
-    private TextView textViewFighterTwoInfo;
     private TextView textViewFighterTwoPoints;
     private TextView mTextMessage;
+    private ImageView imageViewFighter1;
+    private ImageView imageViewFighter2;
 
     //used for fake hits
     private int mInterval = 1000; // 1000 = 1s
@@ -65,13 +83,29 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         buttonStartFight = view.findViewById(R.id.buttonStartFight);
         buttonNextRound = view.findViewById(R.id.buttonNextRound);
         buttonEndMatch = view.findViewById(R.id.buttonEndMatch);
-        textViewFightInfo = view.findViewById(R.id.textViewFightInfo);
-        textViewFighterOneInfo = view.findViewById(R.id.textViewFighterOneInfo);
+        tvFightID = view.findViewById(R.id.tvFightID);
+        tvFightStartTime = view.findViewById(R.id.tvFightStartTime);
+        tvFightLocation = view.findViewById(R.id.tvFightLocation);
+        imageViewFighter1 =view.findViewById(R.id.imageViewFighter1);
+        imageViewFighter2 = view.findViewById(R.id.imageViewFighter2);
+        tvFighter1FullName = view.findViewById(R.id.tvFighter1FullName);
+        tvFighter1Location = view.findViewById(R.id.tvFighter1Location);
+        tvFighter1Location.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_on_black_24dp, 0, 0, 0);
+        tvFightet1Class = view.findViewById(R.id.tvFightet1Class);
+        tvFightet1Class.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_school_black_24dp, 0, 0, 0);
+        tvFighter1Birth = view.findViewById(R.id.tvFighter1Birth);
+        tvFighter1Birth.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_cake_black_24dp, 0, 0, 0);
+        tvFighter2FullName = view.findViewById(R.id.tvFighter2FullName);
+        tvFighter2Location = view.findViewById(R.id.tvFighter2Location);
+        tvFighter2Location.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_location_on_black_24dp, 0);
+        tvFighter2Class = view.findViewById(R.id.tvFighter2Class);
+        tvFighter2Class.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_school_black_24dp, 0);
+        tvFighter2Birth = view.findViewById(R.id.tvFighter2Birth);
+        tvFighter2Birth.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_cake_black_24dp, 0);
         textViewFighterOnePoints = view.findViewById(R.id.textViewFighterOnePoints);
-        textViewFighterTwoInfo = view.findViewById(R.id.textViewFighterTwoInfo);
         textViewFighterTwoPoints = view.findViewById(R.id.textViewFighterTwoPoints);
         mTextMessage = view.findViewById(R.id.textViewMSG);
-        Log.d("FIGHT INFO FRAGMENT", "AFTER FINDBYVIEW");
+        Log.d("FIGHT INFO FRAGMENT", "After FindByView");
 
         buttonStartFight.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -131,7 +165,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         stopRepeatingTask();
     }
 
-    Runnable mStatusChecker = new Runnable() {
+    private Runnable mStatusChecker = new Runnable() {
         @Override
         public void run() {
             try {
@@ -156,11 +190,12 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         mStatusChecker.run();
     }
 
-    void stopRepeatingTask() {
+    private void stopRepeatingTask() {
         mHandler.removeCallbacks(mStatusChecker);
     }
 
     // true = enabled , false = disabled
+    @SuppressWarnings("SameParameterValue")
     private void setItemsEnabled(boolean bool) {
         buttonStartFight.setEnabled(bool);
         buttonNextRound.setEnabled(bool);
@@ -168,9 +203,8 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     }
 
      private String dateFormat(Date birthDate) {
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String result = formatter.format(birthDate);
-        return result;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+         return formatter.format(birthDate);
     }
 
     private void showToast(String message) {
@@ -180,31 +214,27 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     private void displayFightInfo(Fight fight) {
         showToast("FightID: " + fight.getID());
         mTextMessage.setText(FightLogicHelper.getParsedMsg());
-        StringBuilder sb = new StringBuilder();
-        sb.append("FightID: " + fight.getID()).append(System.getProperty("line.separator")); //lineseparotr instead of \n
-        //sb.append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
-        sb.append(fight.getCountry()).append(System.getProperty("line.separator"));
-        sb.append(fight.getCity()).append(System.getProperty("line.separator"));
-        sb.append(fight.getAddress()).append(System.getProperty("line.separator"));
-        textViewFightInfo.setText(sb.toString());
-
+        tvFightID.setText("Fight ID: "+String.valueOf(fight.getID()));
+        tvFightStartTime.setText("Fight Start: "+fight.getStartTime());
+        tvFightLocation.setText(fight.getAddress()+", "+fight.getCity()+", "+fight.getCountry());
         //Finds the fighters for the fight, and displays info
         for (int i = 0; i < fight.getFightFighters().size(); i++) {
-            sb = new StringBuilder();
             Fighter fighter = fight.getFightFighters().get(i).getFighter();
-
-            sb.append(fighter.getFullName()).append(System.getProperty("line.separator"));
-            sb.append(fighter.getAvatar()).append(System.getProperty("line.separator"));// name + newline
-            //sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator"));
-            sb.append(fighter.getCounty()).append(", ").append(fighter.getCity()).append(System.getProperty("line.separator"));
-            sb.append(dateFormat(fighter.getBirthDate())); // convert Date to dd/MM/yyyy
-            //Figter 1
+            //Fighter 1
             if (i == 0) {
-                textViewFighterOneInfo.setText(sb.toString());
+                Picasso.with(getContext()).load(URL+fighter.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into(imageViewFighter1);
+                tvFighter1FullName.setText(fighter.getFullName());
+                tvFighter1Location.setText(fighter.getCity()+", "+fighter.getCounty());
+                //tvFightet1Class.setText(fighter.getFighterCategory().getName());
+                tvFighter1Birth.setText(fighter.getBirthDate());
             }
-            //Figter 2
+            //Fighter 2
             else {
-                textViewFighterTwoInfo.setText(sb.toString());
+                Picasso.with(getContext()).load(URL+fighter.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into(imageViewFighter2);
+                tvFighter2FullName.setText(fighter.getFullName());
+                tvFighter2Location.setText(fighter.getCity()+", "+fighter.getCounty());
+                //tvFighter2Class.setText(fighter.getFighterCategory().getName());
+                tvFighter2Birth.setText(fighter.getBirthDate());
             }
         }
     }
@@ -212,11 +242,11 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve()");
-            // debigging
-            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> recived" + intent.getStringExtra("parsedMsg"));
-            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> player" + intent.getIntExtra("player", -1));
-            Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> strength" + intent.getIntExtra("strength", -1));
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReceiver() -> onReceive()");
+            // debugging
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReceiver() -> onReceive() -> receive" + intent.getStringExtra("parsedMsg"));
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReceiver() -> onReceive() -> player" + intent.getIntExtra("player", -1));
+            Log.d("FIGHT INFO FRAGMENT", "broadcastReceiver() -> onReceive() -> strength" + intent.getIntExtra("strength", -1));
 
             FightLogicHelper.setParsedMsg(intent.getStringExtra("parsedMsg"));
             FightLogicHelper.setPlayer(intent.getIntExtra("player", -1)); //if nothing is stored , returns -1
@@ -224,9 +254,9 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
             if (fightLogic.getFights().isEmpty()){
                 showToast("Pick a Fight from the Fights List");
-                Log.d("FIGHT INFO FRAGMENT", "onRecive() -> empty fight");
+                Log.d("FIGHT INFO FRAGMENT", "onReceive() -> empty fight");
             }else{
-                Log.d("FIGHT INFO FRAGMENT", "onRecive() -> fight is OK (not Empty)");
+                Log.d("FIGHT INFO FRAGMENT", "onReceive() -> fight is OK (not Empty)");
                 fightLogic.registerHit();
                 updateHitInfo();
             }

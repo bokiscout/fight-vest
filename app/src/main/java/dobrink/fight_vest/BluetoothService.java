@@ -18,15 +18,16 @@ import java.util.Arrays;
 import java.util.UUID;
 
 /**
- * Created by borche on 14.6.17.
+ * Created by Dobrin on 14.6.17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class BluetoothService extends Service {
 
     // member fields
-    String fighter;
-    String address;
-    String deviceName;
+    private String fighter;
+    private String address;
+    private String deviceName;
 
     private boolean stopThread;
 
@@ -78,7 +79,7 @@ public class BluetoothService extends Service {
         Log.d("BT SERVICE", "service is for: " + fighter + " at " + address + " (" + deviceName +")");
 
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
-        checkBTState(); // quiet othervise
+        checkBTState(); // quiet otherwise
 
         establishConnection();
 
@@ -89,7 +90,7 @@ public class BluetoothService extends Service {
     private void establishConnection() {
         Log.d("BT SERVICE", "establishConnection()");
 
-        if(address != ""){
+        if(!address.equals("")){
             bluetoothIn = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     Log.d("BT SERVICE", "handleMessage()");
@@ -102,9 +103,9 @@ public class BluetoothService extends Service {
                         int endOfLineIndex = recDataString.indexOf("]");
                         if (endOfLineIndex > 0) {
                             String dataInput = recDataString.substring(0, endOfLineIndex);
-                            Log.d("BT SERVICE", "data recived: " + dataInput);
+                            Log.d("BT SERVICE", "data received: " + dataInput);
 
-                            //sending string to main actity
+                            //sending string to main activity
                             Log.d("BT SERVICE", "Broadcasting message");
                             parsedMsg = parseRedData(dataInput);
                             sendFightData();
@@ -115,7 +116,7 @@ public class BluetoothService extends Service {
                 }
 
                 private String parseRedData(String msg) {
-                    // method for parceing input data
+                    // method for parsing input data
                     // determine which player send data
                     // determine strength of the punch
 
@@ -123,8 +124,8 @@ public class BluetoothService extends Service {
                     String[] parts = msg.split("_");
 
                     if (parts.length != 2) {
-                        result += "error while parceing";
-                        result += " lentht: " + parts.length;
+                        result += "error while parsing";
+                        result += " length: " + parts.length;
                         result += " string: " + Arrays.toString(parts);
                     } else {
                         player = Character.getNumericValue(parts[0].charAt(1));
@@ -153,7 +154,7 @@ public class BluetoothService extends Service {
                 mConnectingThread.start();
             } catch (IllegalArgumentException e) {
                 Log.d("DEBUG BT", "PROBLEM WITH MAC ADDRESS : " + e.toString());
-                Log.d("BT SEVICE", "ILLEGAL MAC ADDRESS, STOPPING SERVICE");
+                Log.d("BT SERVICE", "ILLEGAL MAC ADDRESS, STOPPING SERVICE");
                 stopSelf();
             }
 
@@ -212,7 +213,7 @@ public class BluetoothService extends Service {
         private final BluetoothDevice mmDevice;
 
         public ConnectingThread(BluetoothDevice device) {
-            Log.d("BT SERVICE", "ConectingThread() <- in constructor()");
+            Log.d("BT SERVICE", "ConnectingThread() <- in constructor()");
 
             mmDevice = device;
             BluetoothSocket temp = null;
@@ -335,6 +336,7 @@ public class BluetoothService extends Service {
         }
 
         //write method
+        @SuppressWarnings("SameParameterValue")
         public void write(String input) {
             byte[] msgBuffer = input.getBytes();           //converts entered String into bytes
             try {

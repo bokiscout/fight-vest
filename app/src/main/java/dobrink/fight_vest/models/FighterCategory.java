@@ -6,10 +6,10 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class FighterCategory{
-    Random random = new Random();
-    int ID;
-    String Name=null;
+    private int ID;
+    private String Name=null;
 
     public String getName() {
         return Name;
@@ -33,6 +33,7 @@ public class FighterCategory{
     }
 
     public FighterCategory() {
+        Random random = new Random();
         this.ID = random.nextInt();
         this.Name = "FighterCategory";
     }

@@ -4,7 +4,7 @@
     <string name="title_home">Home</string>
     <string name="title_bluetooth">Bluetooth</string>
     <string name="title_fight_list">Fights List</string>
-    <string name="title_fight_view">Fightt</string>
+    <string name="title_fight_view">Fight</string>
 
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -20,6 +20,29 @@
     <string name="text_list_paired_devices">Paired Devices</string>
     <string name="text_list_devices">List of Devices</string>
 
-    <string name="text_pair">Pair</string>
+    <string name="text_bt_device_btn_pair">"Pair it</string>
+    <string name="text_bt_device_name">"Galaxy Nexus</string>
+    <string name="text_bt_device_address">"000000000</string>
 
+    <string name="text_fight_id">Fight ID : </string>
+    <string name="text_fight_info">MatchInfo</string>
+    <string name="text_fight_fighter1fullname">Fighter1FullName</string>
+    <string name="text_fight_fighter2fullname">Fighter2FullName</string>
+    <string name="text_fight_fighter1location">Fighter 1 Location</string>
+    <string name="text_fight_fighter1class">Fighter 1 Class</string>
+    <string name="text_fight_fighter1birth">Fighter 1 Birth</string>
+    <string name="text_fight_fighter2location">Fighter 2 Location</string>
+    <string name="text_fight_fighter2class">Fighter 2 Class</string>
+    <string name="text_fight_fighter2birth">Fighter 2 Birth</string>
+    <string name="text_fight_fighter1points">Fighter 1 Points</string>
+    <string name="text_fight_fighter2points">Fighter 2 Points</string>
+    <string name="text_fight_begin_time">Fight start: </string>
+    <string name="text_fight_location">Fight Location</string>
+    <string name="text_fight_description">Description</string>
+    <string name="fighter_1_image">Fighter 1 Image</string>
+    <string name="fighter_2_image">Fighter 2 Image</string>
+    <string name="btn_next_round">Next Round</string>
+    <string name="btn_end">End</string>
+    <string name="btn_start">Start</string>
+    <string name="text_hit_event">Hit Event</string>
 </resources>

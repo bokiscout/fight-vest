@@ -16,11 +16,12 @@ import dobrink.fight_vest.models.Round;
  * Created by Dobrin on 16-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class FightLogicHelper extends Application
 {
     // Points value
-    final static int WEAK_HIT = 1;
-    final static int STRONG_HIT = 5;
+    private final static int WEAK_HIT = 1;
+    private final static int STRONG_HIT = 5;
 
     private static FightLogicHelper ALFSInstance;
     private static ArrayList<Fight> fights;
@@ -38,16 +39,16 @@ public class FightLogicHelper extends Application
     private static int FighterTwoPoints;
 
     private Date startRoundTime; //used in starFight,used to get StartTime of first round
-    private Date endRoundTime; //used in nextRound, used to get starttime of last round;
+    private Date endRoundTime; //used in nextRound, used to get StartTime of last round;
 
-    Random generator = new Random();
+    private Random generator = new Random();
 
     public FightLogicHelper(){
         Log.d("FIGHT LOGIC HELPER", "constructor()" );
 
-        fights = new ArrayList<Fight>();
-        rounds = new ArrayList<Round>();
-        hits = new ArrayList<Hit>();
+        fights = new ArrayList<>();
+        rounds = new ArrayList<>();
+        hits = new ArrayList<>();
         selectedFight = null;
         MatchID = -1;
         parsedMsg = "HIT MSG";
@@ -128,8 +129,8 @@ public class FightLogicHelper extends Application
 
     private void addPoints(int player, int strength) {
         Log.d("FIGHT LOGIC HELPER", "addPoints()" );
-        //player: 0 FigterOne, 1+ FighterTwo, is hit, give points to other player
-        int points = 0;
+        //player: 0 FighterOne, 1+ FighterTwo, is hit, give points to other player
+        int points;
         if (strength==1){
             points=WEAK_HIT;
         }else{
@@ -146,8 +147,8 @@ public class FightLogicHelper extends Application
         Log.d("FIGHT LOGIC HELPER", "startFight()" );
 
         startRoundTime = new Date(); //used to get StartTime of first round
-        rounds = new ArrayList<Round>();
-        hits = new ArrayList<Hit>();
+        rounds = new ArrayList<>();
+        hits = new ArrayList<>();
         registerPoints = true;
     }
     public synchronized void nextRound() {
@@ -185,8 +186,8 @@ public class FightLogicHelper extends Application
         return fights;
     }
 
-    public static void setFights(ArrayList<Fight> mfights) {
-        fights = mfights;
+    public static void setFights(ArrayList<Fight> mFights) {
+        fights = mFights;
     }
 
     public Fight getSelectedFight() {

@@ -1,16 +1,22 @@
 package dobrink.fight_vest;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import dobrink.fight_vest.models.Fight;
 import dobrink.fight_vest.models.Fighter;
@@ -19,14 +25,17 @@ import dobrink.fight_vest.models.Fighter;
  * Created by Dobrin on 14-Jun-17.
  */
 
-public class listFightsAdapter extends ArrayAdapter<Fight>{
+@SuppressWarnings("DefaultFileTemplate")
+class listFightsAdapter extends ArrayAdapter<Fight>{
+    private final static String URL = "http://www.fv.pdtransverzalec.org.mk";
 
     public listFightsAdapter(Context context, ArrayList<Fight> fights) {
         super(context, 0, fights);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, @NonNull ViewGroup parent){
         // Get the data item for this position
         Fight fight = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
@@ -35,47 +44,41 @@ public class listFightsAdapter extends ArrayAdapter<Fight>{
         }
 
         TextView tvFightID = convertView.findViewById(R.id.tvFightID);
-        TextView tvMatchInfo = convertView.findViewById(R.id.tvMatchInfo);
-        TextView tvFighter2Avatar = convertView.findViewById(R.id.tvFighter2Avatar);
-        TextView tvFighter1Avatar = convertView.findViewById(R.id.tvFighter1Avatar);
-        TextView tvFighter1Info = convertView.findViewById(R.id.tvFighter1Info);
-        TextView tvFighter2Info = convertView.findViewById(R.id.tvFighter2Info);
+        TextView tvFightStartTime = convertView.findViewById(R.id.tvFightStartTime);
+        tvFightStartTime.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_access_time_black_24dp, 0, 0, 0);
+        TextView tvFightLocation = convertView.findViewById(R.id.tvFightLocation);
+        tvFightLocation.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_on_black_24dp, 0, 0, 0);
+        TextView tvFightDescription = convertView.findViewById(R.id.tvFightDescription);
+        ImageView imageViewFighter1 = convertView.findViewById(R.id.imageViewFighter1);
+        ImageView imageViewFighter2 = convertView.findViewById(R.id.imageViewFighter2);
+        TextView tvFighter1FullName = convertView.findViewById(R.id.tvFighter1FullName);
+        TextView tvFighter2FullName = convertView.findViewById(R.id.tvFighter2FullName);
 
-        //get Figters info displayed
+        //get Fighters info displayed
         for (int i = 0; i < fight.getFightFighters().size(); i++) {
-            StringBuilder sb = new StringBuilder();
             Fighter fighter = fight.getFightFighters().get(i).getFighter();
-
-            sb.append(fighter.getAvatar()).append(System.getProperty("line.separator"));// name + newline
-            //sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator")); //null if from online
-            sb.append(fighter.getCounty()).append(", ").append(fighter.getCity()).append(System.getProperty("line.separator"));
-            sb.append(dateFormat(fighter.getBirthDate())); // convert Date to dd/MM/yyyy
-            //Figter 1
-            if (i == 0){
-                tvFighter1Avatar.setText(fighter.getFullName());
-                tvFighter1Info.setText(sb.toString());
+            //Fighter 1
+            if (i == 0) {
+                Picasso.with(getContext()).load(URL+fighter.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into(imageViewFighter1);
+                tvFighter1FullName.setText(fighter.getFullName());
             }
-            //Figter 2
+            //Fighter 2
             else {
-                tvFighter2Avatar.setText(fighter.getFullName());
-                tvFighter2Info.setText(sb.toString());
+                Picasso.with(getContext()).load(URL+fighter.getAvatarUrl()).placeholder(R.mipmap.ic_launcher).into(imageViewFighter2);
+                tvFighter2FullName.setText(fighter.getFullName());
             }
         }
         //Match info displayed
-        tvFightID.setText(String.valueOf(fight.getID()));
-        StringBuilder sb = new StringBuilder();
-       // sb.append("Type: ").append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
-        sb.append(fight.getCountry()).append(" ").append(fight.getCity()).append(" ").append(fight.getAddress()).append(System.getProperty("line.separator"));
-        sb.append(fight.getDescription());
-        tvMatchInfo.setText(sb.toString());
-
+        tvFightID.setText("Fight ID: "+String.valueOf(fight.getID()));
+        tvFightStartTime.setText("Fight Start: "+fight.getStartTime());
+        tvFightLocation.setText(fight.getAddress()+", "+fight.getCity()+", "+fight.getCountry());
+        tvFightDescription.setText(fight.getDescription());
         return convertView;
     }
     // Date to string
-    private String dateFormat(Date birthDate) {
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String result = formatter.format(birthDate);
-        return result;
+    private String dateFormat(Date date) {
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        return formatter.format(date);
     }
 
 }

@@ -8,14 +8,15 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
+@SuppressWarnings("DefaultFileTemplate")
 public class Round {
-    Random random = new Random();
+    private Random random = new Random();
 
-    public int ID ;
-    public Date StartTime ;
-    public Date EndTime ;
-    public int FightID ;
-    public List<Hit> Hits ;
+    private int ID ;
+    private Date StartTime ;
+    private Date EndTime ;
+    private int FightID ;
+    private List<Hit> Hits ;
 
     public Round(int ID, Date startTime, Date endTime, int fightID, List<Hit> hits) {
         this.ID = ID;

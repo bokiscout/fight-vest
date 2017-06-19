@@ -6,13 +6,14 @@ import java.util.Random;
  * Created by Dobrin on 14-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class FightType {
-    Random random = new Random();
 
-    int ID;
-    String Name;
+    private int ID;
+    private String Name;
 
     public FightType() {
+        Random random = new Random();
         this.ID = random.nextInt();
         this.Name = "FightTypeName";
     }

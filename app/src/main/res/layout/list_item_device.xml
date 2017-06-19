@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_alignParentRight="true"
-        android:text="Pair it" />
+        android:text="@string/text_bt_device_btn_pair" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -23,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:textSize="16sp"
         android:textColor="#000000"
-        android:text="Galaxy Nexus" />
+        android:text="@string/text_bt_device_name" />
 
     <TextView
         android:id="@+id/tv_address"
@@ -32,6 +32,6 @@
         android:layout_toLeftOf="@+id/btn_pair"
         android:layout_alignParentLeft="true"
         android:layout_alignBottom="@+id/btn_pair"
-        android:text="000000000" />
+        android:text="@string/text_bt_device_address" />
 
 </RelativeLayout>

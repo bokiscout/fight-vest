@@ -29,6 +29,7 @@ import dobrink.fight_vest.models.Fight;
  * Created by Dobrin on 13-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class VolleySingleton {
     private final static String FIGHTS_REQUEST_URL = "http://www.fv.pdtransverzalec.org.mk/api/Fights";
 
@@ -47,7 +48,7 @@ public class VolleySingleton {
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
-                            cache = new LruCache<String, Bitmap>(20);
+                            cache = new LruCache<>(20);
                     @Override
                     public Bitmap getBitmap(String url) {
                         return cache.get(url);
@@ -66,7 +67,7 @@ public class VolleySingleton {
         return mVolleySingletonInstance;
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
@@ -75,7 +76,7 @@ public class VolleySingleton {
         return mRequestQueue;
     }
 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
+    private <T> void addToRequestQueue(Request<T> req, String tag) {
         req.setTag(tag);
         getRequestQueue().add(req);
     }
@@ -90,7 +91,8 @@ public class VolleySingleton {
         }
     }
 
-    public void volleyJsonArrayRequest(String url){
+    @SuppressWarnings("SameParameterValue")
+    private void volleyJsonArrayRequest(String url){
         String REQUEST_TAG = "volleyJsonArrayRequest"; //used to cancel the request
         JsonArrayRequest jsonArrayReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>(){
@@ -113,7 +115,7 @@ public class VolleySingleton {
             }
         });
 
-        // Adding JsonArrau request to request queue
+        // Adding JsonArray request to request queue
         addToRequestQueue(jsonArrayReq,REQUEST_TAG);
     }
 

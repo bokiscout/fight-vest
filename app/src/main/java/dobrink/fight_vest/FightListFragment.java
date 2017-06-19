@@ -24,6 +24,7 @@ import dobrink.fight_vest.models.Fight;
  * Created by Dobrin on 15-Jun-17.
  */
 
+@SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class FightListFragment extends SwipeRefreshListFragment{
     private static final String LOG_TAG = FightListFragment.class.getSimpleName();
     ProgressBar progressBar;
@@ -95,7 +96,7 @@ public class FightListFragment extends SwipeRefreshListFragment{
         transaction.addToBackStack("fragFightInfo");
         transaction.replace(R.id.fragmentContainer, nextFrag,"fragFightInfo").commit();
 
-        //Sets highlighted button on naviagtion menu
+        //Sets highlighted button on navigation menu
         Menu menu = ((BottomNavigationView) getActivity().findViewById(R.id.navigation)).getMenu();
         menu.findItem(R.id.action_fight_info).setChecked(true);
     }
