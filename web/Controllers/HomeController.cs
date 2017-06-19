@@ -66,7 +66,7 @@ namespace web.Controllers
         {
             ViewData["Title"] = "Борби";
             FightsSearchResultViewModel vm = new FightsSearchResultViewModel();
-            vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter).Include(f => f.FightType).Include(f => f.Rounds).ToList();
+            vm.Fights = db.Fights.Include(f => f.FightFighters).ThenInclude(f => f.Fighter).ThenInclude(f => f.FighterCategory).Include(f => f.FightType).Include(f => f.Rounds).ToList();
 
             return View(vm);
         }
@@ -75,7 +75,7 @@ namespace web.Controllers
         {
             ViewData["Title"] = "Борбa";
             Fight fight = db.Fights.Include(f => f.FightType).Include(f => f.Rounds).ThenInclude(r => r.Hits).Include(f => f.FightFighters)
-                .ThenInclude(ff => ff.Fighter).ThenInclude(fff => fff.FighterCategory).FirstOrDefault();
+                .ThenInclude(ff => ff.Fighter).ThenInclude(fff => fff.FighterCategory).Where(f => f.ID == id).FirstOrDefault();
 
             return View(fight);
         }

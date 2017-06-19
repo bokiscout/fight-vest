@@ -71,10 +71,10 @@ namespace web.Controllers
 
            if(vm.File != null && vm.File.Length > 0)
            {
-               string directory = _hostingEnvironment.WebRootPath + "\\uploads";               
+               string directory = _hostingEnvironment.WebRootPath + "/uploads";               
                string extension = GetImageExtension(vm.File.ContentType);
                string fileName  = string.Format("{0}.{1}", Guid.NewGuid().ToString(), extension);
-               string filePath = string.Format("{0}\\{1}", directory, fileName);
+               string filePath = string.Format("{0}/{1}", directory, fileName);
                
                if(!Directory.Exists(directory))
                {
@@ -141,10 +141,10 @@ namespace web.Controllers
 
             if(vm.File != null && vm.File.Length > 0)
             {
-               string directory = _hostingEnvironment.WebRootPath + "\\uploads";               
+               string directory = _hostingEnvironment.WebRootPath + "/uploads";               
                string extension = GetImageExtension(vm.File.ContentType);
                string fileName  = string.Format("{0}.{1}", Guid.NewGuid().ToString(), extension);
-               string filePath = string.Format("{0}\\{1}", directory, fileName);
+               string filePath = string.Format("{0}/{1}", directory, fileName);
                
                if(!Directory.Exists(directory))
                {
