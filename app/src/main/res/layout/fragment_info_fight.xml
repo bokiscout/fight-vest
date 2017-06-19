@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -60,33 +59,56 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonNextRound"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:text="@string/btn_next_round"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/buttonStartFight"
-        app:layout_constraintRight_toLeftOf="@+id/buttonEndMatch" />
-
-    <Button
-        android:id="@+id/buttonEndMatch"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/btn_end"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonNextRound" />
-
-    <Button
-        android:id="@+id/buttonStartFight"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/btn_start"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/buttonNextRound" />
+        app:layout_constraintRight_toRightOf="parent">
+
+        <Button
+            android:id="@+id/buttonStartFight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_start_fight"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteY="463dp" />
+
+        <Button
+            android:id="@+id/buttonStartNextRound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_start_next_round"
+            android:textSize="8sp"
+            tools:layout_editor_absoluteX="90dp"
+            tools:layout_editor_absoluteY="463dp" />
+
+        <Button
+            android:id="@+id/buttonEndLastRound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_end_last_round"
+            android:textSize="8sp"
+            tools:layout_editor_absoluteX="189dp"
+            tools:layout_editor_absoluteY="463dp" />
+
+        <Button
+            android:id="@+id/buttonEndMatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:elevation="0dp"
+            android:text="@string/btn_end_fight"
+            android:textSize="12sp"
+            tools:layout_editor_absoluteX="294dp"
+            tools:layout_editor_absoluteY="463dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -94,15 +116,13 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:weightSum="1"
-        app:layout_constraintBottom_toTopOf="@+id/buttonNextRound"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -228,4 +248,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

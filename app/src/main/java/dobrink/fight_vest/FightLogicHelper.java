@@ -1,6 +1,7 @@
 package dobrink.fight_vest;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class FightLogicHelper extends Application
     public FightLogicHelper(){
         Log.d("FIGHT LOGIC HELPER", "constructor()" );
 
+
         fights = new ArrayList<>();
         rounds = new ArrayList<>();
         hits = new ArrayList<>();
@@ -86,7 +88,7 @@ public class FightLogicHelper extends Application
         return selectedFight != null;
     }
 
-    public synchronized void  registerHit() {
+    public synchronized void  registerHit(Context context) {
         Log.d("FIGHT LOGIC HELPER", "registerHit()" );
 
         int hitID = hits.size(); //set hitID to be position of Hits list, will be unique, incremented
@@ -94,16 +96,16 @@ public class FightLogicHelper extends Application
         Fighter hitFighter = selectedFight.getFightFighters().get(player).getFighter(); // Fighter hit
         int hitFighterID = hitFighter.getID(); //Fighter hit IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
-        //add points
-        if (registerPoints){
+        //add points, chech if can tally up pints and matchID is -1 (to wait after matchID is updated)
+        if (registerPoints==true && getMatchID()!=-1){
             addPoints(player,strength);
+            VolleySingleton.getInstance(context).postHitEvent(hitFighterID);
         }
         hits.add(hit); // add hit event to the list of hits
-
         Log.d("FIGHT LOGIC HELPER", "registerHit() -> hit: " + hit.toString() );
     }
     //used for fake hits
-    public synchronized void registerHitFake() {
+    public synchronized void registerHitFake(Context context) {
         Log.d("FIGHT LOGIC HELPER", "registerHitFake()" );
 
         player = generator.nextInt(2);
@@ -121,8 +123,9 @@ public class FightLogicHelper extends Application
         int hitFighterID = hitFighter.getID(); //Fighter hit IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
         //add points
-        if (registerPoints){
+        if (registerPoints==true && MatchID!=-1){
             addPoints(player,strength);
+            VolleySingleton.getInstance(context).postHitEvent(hitFighterID);
         }
         hits.add(hit); // add hit event to the list of hits
     }
@@ -143,33 +146,37 @@ public class FightLogicHelper extends Application
         }
     }
 
-    public synchronized void startFight() {
-        Log.d("FIGHT LOGIC HELPER", "startFight()" );
+    public synchronized void startFight(Context context) {
+        Log.d("FIGHT LOGIC HELPER", "startFight(): "+MatchID );
 
-        startRoundTime = new Date(); //used to get StartTime of first round
         rounds = new ArrayList<>();
-        hits = new ArrayList<>();
-        registerPoints = true;
+        if (MatchID!=-1){
+            VolleySingleton.getInstance(context).postStartFight();
+        }else{
+            Log.d("FIGHT LOGIC HELPER", "startFight() ID -1 : "+MatchID );
+        }
     }
-    public synchronized void nextRound() {
-        Log.d("FIGHT LOGIC HELPER", "nextRound()" );
+    public synchronized void startNextRound(Context context) {
+        Log.d("FIGHT LOGIC HELPER", "startNextRound(): "+MatchID );
 
+        hits = new ArrayList<>();
+        startRoundTime = new Date();
+        registerPoints = true;
+        VolleySingleton.getInstance(context).postStartNextRound();
+    }
+    public synchronized void endLastRound(Context context) {
+        Log.d("FIGHT LOGIC HELPER", "endLastRound(): "+MatchID );
         int roundID = rounds.size(); // roundID to be position of Rounds list, will be unique, incremented
         endRoundTime = new Date(); // endTime of last round;
         Round currentRound = new Round(roundID, startRoundTime, endRoundTime,MatchID,hits);
-        startRoundTime = endRoundTime; // make last round end time the new start time for next round
-
         rounds.add(currentRound); // add round to the list of rounds
-    }
-    public void endFight() {
-        Log.d("FIGHT LOGIC HELPER", "endFight()" );
-
         registerPoints = false;
-        int roundID = rounds.size(); // roundID to be position of Rounds list, will be unique, incremented
-        endRoundTime = new Date(); //end time for last round
-        Round currentRound = new Round(roundID, startRoundTime, endRoundTime,MatchID,hits);
+        VolleySingleton.getInstance(context).postEndLastRound();
+    }
+    public synchronized void endFight(Context context) {
+        Log.d("FIGHT LOGIC HELPER", "endFight(): "+MatchID );
 
-        rounds.add(currentRound); // add last round for fight
+        VolleySingleton.getInstance(context).postEndFight();
     }
     //
     //Getters and Setters
@@ -244,4 +251,5 @@ public class FightLogicHelper extends Application
         Log.d("FIGHT LOGIC HELPER", "getFighterTwoInfoPoints()" );
         return FighterTwoPoints;
     }
+
 }

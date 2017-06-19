@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,11 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import dobrink.fight_vest.models.Fight;
 import dobrink.fight_vest.models.Fighter;
@@ -36,10 +29,11 @@ import dobrink.fight_vest.models.Fighter;
 public class FightInfoFragment extends android.support.v4.app.Fragment {
 
     private final static String URL = "http://www.fv.pdtransverzalec.org.mk";
-
+    private Context context;
     private FightLogicHelper fightLogic;
     private Button buttonStartFight;
-    private Button buttonNextRound;
+    private Button buttonStartNextRound;
+    private Button buttonEndLastRound;
     private Button buttonEndMatch;
     private TextView tvFightID;
     private TextView tvFightStartTime;
@@ -59,7 +53,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     private ImageView imageViewFighter2;
 
     //used for fake hits
-    private int mInterval = 1000; // 1000 = 1s
+    private int mInterval = 5000; // 5000 = 1s
     private Handler mHandler;
     //
 
@@ -67,11 +61,12 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context=getContext();
         fightLogic = FightLogicHelper.getInstance();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("fightData"));
         //used for fake hits
         mHandler = new Handler();
+
     }
 
     @Override
@@ -81,7 +76,8 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
         Log.d("FIGHT INFO FRAGMENT", "INSIDE onCreateView");
         buttonStartFight = view.findViewById(R.id.buttonStartFight);
-        buttonNextRound = view.findViewById(R.id.buttonNextRound);
+        buttonStartNextRound = view.findViewById(R.id.buttonStartNextRound);
+        buttonEndLastRound = view.findViewById(R.id.buttonEndLastRound);
         buttonEndMatch = view.findViewById(R.id.buttonEndMatch);
         tvFightID = view.findViewById(R.id.tvFightID);
         tvFightStartTime = view.findViewById(R.id.tvFightStartTime);
@@ -107,32 +103,6 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         mTextMessage = view.findViewById(R.id.textViewMSG);
         Log.d("FIGHT INFO FRAGMENT", "After FindByView");
 
-        buttonStartFight.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                showToast("Fight Started");
-                fightLogic.startFight();
-                return false;
-            }
-        });
-        buttonNextRound.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                showToast("New Round");
-                fightLogic.nextRound();
-                return false;
-            }
-        });
-        buttonEndMatch.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                showToast("Fight Ended, pick a new Fight");
-                setItemsEnabled(false);
-                fightLogic.endFight();
-
-                return false;
-            }
-        });
         return view;
     }
     @Override
@@ -140,7 +110,39 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         Log.d("FIGHT INFO FRAGMENT", "onActivityCreated()");
 
         super.onActivityCreated(savedInstanceState);
-        //startRepeatingTask(); //for fake hits
+        buttonStartFight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast("Fight Started");
+                fightLogic.startFight(context);
+                setButtonsEnabled(false,true,false,false);
+            }
+        });
+        buttonStartNextRound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast("Start Next Round");
+                fightLogic.startNextRound(context);
+                setButtonsEnabled(false,false,true,false);
+            }
+        });
+        buttonEndLastRound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast("End Last Round");
+                fightLogic.endLastRound(context);
+                setButtonsEnabled(false,true,false,true);
+            }
+        });
+        buttonEndMatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showToast("Fight Ended, pick a new Fight");
+                fightLogic.endFight(context);
+                setButtonsEnabled(false,false,false,false);
+            }
+        });
+        startRepeatingTask(); //for fake hits
     }
 
     @Override
@@ -151,10 +153,11 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         if (fightLogic.checkIfFightPicked()) { //May start Fight
             //Show info of fight
             displayFightInfo(fightLogic.getSelectedFight());
+            //setButtonsEnabled(true,false,false,false);
         } else {
             //May not start Fight, must pick a fight from list
             showToast("Pick a Fight from the Fights List");
-            setItemsEnabled(false);
+            setButtonsEnabled(false,false,false,false);
         }
     }
     //used for fake hits
@@ -169,7 +172,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         @Override
         public void run() {
             try {
-                fightLogic.registerHitFake();//this function can change value of mInterval.
+                fightLogic.registerHitFake(context);//this function can change value of mInterval.
                 updateHitInfo();
             } finally {
                 // 100% guarantee that this always happens, even if
@@ -196,15 +199,11 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
     // true = enabled , false = disabled
     @SuppressWarnings("SameParameterValue")
-    private void setItemsEnabled(boolean bool) {
-        buttonStartFight.setEnabled(bool);
-        buttonNextRound.setEnabled(bool);
-        buttonEndMatch.setEnabled(bool);
-    }
-
-     private String dateFormat(Date birthDate) {
-        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-         return formatter.format(birthDate);
+    private void setButtonsEnabled(boolean StartFight, boolean StartNextRound, boolean EndLastRound, boolean EndMatch) {
+        buttonStartFight.setEnabled(StartFight);
+        buttonStartNextRound.setEnabled(StartNextRound);
+        buttonEndLastRound.setEnabled(EndLastRound);
+        buttonEndMatch.setEnabled(EndMatch);
     }
 
     private void showToast(String message) {
@@ -257,7 +256,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
                 Log.d("FIGHT INFO FRAGMENT", "onReceive() -> empty fight");
             }else{
                 Log.d("FIGHT INFO FRAGMENT", "onReceive() -> fight is OK (not Empty)");
-                fightLogic.registerHit();
+                fightLogic.registerHit(context);
                 updateHitInfo();
             }
         }

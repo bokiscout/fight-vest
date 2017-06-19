@@ -6,19 +6,10 @@
     <string name="title_fight_list">Fights List</string>
     <string name="title_fight_view">Fight</string>
 
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="text_maccaddress">Mac Address :</string>
 
     <string name="text_enable">Enable</string>
     <string name="text_disable">Disable</string>
-
-    <string name="text_view_paired">Paired Devices</string>
-    <string name="text_scan_devices">Scan Devices</string>
-    <string name="text_stop_scan">Scan Devices</string>
-
-    <string name="text_list_paired_devices">Paired Devices</string>
-    <string name="text_list_devices">List of Devices</string>
 
     <string name="text_bt_device_btn_pair">"Pair it</string>
     <string name="text_bt_device_name">"Galaxy Nexus</string>
@@ -41,8 +32,10 @@
     <string name="text_fight_description">Description</string>
     <string name="fighter_1_image">Fighter 1 Image</string>
     <string name="fighter_2_image">Fighter 2 Image</string>
-    <string name="btn_next_round">Next Round</string>
-    <string name="btn_end">End</string>
-    <string name="btn_start">Start</string>
+    <string name="btn_start_next_round">Start Next Round</string>
+    <string name="btn_end_last_round">End Last Round</string>
+    <string name="btn_end_fight">End</string>
+    <string name="btn_start_fight">Start</string>
     <string name="text_hit_event">Hit Event</string>
+    <string name="text_list_devices">List Devices</string>
 </resources>

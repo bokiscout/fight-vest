@@ -76,7 +76,7 @@ public class FightListFragment extends SwipeRefreshListFragment{
         super.onListItemClick(l, v, position, id);
         Fight fight = fightLogic.getFights().get(position);
         fightLogic.setSelectedFight(fight);
-        fightLogic.setMatchID(fightLogic.getMatchID());
+        fightLogic.setMatchID(fight.getID());
 
         Log.d("FIGHT LIST FRAGMENT", "onListItemClick() -> fight:" + fight );
 

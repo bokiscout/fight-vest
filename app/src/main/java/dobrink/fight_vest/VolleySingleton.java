@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.LruCache;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,6 +24,8 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import dobrink.fight_vest.models.Fight;
 
@@ -31,10 +35,16 @@ import dobrink.fight_vest.models.Fight;
 
 @SuppressWarnings({"DefaultFileTemplate", "CanBeFinal"})
 public class VolleySingleton {
-    private final static String FIGHTS_REQUEST_URL = "http://www.fv.pdtransverzalec.org.mk/api/Fights";
+    private final static String URL = "http://www.fv.pdtransverzalec.org.mk";
+    private final static String GET_FIGHTS_URL = URL+"/api/Fights";
+    private final static String POST_START_FIGHT_URL = URL+"/api/Fight/Start/"; //+MatchID
+    private final static String POST_START_NEXT_ROUND_URL = URL+"/api/Fight/Round/Start/"; //+MatchID
+    private final static String POST_END_LAST_ROUND_URL = URL+"/api/Fight/Round/End/"; //+MatchID
+    private final static String POST_END_FIGHt_URL = URL+"/api/Fight/End/"; //+MatchID
 
 
     private static VolleySingleton mVolleySingletonInstance;
+    private FightLogicHelper fightLogic;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mContext;
@@ -44,7 +54,7 @@ public class VolleySingleton {
     private VolleySingleton(Context context){
         mContext = context;
         mRequestQueue = getRequestQueue();
-
+        fightLogic = FightLogicHelper.getInstance();
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
@@ -98,7 +108,7 @@ public class VolleySingleton {
                 new Response.Listener<JSONArray>(){
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("FIGHT LIST FRAGMENT", response.toString());
+                        Log.d("Response", response.toString());
                         GsonBuilder gsonBuilder = new GsonBuilder();
                         gsonBuilder.setDateFormat("yyyy-mm-dd'T'hh:mm:ss");
                         Gson gson = gsonBuilder.create();
@@ -109,7 +119,7 @@ public class VolleySingleton {
                 },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("FIGHT LIST FRAGMENT", "Error: " + error.getMessage());
+                Log.d("Response", "Error: " + error.getMessage());
                 FightLogicHelper.getInstance().makeFakeFights(5);
                 sendFightListUpdate();
             }
@@ -118,13 +128,59 @@ public class VolleySingleton {
         // Adding JsonArray request to request queue
         addToRequestQueue(jsonArrayReq,REQUEST_TAG);
     }
-
+    private void volleyPostRequest(String url){
+        String REQUEST_TAG = "volleyPostRequest"; //used to cancel the request
+        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Log.d("Response", response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        int  statusCode = error.networkResponse.statusCode;
+                        NetworkResponse response = error.networkResponse;
+                        Log.d("ERROR",""+statusCode+" "+response.toString());
+                    }
+                }){
+        };
+        // Adding JsonArray request to request queue
+        addToRequestQueue(postRequest,REQUEST_TAG);
+    }
     public void fetchFightsOnline() {
-        volleyJsonArrayRequest(FIGHTS_REQUEST_URL);
+        volleyJsonArrayRequest(GET_FIGHTS_URL);
     }
 
     private void sendFightListUpdate() {
         Intent intent = new Intent("fightListUpdated");
         LocalBroadcastManager.getInstance(null).sendBroadcast(intent);
+    }
+
+    public void postStartFight() {
+        Log.d("VOLLEY", "postStartFight(): "+fightLogic.getMatchID());
+        volleyPostRequest(POST_START_FIGHT_URL+fightLogic.getMatchID());
+    }
+
+    public void postStartNextRound() {
+        Log.d("VOLLEY", "postStartNextRound(): "+fightLogic.getMatchID());
+        volleyPostRequest(POST_START_NEXT_ROUND_URL+(fightLogic.getMatchID()));
+    }
+
+    public void postEndLastRound() {
+        Log.d("VOLLEY", "postEndLastRound(): "+fightLogic.getMatchID());
+        volleyPostRequest(POST_END_LAST_ROUND_URL+(fightLogic.getMatchID()));
+    }
+
+    public void postEndFight() {
+        Log.d("VOLLEY", "postEndFight()");
+        volleyPostRequest(POST_END_FIGHt_URL+fightLogic.getMatchID());
+    }
+
+    public void postHitEvent(int hitFighterID) {
+        Log.d("VOLLEY", "postHitEvent hitFighterID(): "+hitFighterID);
+        String HIT_URL = URL+"/api/Fight/"+fightLogic.getMatchID()+"/Hit/"+hitFighterID;
+        volleyPostRequest(HIT_URL);
     }
 }
