@@ -1,5 +1,8 @@
 package dobrink.fight_vest;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,37 +15,63 @@ import java.util.Random;
 public class Fight {
     Random random= new Random();
 
-    int ID;
-    Date StartTime;
-    Date EndTime;
-    String Country;
-    String City;
-    String Address;
-    String Description;
-    Date StartedAt;
-    Date EndedAt;
-    int FightTypeID;
-    FightTypeDTO FightType;
-    List<FightFightersDTO> FightFighters;
-    List<RoundDTO> Rounds;
+    @SerializedName("ID")
+    @Expose
+    private int ID;
+    @SerializedName("StartTime")
+    @Expose
+    private String startTime;
+    @SerializedName("EndTime")
+    @Expose
+    private String endTime;
+    @SerializedName("Country")
+    @Expose
+    private String country;
+    @SerializedName("City")
+    @Expose
+    private String city;
+    @SerializedName("Address")
+    @Expose
+    private String address;
+    @SerializedName("Description")
+    @Expose
+    private String description;
+    @SerializedName("StartedAt")
+    @Expose
+    private String startedAt;
+    @SerializedName("EndedAt")
+    @Expose
+    private String endedAt;
+    @SerializedName("FightTypeID")
+    @Expose
+    private int fightTypeID;
+    @SerializedName("FightType")
+    @Expose
+    private FightType fightType;
+    @SerializedName("FightFighters")
+    @Expose
+    private List<FightFighters> fightFighters;
+    @SerializedName("Rounds")
+    @Expose
+    private List<Round> rounds = null;
 
     public Fight() {
         int id = random.nextInt();
         this.ID = id;
-        StartTime = new Date();
-        EndTime = new Date();
-        Country = "Country";
-        City = "City";
-        Address = "Address";
-        Description ="This is aDescription";
-        StartedAt = new Date();
-        EndedAt = new Date();
-        FightTypeID = random.nextInt(); ;
-        FightType = new FightTypeDTO();
-        FightFighters = new ArrayList<FightFightersDTO>();
-        FightFighters.add(new FightFightersDTO(id));
-        FightFighters.add(new FightFightersDTO(id));
-        Rounds = new ArrayList<RoundDTO>();
+        startTime = null;
+        endTime = null;
+        country = "Country";
+        city = "City";
+        address = "Address";
+        description ="This is aDescription";
+        startedAt = null;
+        endedAt = null;
+        fightTypeID = random.nextInt();
+        fightType = new FightType();
+        fightFighters = new ArrayList<FightFighters>();
+        fightFighters.add(new FightFighters(id));
+        fightFighters.add(new FightFighters(id));
+        rounds = new ArrayList<Round>();
     }
 
     public int getID() {
@@ -53,100 +82,100 @@ public class Fight {
         this.ID = ID;
     }
 
-    public Date getStartTime() {
-        return StartTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        StartTime = startTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return EndTime;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEndTime(Date endTime) {
-        EndTime = endTime;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public Date getStartedAt() {
-        return StartedAt;
+    public String getStartedAt() {
+        return startedAt;
     }
 
-    public void setStartedAt(Date startedAt) {
-        StartedAt = startedAt;
+    public void setStartedAt(String startedAt) {
+        this.startedAt = startedAt;
     }
 
-    public Date getEndedAt() {
-        return EndedAt;
+    public String getEndedAt() {
+        return endedAt;
     }
 
-    public void setEndedAt(Date endedAt) {
-        EndedAt = endedAt;
+    public void setEndedAt(String endedAt) {
+        this.endedAt = endedAt;
     }
 
     public int getFightTypeID() {
-        return FightTypeID;
+        return fightTypeID;
     }
 
     public void setFightTypeID(int fightTypeID) {
-        FightTypeID = fightTypeID;
+        this.fightTypeID = fightTypeID;
     }
 
-    public FightTypeDTO getFightType() {
-        return FightType;
+    public FightType getFightType() {
+        return fightType;
     }
 
-    public void setFightType(FightTypeDTO fightType) {
-        FightType = fightType;
+    public void setFightType(FightType fightType) {
+        this.fightType = fightType;
     }
 
-    public List<FightFightersDTO> getFightFighters() {
-        return FightFighters;
+    public List<FightFighters> getFightFighters() {
+        return fightFighters;
     }
 
-    public void setFightFighters(List<FightFightersDTO> fightFighters) {
-        FightFighters = fightFighters;
+    public void setFightFighters(List<FightFighters> fightFighters) {
+        this.fightFighters = fightFighters;
     }
 
-    public List<RoundDTO> getRounds() {
-        return Rounds;
+    public List<Round> getRounds() {
+        return rounds;
     }
 
-    public void setRounds(List<RoundDTO> rounds) {
-        Rounds = rounds;
+    public void setRounds(List<Round> rounds) {
+        this.rounds = rounds;
     }
 
 }

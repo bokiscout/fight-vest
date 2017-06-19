@@ -55,9 +55,6 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("fightData"));
         //used for fake hits
         mHandler = new Handler();
-
-
-        //
     }
 
     @Override
@@ -66,15 +63,15 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.fragment_info_fight, container, false);
 
         Log.d("FIGHT INFO FRAGMENT", "INSIDE onCreateView");
-        buttonStartFight = (Button) view.findViewById(R.id.buttonStartFight);
-        buttonNextRound = (Button) view.findViewById(R.id.buttonNextRound);
-        buttonEndMatch = (Button) view.findViewById(R.id.buttonEndMatch);
-        textViewFightInfo = (TextView) view.findViewById(R.id.textViewFightInfo);
-        textViewFighterOneInfo = (TextView) view.findViewById(R.id.textViewFighterOneInfo);
-        textViewFighterOnePoints = (TextView) view.findViewById(R.id.textViewFighterOnePoints);
-        textViewFighterTwoInfo = (TextView) view.findViewById(R.id.textViewFighterTwoInfo);
-        textViewFighterTwoPoints = (TextView) view.findViewById(R.id.textViewFighterTwoPoints);
-        mTextMessage = (TextView) view.findViewById(R.id.textViewMSG);
+        buttonStartFight = view.findViewById(R.id.buttonStartFight);
+        buttonNextRound = view.findViewById(R.id.buttonNextRound);
+        buttonEndMatch = view.findViewById(R.id.buttonEndMatch);
+        textViewFightInfo = view.findViewById(R.id.textViewFightInfo);
+        textViewFighterOneInfo = view.findViewById(R.id.textViewFighterOneInfo);
+        textViewFighterOnePoints = view.findViewById(R.id.textViewFighterOnePoints);
+        textViewFighterTwoInfo = view.findViewById(R.id.textViewFighterTwoInfo);
+        textViewFighterTwoPoints = view.findViewById(R.id.textViewFighterTwoPoints);
+        mTextMessage = view.findViewById(R.id.textViewMSG);
         Log.d("FIGHT INFO FRAGMENT", "AFTER FINDBYVIEW");
 
         buttonStartFight.setOnTouchListener(new View.OnTouchListener() {
@@ -110,7 +107,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
         Log.d("FIGHT INFO FRAGMENT", "onActivityCreated()");
 
         super.onActivityCreated(savedInstanceState);
-//        startRepeatingTask(); //for fake hits
+        //startRepeatingTask(); //for fake hits
     }
 
     @Override
@@ -151,9 +148,9 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
     private void updateHitInfo() {
         Log.d("FIGHT INFO FRAGMENT", "updateInfo()");
-        mTextMessage.setText(fightLogic.getParsedMsg());
-        textViewFighterOnePoints.setText(String.valueOf(fightLogic.getFighterOnePoints()));
-        textViewFighterTwoPoints.setText(String.valueOf(fightLogic.getFighterTwoPoints()));
+        mTextMessage.setText(FightLogicHelper.getParsedMsg());
+        textViewFighterOnePoints.setText(String.valueOf(FightLogicHelper.getFighterOnePoints()));
+        textViewFighterTwoPoints.setText(String.valueOf(FightLogicHelper.getFighterTwoPoints()));
     }
 
     void startRepeatingTask() {
@@ -183,10 +180,10 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
     private void displayFightInfo(Fight fight) {
         showToast("FightID: " + fight.getID());
-        mTextMessage.setText(fightLogic.getParsedMsg());
+        mTextMessage.setText(FightLogicHelper.getParsedMsg());
         StringBuilder sb = new StringBuilder();
         sb.append("FightID: " + fight.getID()).append(System.getProperty("line.separator")); //lineseparotr instead of \n
-        sb.append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
+        //sb.append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
         sb.append(fight.getCountry()).append(System.getProperty("line.separator"));
         sb.append(fight.getCity()).append(System.getProperty("line.separator"));
         sb.append(fight.getAddress()).append(System.getProperty("line.separator"));
@@ -199,7 +196,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
 
             sb.append(fighter.getFullName()).append(System.getProperty("line.separator"));
             sb.append(fighter.getAvatar()).append(System.getProperty("line.separator"));// name + newline
-            sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator"));
+            //sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator"));
             sb.append(fighter.getCounty()).append(", ").append(fighter.getCity()).append(System.getProperty("line.separator"));
             sb.append(dateFormat(fighter.getBirthDate())); // convert Date to dd/MM/yyyy
             //Figter 1
@@ -216,17 +213,15 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve()");
-
             // debigging
             Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> recived" + intent.getStringExtra("parsedMsg"));
             Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> player" + intent.getIntExtra("player", -1));
             Log.d("FIGHT INFO FRAGMENT", "broadcastReciver() -> onRecieve() -> strength" + intent.getIntExtra("strength", -1));
 
-            fightLogic.setParsedMsg(intent.getStringExtra("parsedMsg"));
-            fightLogic.setPlayer(intent.getIntExtra("player", -1)); //if nothing is stored , returns -1
-            fightLogic.setStrength(intent.getIntExtra("strength", -1)); //if nothing is stored , returns -1
+            FightLogicHelper.setParsedMsg(intent.getStringExtra("parsedMsg"));
+            FightLogicHelper.setPlayer(intent.getIntExtra("player", -1)); //if nothing is stored , returns -1
+            FightLogicHelper.setStrength(intent.getIntExtra("strength", -1)); //if nothing is stored , returns -1
 
             if (fightLogic.getFights().isEmpty()){
                 showToast("Pick a Fight from the Fights List");

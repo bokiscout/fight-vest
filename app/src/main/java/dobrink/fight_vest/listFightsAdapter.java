@@ -31,12 +31,12 @@ public class listFightsAdapter extends ArrayAdapter<Fight>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_fights, parent, false);
         }
 
-        TextView tvFightID = (TextView) convertView.findViewById(R.id.tvFightID);
-        TextView tvMatchInfo = (TextView) convertView.findViewById(R.id.tvMatchInfo);
-        TextView tvFighter2Avatar = (TextView) convertView.findViewById(R.id.tvFighter2Avatar);
-        TextView tvFighter1Avatar = (TextView) convertView.findViewById(R.id.tvFighter1Avatar);
-        TextView tvFighter1Info = (TextView) convertView.findViewById(R.id.tvFighter1Info);
-        TextView tvFighter2Info = (TextView) convertView.findViewById(R.id.tvFighter2Info);
+        TextView tvFightID = convertView.findViewById(R.id.tvFightID);
+        TextView tvMatchInfo = convertView.findViewById(R.id.tvMatchInfo);
+        TextView tvFighter2Avatar = convertView.findViewById(R.id.tvFighter2Avatar);
+        TextView tvFighter1Avatar = convertView.findViewById(R.id.tvFighter1Avatar);
+        TextView tvFighter1Info = convertView.findViewById(R.id.tvFighter1Info);
+        TextView tvFighter2Info = convertView.findViewById(R.id.tvFighter2Info);
 
         //get Figters info displayed
         for (int i = 0; i < fight.getFightFighters().size(); i++) {
@@ -44,7 +44,7 @@ public class listFightsAdapter extends ArrayAdapter<Fight>{
             Fighter fighter = fight.getFightFighters().get(i).getFighter();
 
             sb.append(fighter.getAvatar()).append(System.getProperty("line.separator"));// name + newline
-            sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator"));
+            //sb.append(fighter.getFighterCategory().getName()).append(System.getProperty("line.separator")); //null if from online
             sb.append(fighter.getCounty()).append(", ").append(fighter.getCity()).append(System.getProperty("line.separator"));
             sb.append(dateFormat(fighter.getBirthDate())); // convert Date to dd/MM/yyyy
             //Figter 1
@@ -61,7 +61,7 @@ public class listFightsAdapter extends ArrayAdapter<Fight>{
         //Match info displayed
         tvFightID.setText(String.valueOf(fight.getID()));
         StringBuilder sb = new StringBuilder();
-        sb.append("Type: ").append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
+       // sb.append("Type: ").append(fight.getFightType().getName()).append(System.getProperty("line.separator"));
         sb.append(fight.getCountry()).append(" ").append(fight.getCity()).append(" ").append(fight.getAddress()).append(System.getProperty("line.separator"));
         sb.append(fight.getDescription());
         tvMatchInfo.setText(sb.toString());

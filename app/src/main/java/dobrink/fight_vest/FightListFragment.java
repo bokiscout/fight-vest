@@ -1,41 +1,76 @@
 package dobrink.fight_vest;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
+
+
+import org.json.JSONArray;
+
+import java.util.List;
 
 /**
  * Created by Dobrin on 15-Jun-17.
  */
 
-public class FightListFragment extends android.support.v4.app.ListFragment {
-
+public class FightListFragment extends SwipeRefreshListFragment{
+    private static final String LOG_TAG = FightListFragment.class.getSimpleName();
+    ProgressBar progressBar;
     private FightLogicHelper fightLogic;
-    public interface OnFightSelected {
-        public void onFightSelected(int id);
-    }
-
-    private OnFightSelected mCallback;
-
     private listFightsAdapter adapterFights ;
 
-    private int MatchID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.i(LOG_TAG, "onCreate");
         fightLogic = FightLogicHelper.getInstance();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver, new IntentFilter("fightListUpdated"));
 
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.i(LOG_TAG, "onViewCreated");
+        initiateRefresh();
+        setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(LOG_TAG, "onRefresh called from SwipeRefreshLayout");
+
+                initiateRefresh();
+            }
+        });
+    }
+
+    private void initiateRefresh() {
+        Log.i(LOG_TAG, "initiateRefresh");
+        setRefreshing(true);
+        VolleySingleton.getInstance(getContext()).fetchFightsOnline();
+    }
+    private void onRefreshComplete() {
+        Log.i(LOG_TAG, "onRefreshComplete");
+
+        // Remove all items from the ListAdapter, and then replace them with the new items
         adapterFights = new listFightsAdapter(getActivity(), fightLogic.getFights());
         setListAdapter(adapterFights);
+        setRefreshing(false);
     }
 
     @Override
@@ -44,9 +79,8 @@ public class FightListFragment extends android.support.v4.app.ListFragment {
 
         super.onListItemClick(l, v, position, id);
         Fight fight = fightLogic.getFights().get(position);
-        MatchID =fight.getID();
         fightLogic.setSelectedFight(fight);
-        fightLogic.setMatchID(MatchID);
+        fightLogic.setMatchID(fightLogic.getMatchID());
 
         Log.d("FIGHT LIST FRAGMENT", "onListItemClick() -> fight:" + fight );
 
@@ -71,8 +105,11 @@ public class FightListFragment extends android.support.v4.app.ListFragment {
         menu.findItem(R.id.action_fight_info).setChecked(true);
     }
 
-    private void showToast(String message) {
-        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onRefreshComplete();
+        }
+    };
 
 }

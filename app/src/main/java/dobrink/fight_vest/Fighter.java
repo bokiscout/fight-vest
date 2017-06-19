@@ -1,5 +1,8 @@
 package dobrink.fight_vest;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.Random;
 
@@ -9,16 +12,37 @@ import java.util.Random;
 
 public class Fighter {
     Random random = new Random();
-    int ID;
-    String FirstName;
-    String LastName;
-    String Avatar;
-    String County;
-    String City;
-    Date BirthDate;
-    String FullName;
-    String AvatarUrl;
-    FighterCategory FighterCategory;
+
+    @SerializedName("ID")
+    @Expose
+    private int ID;
+    @SerializedName("FirstName")
+    @Expose
+    private String FirstName;
+    @SerializedName("LastName")
+    @Expose
+    private String LastName;
+    @SerializedName("Avatar")
+    @Expose
+    private String Avatar;
+    @SerializedName("Country")
+    @Expose
+    private String County;
+    @SerializedName("City")
+    @Expose
+    private String City;
+    @SerializedName("BirthDate")
+    @Expose
+    private Date BirthDate;
+    @SerializedName("FullName")
+    @Expose
+    private String FullName;
+    @SerializedName("AvatarUrl")
+    @Expose
+    private String AvatarUrl;
+    @SerializedName("FighterCategory")
+    @Expose
+    private FighterCategory FighterCategory;
 
     public Fighter() {
         this.ID = random.nextInt();
