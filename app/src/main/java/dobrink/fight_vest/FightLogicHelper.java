@@ -93,14 +93,7 @@ public class FightLogicHelper extends Application
 
         int hitID = hits.size(); //set hitID to be position of Hits list, will be unique, incremented
         Date hitTimestamp = new Date(); // Time of hit
-        Fighter hitFighter;
-        int playerHitting = -1;
-        if (player==0){
-            playerHitting=1;
-        }else{
-            playerHitting=0;
-        }
-        hitFighter = selectedFight.getFightFighters().get(playerHitting).getFighter(); // Fighter hitting
+        Fighter hitFighter = selectedFight.getFightFighters().get(player).getFighter(); // Fighter hitting
         int hitFighterID = hitFighter.getID(); //Fighter hitting IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
         //add points, chech if can tally up pints and matchID is -1 (to wait after matchID is updated)
@@ -125,14 +118,7 @@ public class FightLogicHelper extends Application
         if (selectedFight==null){
             selectedFight = fights.get(0);//pick 1st fight in list
         }
-        Fighter hitFighter;
-        int playerHitting = -1;
-        if (player==0){
-            playerHitting=1;
-        }else{
-            playerHitting=0;
-        }
-        hitFighter = selectedFight.getFightFighters().get(playerHitting).getFighter(); // Fighter hitting
+        Fighter hitFighter = selectedFight.getFightFighters().get(player).getFighter(); // Fighter hitting
         int hitFighterID = hitFighter.getID(); //Fighter hitting IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
         //add points
