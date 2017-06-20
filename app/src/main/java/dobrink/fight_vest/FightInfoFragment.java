@@ -142,7 +142,7 @@ public class FightInfoFragment extends android.support.v4.app.Fragment {
                 setButtonsEnabled(false,false,false,false);
             }
         });
-        startRepeatingTask(); //for fake hits
+        //startRepeatingTask(); //for fake hits
     }
 
     @Override
