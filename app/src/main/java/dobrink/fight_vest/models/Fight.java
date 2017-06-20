@@ -50,9 +50,8 @@ public class Fight {
     @SerializedName("FightFighters")
     @Expose
     private List<FightFighters> fightFighters;
-    @SerializedName("Rounds")
-    @Expose
-    private List<Round> rounds = null;
+
+    private transient List<Round> rounds = null;
 
     public Fight() {
         Random random = new Random();

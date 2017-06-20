@@ -208,6 +208,9 @@ public class FightLogicHelper extends Application
 
     public static void setFights(ArrayList<Fight> mFights) {
         fights = mFights;
+        rounds.clear();
+        hits.clear();
+        Log.d("FIGHT LOGIC HELPER", "setFights(): ");
     }
 
     public Fight getSelectedFight() {
