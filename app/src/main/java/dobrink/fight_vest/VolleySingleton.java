@@ -178,9 +178,15 @@ public class VolleySingleton {
         volleyPostRequest(POST_END_FIGHt_URL+fightLogic.getMatchID());
     }
 
-    public void postHitEvent(int hitFighterID) {
+    public void postHitEvent(int hitFighterID, int strength) {
+        String str;
+        if (strength==1){
+            str="weak";
+        }else{
+            str="strong";
+        }
         Log.d("VOLLEY", "postHitEvent hitFighterID(): "+hitFighterID);
-        String HIT_URL = URL+"/api/Fight/"+fightLogic.getMatchID()+"/Hit/"+hitFighterID;
+        String HIT_URL = URL+"/api/Fight/"+fightLogic.getMatchID()+"/Hit/"+hitFighterID+"/"+str;
         volleyPostRequest(HIT_URL);
     }
 }

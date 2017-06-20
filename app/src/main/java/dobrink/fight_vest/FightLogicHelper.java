@@ -22,7 +22,7 @@ public class FightLogicHelper extends Application
 {
     // Points value
     private final static int WEAK_HIT = 1;
-    private final static int STRONG_HIT = 5;
+    private final static int STRONG_HIT = 3;
 
     private static FightLogicHelper ALFSInstance;
     private static ArrayList<Fight> fights;
@@ -99,18 +99,17 @@ public class FightLogicHelper extends Application
         //add points, chech if can tally up pints and matchID is -1 (to wait after matchID is updated)
         if (registerPoints==true && getMatchID()!=-1){
             addPoints(player,strength);
-            VolleySingleton.getInstance(context).postHitEvent(hitFighterID);
+            VolleySingleton.getInstance(context).postHitEvent(hitFighterID, strength);
         }
         hits.add(hit); // add hit event to the list of hits
         Log.d("FIGHT LOGIC HELPER", "registerHit() -> hit: " + hit.toString() );
     }
     //used for fake hits
     public synchronized void registerHitFake(Context context) {
-        Log.d("FIGHT LOGIC HELPER", "registerHitFake()" );
-
         player = generator.nextInt(2);
         strength = generator.nextInt(2)+1;
         parsedMsg = "Fake HIT, Player:"+player+" strength:"+strength;
+        Log.d("FIGHT LOGIC HELPER", "registerHitFake(): "+ parsedMsg);
         int hitID = hits.size(); //set hitID to be position of Hits list, will be unique, incremented
         Date hitTimestamp = new Date(); // Time of hit
         if (getFights().isEmpty()){
@@ -125,7 +124,7 @@ public class FightLogicHelper extends Application
         //add points
         if (registerPoints==true && MatchID!=-1){
             addPoints(player,strength);
-            VolleySingleton.getInstance(context).postHitEvent(hitFighterID);
+            VolleySingleton.getInstance(context).postHitEvent(hitFighterID,strength);
         }
         hits.add(hit); // add hit event to the list of hits
     }
