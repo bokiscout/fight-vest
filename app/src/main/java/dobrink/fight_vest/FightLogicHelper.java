@@ -93,13 +93,14 @@ public class FightLogicHelper extends Application
 
         int hitID = hits.size(); //set hitID to be position of Hits list, will be unique, incremented
         Date hitTimestamp = new Date(); // Time of hit
-        Fighter hitFighter = selectedFight.getFightFighters().get(player).getFighter(); // Fighter hitting
+        int playerHitting=getPlayerHitting(player);
+        Fighter hitFighter = selectedFight.getFightFighters().get(playerHitting).getFighter(); // Fighter hitting
         int hitFighterID = hitFighter.getID(); //Fighter hitting IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
         //add points, chech if can tally up pints and matchID is -1 (to wait after matchID is updated)
         if (registerPoints==true && getMatchID()!=-1){
             addPoints(player,strength);
-            VolleySingleton.getInstance(context).postHitEvent(hitFighterID, strength);
+            VolleySingleton.getInstance(context).postHitEvent(hitFighterID,strength);
         }
         hits.add(hit); // add hit event to the list of hits
         Log.d("FIGHT LOGIC HELPER", "registerHit() -> hit: " + hit.toString() );
@@ -118,7 +119,8 @@ public class FightLogicHelper extends Application
         if (selectedFight==null){
             selectedFight = fights.get(0);//pick 1st fight in list
         }
-        Fighter hitFighter = selectedFight.getFightFighters().get(player).getFighter(); // Fighter hitting
+        int playerHitting=getPlayerHitting(player);
+        Fighter hitFighter = selectedFight.getFightFighters().get(playerHitting).getFighter(); // Fighter hitting
         int hitFighterID = hitFighter.getID(); //Fighter hitting IDh
         Hit hit = new Hit(hitID,hitTimestamp,hitFighterID,hitFighter); //new Hit event
         //add points
@@ -127,6 +129,18 @@ public class FightLogicHelper extends Application
             VolleySingleton.getInstance(context).postHitEvent(hitFighterID,strength);
         }
         hits.add(hit); // add hit event to the list of hits
+    }
+
+    private int getPlayerHitting(int player) {
+        int playerHitting=-1;
+        for (int i = 0; i < selectedFight.getFightFighters().size(); i++) {
+            if (selectedFight.getFightFighters().get(i).getFighterID()==selectedFight.getFightFighters().get(player).getFighterID()) {
+
+            }else{
+                playerHitting=i;
+            }
+        }
+        return playerHitting;
     }
 
     private void addPoints(int player, int strength) {
