@@ -22,7 +22,7 @@ public class FightLogicHelper extends Application
 {
     // Points value
     private final static int WEAK_HIT = 1;
-    private final static int STRONG_HIT = 3;
+    private final static int STRONG_HIT = 1;
 
     private static FightLogicHelper ALFSInstance;
     private static ArrayList<Fight> fights;
