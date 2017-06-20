@@ -13,7 +13,8 @@
         };
 
         var spanClass = "round-point label ";
-        spanClass += (hit.FighterID == firstFighterId ? "label-danger" : "label-warning");
+        spanClass += (hit.FighterID == firstFighterId ? "label-danger " : "label-warning ");
+        spanClass += (hit.Type != "weak" ? "strong" : "weak");
 
         return (
             <span className={spanClass} style={style}>

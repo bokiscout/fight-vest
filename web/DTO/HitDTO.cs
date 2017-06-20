@@ -10,6 +10,7 @@ namespace web.DTO
         public int ID { get; set; }
         public DateTime Timestamp { get; set; }
         public int FighterID { get; set; }
+        public string Type { get; set; }
         public FighterDTO Fighter { get; set; }
     }
 }

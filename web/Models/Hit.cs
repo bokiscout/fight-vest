@@ -18,5 +18,7 @@ namespace web.Models
         [ForeignKey("Fighter")]
         public int FighterID { get; set; }    
         public Fighter Fighter { get; set; }
+
+        public string Type { get; set; }
     }
 }

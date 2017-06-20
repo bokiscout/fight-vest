@@ -107,7 +107,7 @@ namespace web.Controllers
         [Route("Fight/Round/Start/{id:int}")]
         public IActionResult StartNextRound(int id)
         {
-            Fight fight = db.Fights.Include(f => f.Rounds).FirstOrDefault();
+            Fight fight = db.Fights.Include(f => f.Rounds).Where(f => f.ID == id).FirstOrDefault();
 
             if (fight.StartedAt == null)
             {
@@ -148,7 +148,7 @@ namespace web.Controllers
         [Route("Fight/Round/End/{id:int}")]
         public IActionResult EndLastRound(int id)
         {
-            Fight fight = db.Fights.Include(f => f.Rounds).FirstOrDefault();
+            Fight fight = db.Fights.Include(f => f.Rounds).Where(f => f.ID == id).FirstOrDefault();
 
             if (fight.StartedAt == null)
             {
@@ -179,8 +179,8 @@ namespace web.Controllers
         }
 
         [HttpPost]
-        [Route("Fight/{fightId:int}/Hit/{fighterId:int}")]
-        public IActionResult Hit(int fightId, int fighterId)
+        [Route("Fight/{fightId:int}/Hit/{fighterId:int}/{type}")]
+        public IActionResult Hit(int fightId, int fighterId, string type)
         {
             Fight fight = db.Fights.Include(f => f.Rounds).ThenInclude(r => r.Hits).FirstOrDefault(f => f.ID == fightId);
 
@@ -196,10 +196,16 @@ namespace web.Controllers
                 return BadRequest("There is no active round at the moment");
             }
 
+            if(type != "strong" && type != "weak")
+            {
+                type = "weak";
+            }
+
             Hit hit = new Hit()
             {
                 FighterID = fighterId,
-                Timestamp = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow,
+                Type = type
             };
 
             lastRound.Hits.Add(hit);

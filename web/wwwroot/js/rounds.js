@@ -17,7 +17,8 @@ var Hit = React.createClass({
         };
 
         var spanClass = "round-point label ";
-        spanClass += hit.FighterID == firstFighterId ? "label-danger" : "label-warning";
+        spanClass += hit.FighterID == firstFighterId ? "label-danger " : "label-warning ";
+        spanClass += hit.Type != "weak" ? "strong" : "weak";
 
         return React.createElement(
             "span",
