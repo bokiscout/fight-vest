@@ -16,6 +16,7 @@ namespace web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+				.UseUrls("http://*:57908")
                 .Build();
 
             host.Run();
