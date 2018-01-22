@@ -129,16 +129,20 @@ namespace web
                 {
                     new FighterCategory
                     {
-                        Name = "Лесна"
+                        Name = "Lightweight"
                     },
                     new FighterCategory
                     {
-                        Name = "Средна"
+                        Name = "Featherweight"
                     },
-                      new FighterCategory
+                    new FighterCategory
                     {
-                        Name = "Тешка"
-                    }
+                        Name = "Welterweight"
+                    },
+                    new FighterCategory
+                    {
+                        Name = "Heavyweight"
+                    }   
                 };
 
                 categories.ForEach(c => context.FighterCategories.Add(c));
