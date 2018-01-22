@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace web
 {
@@ -86,7 +88,7 @@ namespace web
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-                dbContext.Database.Migrate();
+                SeedDatabase(dbContext);
             }
             else
             {
@@ -115,6 +117,33 @@ namespace web
                  options.UseWebSockets();
                  options.RunSignalR();
              });
+        }
+
+        private void SeedDatabase(ApplicationDbContext context)
+        {
+            context.Database.Migrate();
+
+            if(!context.FighterCategories.Any())
+            {
+                var categories = new List<FighterCategory>()
+                {
+                    new FighterCategory
+                    {
+                        Name = "Лесна"
+                    },
+                    new FighterCategory
+                    {
+                        Name = "Средна"
+                    },
+                      new FighterCategory
+                    {
+                        Name = "Тешка"
+                    }
+                };
+
+                categories.ForEach(c => context.FighterCategories.Add(c));
+                context.SaveChanges();
+            }
         }
     }
 }
