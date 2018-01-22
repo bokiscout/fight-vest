@@ -147,10 +147,11 @@ namespace web
 
                 categories.ForEach(c => context.FighterCategories.Add(c));
                 context.SaveChanges();
+            }
 
-                if(!context.FightTypes.Any())
-                {
-                    var fightTypes = new List<FightType>()
+            if (!context.FightTypes.Any())
+            {
+                var fightTypes = new List<FightType>()
                     {
                         new FightType
                         {
@@ -166,9 +167,8 @@ namespace web
                         }
                     };
 
-                    fightTypes.ForEach(ft => context.FightTypes.Add(ft));
-                    context.SaveChanges();
-                }
+                fightTypes.ForEach(ft => context.FightTypes.Add(ft));
+                context.SaveChanges();
             }
         }
     }
