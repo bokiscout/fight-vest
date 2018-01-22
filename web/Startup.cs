@@ -147,6 +147,28 @@ namespace web
 
                 categories.ForEach(c => context.FighterCategories.Add(c));
                 context.SaveChanges();
+
+                if(!context.FightTypes.Any())
+                {
+                    var fightTypes = new List<FightType>()
+                    {
+                        new FightType
+                        {
+                            Name = "Karate"
+                        },
+                        new FightType
+                        {
+                            Name = "Taekwondo"
+                        },
+                        new FightType
+                        {
+                            Name = "Kickbox"
+                        }
+                    };
+
+                    fightTypes.ForEach(ft => context.FightTypes.Add(ft));
+                    context.SaveChanges();
+                }
             }
         }
     }
