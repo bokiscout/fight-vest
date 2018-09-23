@@ -67,3 +67,42 @@ audio{
     font-size: 22px;
     font-weight: bold;
 }
+
+.nav_title, .nav_menu,.sidebar-footer a , .main_container, .left_col, .sidebar-footer{
+    background: #222629 ;
+}
+
+.site_title, .nav.side-menu>li>a, .nav.child_menu>li>a, .profile_info span,.profile_info h2 , .sidebar-footer a, .toggle a i, .nav.navbar-nav>li>a{
+    color:#26B99A !important;
+}
+
+.nav.side-menu>li.current-page, .nav.side-menu>li.active{
+    border-right: 5px solid #26B99A ;
+}
+body{
+    background: #222629;
+}
+
+
+.site_title i{
+    border: 1px solid #26B99A ;
+}
+.profile_left, .x_panel,.page-title .title_left{
+    color: #222629;
+}
+.btn-primary{
+    background: #2B7278;
+    border: 1px solid #2B7278;
+}
+.btn-primary:hover:active:focus{
+    background: #2B7265;
+    border: 1px solid #2B7265;
+}
+.btn-success{
+    background: #26B99A;
+    border: 1px solid #26B99A;
+}
+.btn-success:hover:active:focus{
+    background: #26B982;
+    border: 1px solid #26B982;
+}
